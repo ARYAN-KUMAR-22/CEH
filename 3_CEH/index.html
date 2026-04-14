@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Scanning & Active Footprinting - CEH Professional Course</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🔍 Network Scanning & Active Footprinting</h1>
+        <p>Professional Educational Platform • Active Reconnaissance & Network Exploration</p>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">📚 Core Concepts</div>
+                <a class="sidebar-link active" onclick="switchTab('overview')">Overview</a>
+                <a class="sidebar-link" onclick="switchTab('active-fp')">Active Footprinting</a>
+                <a class="sidebar-link" onclick="switchTab('network-scanning')">Network Scanning</a>
+                <a class="sidebar-link" onclick="switchTab('icmp-protocol')">ICMP Protocol</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🛠️ Tools & Techniques</div>
+                <a class="sidebar-link" onclick="switchTab('ports-services')">Ports & Services</a>
+                <a class="sidebar-link" onclick="switchTab('nmap-intro')">NMAP Introduction</a>
+                <a class="sidebar-link" onclick="switchTab('nmap-commands')">NMAP Commands</a>
+                <a class="sidebar-link" onclick="switchTab('scanning-types')">Scanning Types</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🔗 Advanced Topics</div>
+                <a class="sidebar-link" onclick="switchTab('tcp-udp')">TCP vs UDP</a>
+                <a class="sidebar-link" onclick="switchTab('packet-capture')">Packet Capture</a>
+                <a class="sidebar-link" onclick="switchTab('scan-analysis')">Scan Analysis</a>
+                <a class="sidebar-link" onclick="switchTab('firewalls')">Firewall Evasion</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">⚖️ Security & Ethics</div>
+                <a class="sidebar-link" onclick="switchTab('vulnerabilities')">Vulnerability Discovery</a>
+                <a class="sidebar-link" onclick="switchTab('detection')">Detection Methods</a>
+                <a class="sidebar-link" onclick="switchTab('ethics-scanning')">Ethical Scanning</a>
+                <a class="sidebar-link" onclick="switchTab('summary-3ceh')">Summary & Recap</a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <span>Home</span>
+                <span>/</span>
+                <span id="breadcrumb-current">Overview</span>
+            </div>
+            
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>🔍 Network Scanning & Active Footprinting Overview</h2>
+                <p style="font-size: 1.1em; color: var(--muted); margin-bottom: 30px;">
+                    Master active reconnaissance techniques, network scanning methodologies, and NMAP tools. Learn how to identify live hosts, discover services, detect vulnerabilities, and bypass firewalls ethically.
+                </p>
+                
+                <div class="grid-2">
+                    <div class="grid-card fade-in">
+                        <h4>🎯 Active Vs Passive</h4>
+                        <ul>
+                            <li>Passive: No network interaction</li>
+                            <li>Active: Direct device scanning</li>
+                            <li>Aggressive techniques</li>
+                            <li>Detailed discovery</li>
+                            <li>Defense-triggering methods</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-card fade-in">
+                        <h4>🛠️ Scanning Capabilities</h4>
+                        <ul>
+                            <li>Live host discovery</li>
+                            <li>Port mapping</li>
+                            <li>Service identification</li>
+                            <li>OS fingerprinting</li>
+                            <li>Vulnerability detection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Progression: From Passive to Active</h3>
+                <div class="timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">⏱️ 1_CEH: Passive Footprinting</div>
+                        <p>Gather information from public sources (WHOIS, DNS, Archive.org)</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">⏱️ 2_CEH: DNS & Enumeration</div>
+                        <p>Subdomain discovery using DNS queries and email verification</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">⏱️ 3_CEH: Active Scanning</div>
+                        <p><strong>→ CURRENT:</strong> Direct network interaction and port scanning</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">⏱️ 4_CEH+: Exploitation</div>
+                        <p>Leverage discovered vulnerabilities for deeper access</p>
+                    </div>
+                </div>
+
+                <h3>Learning Objectives</h3>
+                <div class="grid-2">
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Understanding Concepts</h4>
+                        <ul style="font-size: 0.95em;">
+                            <li>Network scanning methodologies</li>
+                            <li>Active vs passive reconnaissance</li>
+                            <li>Port states and meanings</li>
+                            <li>Protocol fundamentals</li>
+                            <li>ICMP and ping operations</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Practical Skills</h4>
+                        <ul style="font-size: 0.95em;">
+                            <li>NMAP command syntax</li>
+                            <li>Multiple scanning techniques</li>
+                            <li>Packet capture analysis</li>
+                            <li>Firewall evasion</li>
+                            <li>Vulnerability assessment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Footprinting Tab -->
+            <div id="active-fp" class="tab-content">
+                <h2>🎯 Active Footprinting Fundamentals</h2>
+                
+                <div class="card fade-in">
+                    <h3>Active vs Passive Footprinting</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Passive Footprinting</th>
+                                <th>Active Footprinting</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Interaction</strong></td>
+                                <td>No direct contact with target</td>
+                                <td>Direct network interaction</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Information Source</strong></td>
+                                <td>Public sources only</td>
+                                <td>Target system responses</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detectability</strong></td>
+                                <td>Difficult to detect</td>
+                                <td>Easily detectable by IDS/firewall</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Aggression Level</strong></td>
+                                <td>Non-intrusive</td>
+                                <td>Potentially aggressive</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Information Detail</strong></td>
+                                <td>Limited, general info</td>
+                                <td>Detailed, live system data</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tools Used</strong></td>
+                                <td>Google, WHOIS, Archive.org</td>
+                                <td>NMAP, Wireshark, Zenmap</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Risk Level</strong></td>
+                                <td>Minimal legal/detection risk</td>
+                                <td>Higher risk without authorization</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Time Investment</strong></td>
+                                <td>Can take weeks</td>
+                                <td>Minutes to hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Why Active Footprinting Matters</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">Real Attack Scenario</h4>
+                        <p><strong>Attacker Goals:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Target Network:</strong> Organization network inside corporate building</li>
+                            <li><strong>Challenge:</strong> Network is isolated internally but connected to internet</li>
+                            <li><strong>Exposure:</strong> Devices accessible from anywhere via public internet</li>
+                            <li><strong>Problem:</strong> How know which servers to attack without testing?</li>
+                            <li><strong>Solution:</strong> Active scanning to identify all reachable systems</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Information Gathering Process</h4>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li><strong>Network Identification:</strong> Determine network range (192.168.1.0/24)</li>
+                            <li><strong>Live Host Discovery:</strong> Which of 254 IPs are actually powered on?</li>
+                            <li><strong>Port Mapping:</strong> What services run on each host?</li>
+                            <li><strong>Service Discovery:</strong> What software and versions are running?</li>
+                            <li><strong>Vulnerability Identification:</strong> What weaknesses exist?</li>
+                            <li><strong>Attack Planning:</strong> Which targets are exploitable?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Scanning Tab -->
+            <div id="network-scanning" class="tab-content">
+                <h2>📡 Network Scanning Fundamentals</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is Network Scanning?</h3>
+                    <p>Network scanning is the process of submitting requests to a network and analyzing responses to identify active devices, their services, and potential vulnerabilities.</p>
+                    
+                    <div class="dns-journey">
+                        <div class="journey-step">
+                            <div class="journey-icon">1️⃣</div>
+                            <div class="journey-content">
+                                <h4>Network Assessment</h4>
+                                <p>Identify target network range and architecture</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">2️⃣</div>
+                            <div class="journey-content">
+                                <h4>Host Discovery</h4>
+                                <p>Find which IPs are active and responding to requests</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">3️⃣</div>
+                            <div class="journey-content">
+                                <h4>Port Scanning</h4>
+                                <p>Test each host for open ports and running services</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">4️⃣</div>
+                            <div class="journey-content">
+                                <h4>Service Identification</h4>
+                                <p>Determine service versions and operating systems</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">5️⃣</div>
+                            <div class="journey-content">
+                                <h4>Vulnerability Detection</h4>
+                                <p>Identify potential exploitable weaknesses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Key Network Scanning Concepts</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">IP Addresses & Devices</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Each device on network has unique IP</li>
+                                <li>Class C network: 192.168.1.0 - 192.168.1.255</li>
+                                <li>254 usable host addresses per network</li>
+                                <li>Scanner queries all possible IPs</li>
+                                <li>Only responding devices are "live hosts"</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Port Numbers</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Services run on specific port numbers</li>
+                                <li>Port range: 0-65535</li>
+                                <li>Well-known ports: 0-1023 (HTTP:80, SSH:22)</li>
+                                <li>Registered ports: 1024-49151</li>
+                                <li>Dynamic/Private: 49152-65535</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Common Port Numbers</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>21 - FTP (File Transfer)</li>
+                                <li>22 - SSH (Secure Shell)</li>
+                                <li>80 - HTTP (Web Browsing)</li>
+                                <li>443 - HTTPS (Secure Web)</li>
+                                <li>3306 - MySQL (Database)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Port States</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li><strong>Open:</strong> Service actively accepting</li>
+                                <li><strong>Closed:</strong> Port not listening</li>
+                                <li><strong>Filtered:</strong> Firewall blocking</li>
+                                <li><strong>Unfiltered:</strong> Port accessible, state unknown</li>
+                                <li><strong>Open|Filtered:</strong> Can't determine state</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Network Scanning in Real Scenario</h3>
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">❌ Without Network Scanning</h4>
+                        <p>Attacker doesn't know:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>How many devices in network?</li>
+                            <li>Which are servers vs clients?</li>
+                            <li>What services are running?</li>
+                            <li>Where are the vulnerabilities?</li>
+                            <li>Which systems are profitable targets?</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">✅ With Network Scanning</h4>
+                        <p>Attacker now knows:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Network has 50 devices, 40 currently online</li>
+                            <li>Database server at 192.168.1.88</li>
+                            <li>Web server at 192.168.1.50 (Apache 2.2.8)</li>
+                            <li>Mail server at 192.168.1.75 (vulnerable version)</li>
+                            <li>Priority: Which server to compromise first?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ICMP Protocol Tab -->
+            <div id="icmp-protocol" class="tab-content">
+                <h2>📡 ICMP Protocol & Ping Operations</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is ICMP?</h3>
+                    <div class="definition">
+                        <strong>ICMP (Internet Control Message Protocol):</strong> A network layer protocol used by network devices to diagnose network communication issues and test host connectivity. Works with the OSI model's network layer (Layer 3).
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Common ICMP Messages:</strong></p>
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Echo Request (Ping)</h4>
+                            <p>Type 8 - "Are you alive?"</p>
+                            <p>Sent by source to destination</p>
+                            <p>Seeks connectivity confirmation</p>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Echo Reply</h4>
+                            <p>Type 0 - "Yes, I'm alive!"</p>
+                            <p>Sent in response to echo request</p>
+                            <p>Confirms device is reachable</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Destination Unreachable</h4>
+                            <p>Type 3 - "Can't reach that destination"</p>
+                            <p>Network problems or blocking</p>
+                            <p>Helps diagnose routing issues</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Time Exceeded</h4>
+                            <p>Type 11 - "TTL expired"</p>
+                            <p>Packet took too many hops</p>
+                            <p>Used by traceroute tool</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>How Ping Works (Step by Step)</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Ping Request/Reply Sequence</h4>
+                        
+                        <div style="margin-top: 15px;">
+                            <p><strong>PC1 (Source: 192.168.1.1) → PC2 (Destination: 192.168.1.10)</strong></p>
+                            
+                            <div style="padding: 15px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                                <p><strong style="color: var(--accent);">Step 1: User runs command</strong></p>
+                                <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px;">$ ping 192.168.1.10</code>
+                            </div>
+
+                            <div style="padding: 15px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                                <p><strong style="color: var(--accent);">Step 2: PC1 creates ICMP Echo Request packet</strong></p>
+                                <ul style="margin: 8px 0 0 20px; font-size: 0.9em;">
+                                    <li>Type: Echo Request (8)</li>
+                                    <li>Source IP: 192.168.1.1</li>
+                                    <li>Destination IP: 192.168.1.10</li>
+                                    <li>Source MAC: PC1's MAC address</li>
+                                    <li>Optional: Data payload</li>
+                                </ul>
+                            </div>
+
+                            <div style="padding: 15px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                                <p><strong style="color: var(--secondary);">Step 3: PC2 receives Echo Request</strong></p>
+                                <ul style="margin: 8px 0 0 20px; font-size: 0.9em;">
+                                    <li>PC2 recognizes as "someone checking if alive"</li>
+                                    <li>PC2 validates packet integrity</li>
+                                    <li>PC2 prepares response</li>
+                                </ul>
+                            </div>
+
+                            <div style="padding: 15px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                                <p><strong style="color: var(--secondary);">Step 4: PC2 sends Echo Reply packet</strong></p>
+                                <ul style="margin: 8px 0 0 20px; font-size: 0.9em;">
+                                    <li>Type: Echo Reply (0)</li>
+                                    <li>Source IP: 192.168.1.10 (echoing PC2's IP)</li>
+                                    <li>Destination IP: 192.168.1.1 (echoing PC1's IP)</li>
+                                    <li>Returns same data payload</li>
+                                </ul>
+                            </div>
+
+                            <div style="padding: 15px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                                <p><strong style="color: var(--accent);">Step 5: PC1 receives Echo Reply</strong></p>
+                                <ul style="margin: 8px 0 0 20px; font-size: 0.9em;">
+                                    <li>PC1 calculates response time (RTT)</li>
+                                    <li>PC1 verifies received data matches sent</li>
+                                    <li>PC1 displays success to user</li>
+                                </ul>
+                            </div>
+
+                            <div style="padding: 15px; margin: 10px 0; background: rgba(0,212,255,0.1); border-radius: 4px; border-left: 3px solid var(--primary);">
+                                <p style="margin: 0;"><code>Reply from 192.168.1.10: bytes=32 time=2ms TTL=64</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Ping Output Analysis</h3>
+                    
+                    <div class="box box-example">
+                        <code style="background: rgba(0,0,0,0.3); padding: 15px; display: block; border-radius: 4px; font-size: 0.9em; line-height: 1.6;">
+$ ping 8.8.8.8 -c 4<br>
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.<br>
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=119 time=25.2 ms<br>
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=119 time=24.8 ms<br>
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=119 time=25.1 ms<br>
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=119 time=24.9 ms<br>
+<br>
+--- 8.8.8.8 statistics ---<br>
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms<br>
+rtt min/avg/max/stddev = 24.8/24.975/25.2/0.169 ms
+                        </code>
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>What Each Field Means:</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Meaning</th>
+                                <th>Value Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>64 bytes</strong></td>
+                                <td>Size of data received</td>
+                                <td>IP header 20B + ICMP header 8B + data 36B</td>
+                            </tr>
+                            <tr>
+                                <td><strong>from 8.8.8.8</strong></td>
+                                <td>Source of reply</td>
+                                <td>Which IP is responding</td>
+                            </tr>
+                            <tr>
+                                <td><strong>icmp_seq=1</strong></td>
+                                <td>Packet sequence number</td>
+                                <td>First, second, third packet...</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ttl=119</strong></td>
+                                <td>Time To Live (hops remaining)</td>
+                                <td>Decrements at each router</td>
+                            </tr>
+                            <tr>
+                                <td><strong>time=25.2 ms</strong></td>
+                                <td>Round-trip time</td>
+                                <td>Time for request + response</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0% packet loss</strong></td>
+                                <td>All packets received</td>
+                                <td>Good network connection</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Ports & Services Tab -->
+            <div id="ports-services" class="tab-content">
+                <h2>🔌 Ports, Services & Protocols</h2>
+                
+                <div class="card fade-in">
+                    <h3>Understanding Protocols</h3>
+                    <div class="definition">
+                        <strong>Protocol:</strong> A set of rules defining how two devices communicate with each other. Each protocol has specific responsibilities and operates on defined port numbers.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>How Protocols Work:</strong></p>
+                    <div class="box box-theory">
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li><strong>Web Browsing:</strong> You type URL → HTTP/HTTPS Protocol → Port 80/443</li>
+                            <li><strong>Remote Access:</strong> You SSH → SSH Protocol → Port 22</li>
+                            <li><strong>File Transfer:</strong> You FTP → FTP Protocol → Port 21</li>
+                            <li><strong>Email Sending:</strong> Email App → SMTP Protocol → Port 25/587</li>
+                            <li><strong>Email Receiving:</strong> Email App → IMAP Protocol → Port 143/993</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Common Protocols & Ports</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Protocol</th>
+                                <th>Service</th>
+                                <th>Connection Type</th>
+                                <th>Security</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>20-21</strong></td>
+                                <td>FTP</td>
+                                <td>File Transfer</td>
+                                <td>TCP</td>
+                                <td>Unencrypted (Legacy)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>22</strong></td>
+                                <td>SSH</td>
+                                <td>Secure Shell</td>
+                                <td>TCP</td>
+                                <td>Encrypted, Recommended</td>
+                            </tr>
+                            <tr>
+                                <td><strong>25</strong></td>
+                                <td>SMTP</td>
+                                <td>Email Sending</td>
+                                <td>TCP</td>
+                                <td>Can be encrypted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>53</strong></td>
+                                <td>DNS</td>
+                                <td>Domain Resolution</td>
+                                <td>UDP/TCP</td>
+                                <td>Plain text</td>
+                            </tr>
+                            <tr>
+                                <td><strong>80</strong></td>
+                                <td>HTTP</td>
+                                <td>Web Browsing</td>
+                                <td>TCP</td>
+                                <td>Unencrypted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>110</strong></td>
+                                <td>POP3</td>
+                                <td>Email Reception</td>
+                                <td>TCP</td>
+                                <td>Can be encrypted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>143</strong></td>
+                                <td>IMAP</td>
+                                <td>Email Reception</td>
+                                <td>TCP</td>
+                                <td>Can be encrypted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>443</strong></td>
+                                <td>HTTPS</td>
+                                <td>Secure Web</td>
+                                <td>TCP</td>
+                                <td>Encrypted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3306</strong></td>
+                                <td>MySQL</td>
+                                <td>Database</td>
+                                <td>TCP</td>
+                                <td>Can be encrypted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3389</strong></td>
+                                <td>RDP</td>
+                                <td>Remote Desktop</td>
+                                <td>TCP</td>
+                                <td>Can be encrypted</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Port States Explained</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">🟢 OPEN Port</h4>
+                            <p><strong>Meaning:</strong> Service actively listening</p>
+                            <p><strong>Response:</strong> Accepts connections</p>
+                            <p><strong>Threat Level:</strong> Potential vulnerability if unpatched</p>
+                            <p><strong>Example:</strong> Web server on port 80</p>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">🔴 CLOSED Port</h4>
+                            <p><strong>Meaning:</strong> No service listening</p>
+                            <p><strong>Response:</strong> Sends RST packet back</p>
+                            <p><strong>Threat Level:</strong> Lower, but host confirmed alive</p>
+                            <p><strong>Example:</strong> Unused port number</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">🟡 FILTERED Port</h4>
+                            <p><strong>Meaning:</strong> Firewall blocking</p>
+                            <p><strong>Response:</strong> No response or dropped packets</p>
+                            <p><strong>Threat Level:</strong> Protected by firewall</p>
+                            <p><strong>Example:</strong> Corporate firewall blocking inbound</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">⚪ UNFILTERED Port</h4>
+                            <p><strong>Meaning:</strong> Accessible but state unknown</p>
+                            <p><strong>Response:</strong> Responds to packets</p>
+                            <p><strong>Threat Level:</strong> Moderate uncertainty</p>
+                            <p><strong>Example:</strong> Some firewall configurations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NMAP Introduction Tab -->
+            <div id="nmap-intro" class="tab-content">
+                <h2>🛠️ NMAP: Network Mapping Tool</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is NMAP?</h3>
+                    <div class="definition">
+                        <strong>NMAP (Network Mapper):</strong> The industry-standard open-source tool for network discovery, port mapping, and security auditing. Used by security professionals worldwide for legitimate penetration testing and network administration.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Key Capabilities:</strong></p>
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Host Discovery</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Identify live hosts on network</li>
+                                <li>Determine which IPs are active</li>
+                                <li>Ping scan capabilities</li>
+                                <li>OS detection</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Port Scanning</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Scan all 65,535 ports</li>
+                                <li>Determine open/closed status</li>
+                                <li>Multiple scanning techniques</li>
+                                <li>Firewall evasion</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Service Detection</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Identify service versions</li>
+                                <li>Determine software names</li>
+                                <li>Detect running services</li>
+                                <li>Version fingerprinting</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Vulnerability Detection</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Identify known vulnerabilities</li>
+                                <li>Script-based testing</li>
+                                <li>Firewall configuration issues</li>
+                                <li>Security weakness discovery</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NMAP Installation & Setup</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">Linux Installation</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; margin-top: 8px;">
+# Ubuntu/Debian<br>
+sudo apt-get install nmap<br>
+<br>
+# Red Hat/CentOS<br>
+sudo yum install nmap
+                        </code>
+                    </div>
+
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">Verify Installation</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; margin-top: 8px;">
+nmap --version<br>
+Nmap version 7.92 ( https://nmap.org )
+                        </code>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 20px;">
+                        <h4 style="margin-top: 0;">Pre-installed Systems</h4>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                            <li><strong>Kali Linux:</strong> Included by default</li>
+                            <li><strong>Metasploit:</strong> Comes with NMAP features</li>
+                            <li><strong>Parrot Security:</strong> Included by default</li>
+                            <li><strong>Zenmap:</strong> GUI version of NMAP</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>CIDR Notation</h3>
+                    <div class="definition">
+                        <strong>CIDR (Classless Inter-Domain Routing):</strong> A compact way to specify IP address ranges by indicating the number of bits that are "on" in the network mask. Format: IP/bits
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>CIDR Examples:</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CIDR Notation</th>
+                                <th>Subnet Mask</th>
+                                <th>Network Range</th>
+                                <th>Total Hosts</th>
+                                <th>Usable Hosts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>192.168.1.0/24</strong></td>
+                                <td>255.255.255.0</td>
+                                <td>192.168.1.0 - 192.168.1.255</td>
+                                <td>256</td>
+                                <td>254</td>
+                            </tr>
+                            <tr>
+                                <td><strong>192.168.0.0/23</strong></td>
+                                <td>255.255.254.0</td>
+                                <td>192.168.0.0 - 192.168.1.255</td>
+                                <td>512</td>
+                                <td>510</td>
+                            </tr>
+                            <tr>
+                                <td><strong>192.168.0.0/22</strong></td>
+                                <td>255.255.252.0</td>
+                                <td>192.168.0.0 - 192.168.3.255</td>
+                                <td>1024</td>
+                                <td>1022</td>
+                            </tr>
+                            <tr>
+                                <td><strong>10.0.0.0/8</strong></td>
+                                <td>255.0.0.0</td>
+                                <td>10.0.0.0 - 10.255.255.255</td>
+                                <td>16.7M</td>
+                                <td>16.7M-2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="box box-theory" style="margin-top: 20px;">
+                        <h4 style="margin-top: 0;">Why CIDR Notation?</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Shorter:</strong> "192.168.1.0/24" vs "192.168.1.0 with subnet mask 255.255.255.0"</li>
+                            <li><strong>Easier:</strong> Number of bits = network size</li>
+                            <li><strong>Flexible:</strong> Can specify any network size</li>
+                            <li><strong>Standard:</strong> Used across all networking tools</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NMAP Commands Tab -->
+            <div id="nmap-commands" class="tab-content">
+                <h2>⚡ NMAP Command Syntax</h2>
+                
+                <div class="card fade-in">
+                    <h3>Basic NMAP Syntax</h3>
+                    
+                    <div class="box box-example" style="background: rgba(0,0,0,0.3); border-left: 3px solid var(--accent);">
+                        <code style="font-family: monospace; font-size: 1em; line-height: 1.8;">
+nmap [Scan Type] [Options] [Target Specification]
+                        </code>
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Target Specification Options:</strong></p>
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Single Host</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; font-size: 0.9em;">
+nmap 192.168.1.1<br>
+nmap scanme.nmap.org
+                            </code>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Multiple Hosts</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; font-size: 0.9em;">
+nmap 192.168.1.1 192.168.1.2<br>
+nmap 192.168.1.1-10<br>
+nmap 192.168.1.*
+                            </code>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">CIDR Notation</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; font-size: 0.9em;">
+nmap 192.168.1.0/24<br>
+nmap 10.0.0.0/8<br>
+nmap 172.16.0.0/12
+                            </code>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Range Notation</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; font-size: 0.9em;">
+nmap 192.168.1.0-255<br>
+nmap 192.168.1-254.1<br>
+nmap 192.168.1-3.1-5
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Common NMAP Options</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Option</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>-sn</strong></td>
+                                <td>Ping scan (no port scan)</td>
+                                <td>nmap -sn 192.168.1.0/24</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sP</strong></td>
+                                <td>Ping scan (legacy)</td>
+                                <td>nmap -sP 192.168.1.1-255</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sS</strong></td>
+                                <td>TCP SYN scan (Stealth)</td>
+                                <td>nmap -sS 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sT</strong></td>
+                                <td>TCP Connect scan</td>
+                                <td>nmap -sT 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sF</strong></td>
+                                <td>FIN scan</td>
+                                <td>nmap -sF 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sN</strong></td>
+                                <td>Null scan</td>
+                                <td>nmap -sN 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sX</strong></td>
+                                <td>Xmas scan</td>
+                                <td>nmap -sX 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sU</strong></td>
+                                <td>UDP scan</td>
+                                <td>nmap -sU 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-p</strong></td>
+                                <td>Specific port(s)</td>
+                                <td>nmap -p 80,443,3306 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-sV</strong></td>
+                                <td>Service version detection</td>
+                                <td>nmap -sV 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-O</strong></td>
+                                <td>OS fingerprinting</td>
+                                <td>nmap -O 192.168.1.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>-A</strong></td>
+                                <td>Aggressive (OS, version, script)</td>
+                                <td>nmap -A 192.168.1.10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NMAP Command Examples</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">1. Discover Live Hosts on Network</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-family: monospace;">
+nmap -sn 192.168.31.0/24
+                        </code>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-muted);">Scans entire network, shows which IPs respond to ping</p>
+                    </div>
+
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">2. Scan Specific Host for Open Ports</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-family: monospace;">
+nmap 192.168.1.50
+                        </code>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-muted);">Default: scans top 1000 ports with TCP Connect</p>
+                    </div>
+
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">3. Stealth Scan (Bypass Basic Firewalls)</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-family: monospace;">
+nmap -sS 192.168.1.50
+                        </code>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-muted);">SYN scan: less detectable than connect scan</p>
+                    </div>
+
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">4. Detect Service Versions</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-family: monospace;">
+nmap -sV 192.168.1.50
+                        </code>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-muted);">Shows: FTP vsftpd 2.0.1, SSH OpenSSH 7.4, etc.</p>
+                    </div>
+
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">5. Aggressive Scan (All Information)</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-family: monospace;">
+nmap -A 192.168.1.50
+                        </code>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-muted);">Combines: OS detection, version, traceroute, script scanning</p>
+                    </div>
+
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">6. Scan Specific Ports Only</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-family: monospace;">
+nmap -p 21,22,80,443,3306 192.168.1.50
+                        </code>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-muted);">Scans only specified ports (faster)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scanning Types Tab -->
+            <div id="scanning-types" class="tab-content">
+                <h2>🎯 NMAP Scanning Techniques</h2>
+                
+                <div class="card fade-in">
+                    <h3>Major Scanning Types</h3>
+                    
+                    <div class="grid-2">
+                        <div class="record-card" onclick="toggleRecordDetails('tcp-syn')">
+                            <div class="record-type">SYN Scan</div>
+                            <div class="record-value">Stealth port scanning</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+
+                        <div class="record-card" onclick="toggleRecordDetails('tcp-connect')">
+                            <div class="record-type">TCP Connect</div>
+                            <div class="record-value">Full connection scan</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+
+                        <div class="record-card" onclick="toggleRecordDetails('fin-scan')">
+                            <div class="record-type">FIN Scan</div>
+                            <div class="record-value">TCP flag scan</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+
+                        <div class="record-card" onclick="toggleRecordDetails('null-scan')">
+                            <div class="record-type">NULL Scan</div>
+                            <div class="record-value">No flags scan</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+
+                        <div class="record-card" onclick="toggleRecordDetails('xmas-scan')">
+                            <div class="record-type">Xmas Scan</div>
+                            <div class="record-value">Multiple flags scan</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+
+                        <div class="record-card" onclick="toggleRecordDetails('udp-scan')">
+                            <div class="record-type">UDP Scan</div>
+                            <div class="record-value">UDP protocol scan</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                    </div>
+
+                    <div id="tcp-syn" class="toggle-content">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">TCP SYN Scan (Stealth Scan)</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -sS 192.168.1.10</code></p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol style="margin: 10px 0 0 20px;">
+                                <li>Attacker sends TCP SYN packet (connection request)</li>
+                                <li>If port OPEN: Target responds with SYN-ACK</li>
+                                <li>Attacker sends RST (reset) instead of completing connection</li>
+                                <li>Connection never fully established (harder to log)</li>
+                            </ol>
+                            <p style="margin-top: 10px;"><strong>Advantages:</strong> Stealthy, faster, doesn't complete connections</p>
+                            <p><strong>Disadvantages:</strong> Requires root/admin privs, some firewalls detect anyway</p>
+                        </div>
+                    </div>
+
+                    <div id="tcp-connect" class="toggle-content">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">TCP Connect Scan</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -sT 192.168.1.10</code></p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol style="margin: 10px 0 0 20px;">
+                                <li>Attacker sends SYN packet</li>
+                                <li>Target responds with SYN-ACK (if port open)</li>
+                                <li>Attacker sends ACK (completes three-way handshake)</li>
+                                <li>Full TCP connection established</li>
+                                <li>Attacker then closes connection properly</li>
+                            </ol>
+                            <p style="margin-top: 10px;"><strong>Advantages:</strong> Works without special privileges, reliable</p>
+                            <p><strong>Disadvantages:</strong> Leaves full logs, easily detected, slower</p>
+                        </div>
+                    </div>
+
+                    <div id="fin-scan" class="toggle-content">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">FIN Scan</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -sF 192.168.1.10</code></p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol style="margin: 10px 0 0 20px;">
+                                <li>Sends TCP packet with FIN flag set (connection termination)</li>
+                                <li>If port OPEN: No response (RFC compliant)</li>
+                                <li>If port CLOSED: Target sends RST-ACK packet</li>
+                                <li>Uses this asymmetry to determine port state</li>
+                            </ol>
+                            <p style="margin-top: 10px;"><strong>Logic:</strong> Assumes open ports ignore FIN packets to non-existent connections</p>
+                            <p><strong>Limitation:</strong> Windows systems don't follow RFC, may not work</p>
+                            <p style="margin-top: 8px;"><strong>Detectability:</strong> Shows "filtered" on many networks due to firewalls</p>
+                        </div>
+                    </div>
+
+                    <div id="null-scan" class="toggle-content">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">NULL Scan</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -sN 192.168.1.10</code></p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol style="margin: 10px 0 0 20px;">
+                                <li>Sends TCP packet with NO flags set</li>
+                                <li>If port OPEN: No response</li>
+                                <li>If port CLOSED: Target sends RST packet</li>
+                                <li>Differentiates based on responses</li>
+                            </ol>
+                            <p style="margin-top: 10px;"><strong>Similar to:</strong> FIN scan, Xmas scan (all RFC variations)</p>
+                            <p><strong>Problem:</strong> Windows doesn't respond correctly, results may be unreliable</p>
+                        </div>
+                    </div>
+
+                    <div id="xmas-scan" class="toggle-content">
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Xmas Scan</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -sX 192.168.1.10</code></p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol style="margin: 10px 0 0 20px;">
+                                <li>Sends TCP packet with FIN, PSH, URG flags all set</li>
+                                <li>Called "Xmas" because flags light up like Christmas lights</li>
+                                <li>Same logic as FIN/NULL: looks for asymmetrical responses</li>
+                                <li>If port OPEN: No response</li>
+                                <li>If port CLOSED: RST-ACK response</li>
+                            </ol>
+                            <p style="margin-top: 10px;"><strong>Note:</strong> "Xmas tree" is the nickname for this technique</p>
+                            <p><strong>Reliability:</strong> Limited, Windows systems don't work, firewalls often filter</p>
+                        </div>
+                    </div>
+
+                    <div id="udp-scan" class="toggle-content">
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">UDP Scan</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -sU 192.168.1.10</code></p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol style="margin: 10px 0 0 20px;">
+                                <li>Sends UDP packets to target ports</li>
+                                <li>If port OPEN: May respond with data or no response</li>
+                                <li>If port CLOSED: Target sends ICMP port unreachable</li>
+                                <li>If ICMP blocked: Shows as "open|filtered"</li>
+                            </ol>
+                            <p style="margin-top: 10px;"><strong>Services:</strong> DNS (53), SNMP (161), NTP (123), DHCP (67)</p>
+                            <p><strong>Challenge:</strong> UDP is connectionless, harder to determine state</p>
+                            <p><strong>Speed:</strong> Much slower than TCP scanning due to ICMP rate limiting</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TCP vs UDP Tab -->
+            <div id="tcp-udp" class="tab-content">
+                <h2>🔀 TCP vs UDP Protocols</h2>
+                
+                <div class="card fade-in">
+                    <h3>Fundamental Differences</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>TCP</th>
+                                <th>UDP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Connection Type</strong></td>
+                                <td>Connection-Oriented</td>
+                                <td>Connectionless</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Connection Setup</strong></td>
+                                <td>Three-way handshake (SYN-SYN/ACK-ACK)</td>
+                                <td>No handshake, sends data directly</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reliability</strong></td>
+                                <td>Reliable (100% delivery guarantee)</td>
+                                <td>Unreliable (no delivery guarantee)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Error Handling</strong></td>
+                                <td>Error detection & correction</td>
+                                <td>No error correction</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Speed</strong></td>
+                                <td>Slower (due to handshake & verification)</td>
+                                <td>Faster (no verification overhead)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ordering</strong></td>
+                                <td>Packets arrive in order</td>
+                                <td>Packets may arrive out of order</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Flow Control</strong></td>
+                                <td>Yes (prevents overwhelming receiver)</td>
+                                <td>No (sender sends at own pace)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Header Size</strong></td>
+                                <td>20 bytes (larger)</td>
+                                <td>8 bytes (smaller)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Common Uses</strong></td>
+                                <td>Email, Web, File Transfer, SSH</td>
+                                <td>DNS, Video Streaming, Online Games, VoIP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Port Examples</strong></td>
+                                <td>80(HTTP), 443(HTTPS), 22(SSH), 25(SMTP)</td>
+                                <td>53(DNS), 123(NTP), 161(SNMP), 67(DHCP)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Three-Way Handshake (TCP)</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">TCP Connection Establishment</h4>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-left: 3px solid var(--primary); border-radius: 4px;">
+                            <p><strong>Client (Source)</strong> → <strong>Server (Destination)</strong></p>
+                            <p style="margin-top: 10px;"><strong>Step 1 - SYN:</strong> Client sends synchronization packet "I want to connect"</p>
+                            <p style="margin-top: 5px; color: var(--text-muted); font-size: 0.9em;">Flag: SYN | Sequence: 1000 | Data: Let's connect</p>
+
+                            <p style="margin-top: 12px;"><strong>Step 2 - SYN-ACK:</strong> Server acknowledges and responds "I'm ready to connect"</p>
+                            <p style="margin-top: 5px; color: var(--text-muted); font-size: 0.9em;">Flag: SYN-ACK | Sequence: 2000 | Acknowledgment: 1001</p>
+
+                            <p style="margin-top: 12px;"><strong>Step 3 - ACK:</strong> Client acknowledges "Great, connection established"</p>
+                            <p style="margin-top: 5px; color: var(--text-muted); font-size: 0.9em;">Flag: ACK | Sequence: 1001 | Acknowledgment: 2001</p>
+
+                            <p style="margin-top: 12px;"><strong>Result:</strong> Connection established, data can now flow</p>
+                        </div>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 20px;">
+                        <h4 style="margin-top: 0;">Why This Matters for Scanning</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>TCP SYN Scan:</strong> Stops at step 2, never completes handshake (stealthy)</li>
+                            <li><strong>TCP Connect Scan:</strong> Completes all 3 steps (full connection)</li>
+                            <li><strong>Firewall Logging:</strong> Different logging for partial vs complete connections</li>
+                            <li><strong>Detection Evasion:</strong> SYN scan is less obvious than connect scan</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>UDP: No Handshake, Direct Sending</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">UDP Connection Process</h4>
+                        
+                        <p style="margin-top: 15px;"><strong>Client (Source) → Server (Destination)</strong></p>
+                        <p style="margin-top: 10px;"><strong>Step 1:</strong> Client immediately sends data packet</p>
+                        <p style="margin: 8px 0 0 20px; color: var(--text-muted); font-size: 0.9em;">No setup, no handshake, data goes immediately</p>
+
+                        <p style="margin-top: 12px;"><strong>Step 2:</strong> Server processes (if there is one listening) or silently drops</p>
+                        <p style="margin: 8px 0 0 20px; color: var(--text-muted); font-size: 0.9em;">No acknowledgment, no verification</p>
+
+                        <p style="margin-top: 12px;"><strong>Result:</strong> Fast but unreliable - no guarantee data arrived</p>
+
+                        <p style="margin-top: 15px;"><strong style="color: var(--secondary);">Analogy:</strong> UDP is like shouting in a crowded room. You don't wait to confirm people heard you, you just shout.</p>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>When TCP is Used vs UDP</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">✓ Use TCP When</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>All data must be delivered</li>
+                                <li>Data must be in order</li>
+                                <li>Retransmission is acceptable</li>
+                                <li>Examples: Email, file downloads, SSH</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">✓ Use UDP When</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Speed is critical</li>
+                                <li>Occasional loss acceptable</li>
+                                <li>Real-time is important</li>
+                                <li>Examples: Streaming, gaming, VOIP</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Packet Capture Tab -->
+            <div id="packet-capture" class="tab-content">
+                <h2>📦 Packet Capture & Analysis (Wireshark)</h2>
+                
+                <div class="card fade-in">
+                    <h3>Understanding Packet Capture</h3>
+                    
+                    <p>Packet capture is the process of intercepting and logging network traffic for analysis. Every communication on a network travels as packets that can be captured and examined.</p>
+
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">What Gets Captured?</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>All network traffic from/to your machine</li>
+                            <li>Traffic between other devices on same network segment</li>
+                            <li>Web browsing, email, SSH, DNS queries, everything</li>
+                            <li>Can include sensitive data (passwords, credentials)</li>
+                            <li>Packet capture is powerful reconnaissance tool</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-warning" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">⚠️ Legal Note</h4>
+                        <p>Capturing traffic on networks you don't own/manage is illegal without authorization. Only capture on:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Your own machines</li>
+                            <li>Networks you have written permission to test</li>
+                            <li>Lab/test environments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Wireshark: Packet Capture Tool</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">What is Wireshark?</h4>
+                        <p>Industry-standard packet capture and analysis tool. Captures all network traffic passing through your network interface and displays it in readable format.</p>
+
+                        <p style="margin-top: 10px;"><strong>View in Wireshark Shows:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Source IP:</strong> Where packet came from</li>
+                            <li><strong>Destination IP:</strong> Where packet is going</li>
+                            <li><strong>Protocol:</strong> What type of packet (TCP, UDP, ICMP, DNS, etc.)</li>
+                            <li><strong>Port Numbers:</strong> Source and destination ports</li>
+                            <li><strong>Flags:</strong> TCP flags set (SYN, ACK, FIN, RST, etc.)</li>
+                            <li><strong>Data:</strong> Actual packet content/payload</li>
+                            <li><strong>TTL:</strong> Time To Live / hop count</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-example" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Example Packet Analysis</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-size: 0.85em; line-height: 1.6;">
+Frame 42: 66 bytes on wire<br>
+Internet Protocol Version 4, Src: 192.168.1.27, Dst: 192.168.1.50<br>
+Transmission Control Protocol, Src Port: 45892, Dst Port: 22, Flags: 0x002 (SYN)<br>
+[SYN] Sequence Number=12345678<br>
+<br>
+Frame 43: 66 bytes on wire<br>
+Internet Protocol Version 4, Src: 192.168.1.50, Dst: 192.168.1.27<br>
+Transmission Control Protocol, Src Port: 22, Dst Port: 45892, Flags: 0x012 (SYN, ACK)<br>
+[SYN, ACK] Sequence Number=87654321, Acknowledgement=12345679
+                        </code>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-muted);">Shows TCP SYN-ACK handshake for SSH connection attempt</p>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Wireshark Installation & Usage</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Installation</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; margin-top: 8px;">
+# Linux<br>
+sudo apt-get install wireshark<br>
+<br>
+# macOS<br>
+brew install wireshark<br>
+<br>
+# Windows<br>
+Download from https://www.wireshark.org
+                        </code>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Basic Steps</h4>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li>Open Wireshark</li>
+                            <li>Select network interface to capture on</li>
+                            <li>Click "Start Capturing" (blue shark button)</li>
+                            <li>Network traffic starts appearing</li>
+                            <li>Perform actions (ping, browse, etc.) to see traffic</li>
+                            <li>Click "Stop Capturing" (red square button)</li>
+                            <li>Filter and analyze packets</li>
+                        </ol>
+                    </div>
+
+                    <div class="box box-example" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Common Filters</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-size: 0.9em; line-height: 1.6;">
+ip.addr == 192.168.1.10<br>
+tcp.port == 22<br>
+icmp<br>
+dns<br>
+http<br>
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Firewall Evasion Tab -->
+            <div id="firewalls" class="tab-content">
+                <h2>🔥 Firewall Detection & Evasion</h2>
+                
+                <div class="card fade-in">
+                    <h3>How Firewalls Block Scans</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">Firewall Detection Methods</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Port Blocking:</strong> Drops/rejects packets to specific ports</li>
+                            <li><strong>Threshold Monitoring:</strong> Detects many ports hit in short time</li>
+                            <li><strong>Pattern Recognition:</strong> Recognizes NMAP signature patterns</li>
+                            <li><strong>IDS/IPS:</strong> Intrusion Detection/Prevention Systems</li>
+                            <li><strong>Rate Limiting:</strong> Blocks excessive traffic from one source</li>
+                            <li><strong>Stealth Techniques:</strong> Detects SYN scan, FIN scan attempts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Firewall Evasion Techniques</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">1. SYN Scan (-sS)</h4>
+                            <p><strong>Type:</strong> Stealth/Half-Open scan</p>
+                            <p><strong>Advantage:</strong> Never completes connections, less logging</p>
+                            <p><strong>Disadvantage:</strong> Modern firewalls detect anyway</p>
+                            <p><strong>Detection:</strong> Requires root/admin privileges</p>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">2. FIN/NULL/Xmas Scans</h4>
+                            <p><strong>Type:</strong> RFC-based evasion</p>
+                            <p><strong>Logic:</strong> Exploit RFC interpretation differences</p>
+                            <p><strong>Problem:</strong> Windows ignores RFC rules</p>
+                            <p><strong>Result:</strong> Unreliable but may bypass some firewalls</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">3. Fragmentation (-f)</h4>
+                            <p><strong>Method:</strong> Break packets into fragments</p>
+                            <p><strong>Purpose:</strong> Bypass packet inspection</p>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -f 192.168.1.10</code></p>
+                            <p><strong>Modern Impact:</strong> Most modern firewalls reassemble</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">4. Idle Scan</h4>
+                            <p><strong>Method:</strong> Use zombie host to scan</p>
+                            <p><strong>Purpose:</strong> Hide actual source IP</p>
+                            <p><strong>Requirement:</strong> Find idle IP to use</p>
+                            <p><strong>Detectability:</strong> Still creates suspicious patterns</p>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">5. Slow Scans (-T0 to -T5)</h4>
+                            <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nmap -T0 192.168.1.10</code></p>
+                            <p><strong>Purpose:</strong> Avoid triggering rate thresholds</p>
+                            <p><strong>Trade-off:</strong> Much slower scanning</p>
+                            <p><strong>Effectiveness:</strong> Can evade automated detection</p>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">6. Spoofed Source IP</h4>
+                            <p><strong>Method:</strong> Use fake source IP</p>
+                            <p><strong>Purpose:</strong> Hide true identity</p>
+                            <p><strong>Limitation:</strong> Responses won't reach attacker</p>
+                            <p><strong>Legal:</strong> Spoofing is illegal without authorization</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Port Status: What It Means</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Meaning</th>
+                                <th>Scan Response</th>
+                                <th>Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>open</strong></td>
+                                <td>Service actively listening</td>
+                                <td>Accepts connections</td>
+                                <td>⭐⭐⭐⭐⭐  Critical</td>
+                            </tr>
+                            <tr>
+                                <td><strong>closed</strong></td>
+                                <td>No service listening</td>
+                                <td>Sends RST packet</td>
+                                <td>⭐⭐ Low</td>
+                            </tr>
+                            <tr>
+                                <td><strong>filtered</strong></td>
+                                <td>Firewall blocking</td>
+                                <td>No response / drops</td>
+                                <td>⭐⭐⭐ Medium (protected)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>unfiltered</strong></td>
+                                <td>Accessible, state unknown</td>
+                                <td>Responds to probes</td>
+                                <td>⭐⭐⭐ Medium</td>
+                            </tr>
+                            <tr>
+                                <td><strong>open|filtered</strong></td>
+                                <td>Can't determine state</td>
+                                <td>Ambiguous response</td>
+                                <td>⭐⭐⭐⭐ High (ambiguity)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Vulnerabilities Tab -->
+            <div id="vulnerabilities" class="tab-content">
+                <h2>🚨 Vulnerability Discovery Through Scanning</h2>
+                
+                <div class="card fade-in">
+                    <h3>How Open Ports Lead to Vulnerabilities</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">Real Scenario: Vulnerable Web Server</h4>
+                        <p><strong>Discovery Process:</strong></p>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li>NMAP scan reveals port 80 open on 192.168.1.50</li>
+                            <li>Service detection shows: Apache 2.2.8 (OLD version)</li>
+                            <li>This Apache version has known buffer overflow</li>
+                            <li>Attacker finds matching exploit code</li>
+                            <li>Exploits vulnerability to gain shell access</li>
+                        </ol>
+                    </div>
+
+                    <div class="box box-warning" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Real Scenario: Exposed Database</h4>
+                        <p><strong>Discovery & Exploitation:</strong></p>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li>Scan finds port 3306 (MySQL) is OPEN</li>
+                            <li>Should NOT be open - database should be private!</li>
+                            <li>Attacker connects with default credentials</li>
+                            <li>Accesses entire customer database</li>
+                            <li>Exfiltrates sensitive data</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Service Version Vulnerabilities</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service:Version</th>
+                                <th>Vulnerability</th>
+                                <th>Severity</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Apache 2.2.8</td>
+                                <td>Buffer Overflow (CVE-2009-3555)</td>
+                                <td>High</td>
+                                <td>Remote Code Execution</td>
+                            </tr>
+                            <tr>
+                                <td>OpenSSH 3.9.1p1</td>
+                                <td>Privilege Escalation</td>
+                                <td>Critical</td>
+                                <td>Local root access</td>
+                            </tr>
+                            <tr>
+                                <td>MySQL 5.1.x</td>
+                                <td>Default Credentials</td>
+                                <td>Critical</td>
+                                <td>Database access</td>
+                            </tr>
+                            <tr>
+                                <td>Samba 3.0.x</td>
+                                <td>File Share Vulnerabilities</td>
+                                <td>High</td>
+                                <td>File system access</td>
+                            </tr>
+                            <tr>
+                                <td>NFS (any)</td>
+                                <td>Misconfiguration Export</td>
+                                <td>Critical</td>
+                                <td>File system mount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Common Misconfigurations Found by Scanning</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">Database Exposure</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>MySQL (3306) open to internet</li>
+                                <li>MongoDB (27017) unprotected</li>
+                                <li>PostgreSQL (5432) accessible</li>
+                                <li>Redis (6379) no authentication</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">Service Exposure</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>SSH on port 22 (weak passwords?)</li>
+                                <li>FTP (port 21 - credentials in clear)</li>
+                                <li>Telnet (port 23 - unencrypted)</li>
+                                <li>SNMP (port 161 - default community strings)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Admin Panel Exposure</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>phpMyAdmin on port 80</li>
+                                <li>Tomcat manager (port 8080)</li>
+                                <li>Jenkins CI (port 8080/8081)</li>
+                                <li>WordPress admin (port 80)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Information Leakage</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Unpatched versions visible</li>
+                                <li>Banners reveal OS info</li>
+                                <li>Service fingerprinting</li>
+                                <li>Error messages expose detail</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detection Methods Tab -->
+            <div id="detection" class="tab-content">
+                <h2>🚨 NMAP Detection & IDS/IPS</h2>
+                
+                <div class="card fade-in">
+                    <h3>How to Detect NMAP Scans</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Signature-Based Detection</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>NMAP Signatures:</strong> Firewalls recognize NMAP-specific patterns</li>
+                            <li><strong>Packet Patterns:</strong> Unique TTL values, flags combinations</li>
+                            <li><strong>Timing Patterns:</strong> Regular intervals between packets</li>
+                            <li><strong>Behavior Analysis:</strong> Port scanning behavior is detectable</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Anomaly-Based Detection</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>High Volume:</strong> Many packets in short time</li>
+                            <li><strong>Sequential Ports:</strong> Testing 1, 2, 3, 4... is suspicious</li>
+                            <li><strong>Connection Attempts:</strong> Many connections from single IP</li>
+                            <li><strong>Failed Connections:</strong> Lots of rejected attempts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>IDS/IPS Systems</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>System Type</th>
+                                <th>Function</th>
+                                <th>Response</th>
+                                <th>Passive/Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>IDS</strong></td>
+                                <td>Intrusion Detection</td>
+                                <td>Alerts/Logs only</td>
+                                <td>Passive (monitoring)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IPS</strong></td>
+                                <td>Intrusion Prevention</td>
+                                <td>Blocks/Drops traffic</td>
+                                <td>Active (blocking)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Firewall</strong></td>
+                                <td>Traffic Control</td>
+                                <td>Accept/Reject/Drop</td>
+                                <td>Active (enforcing rules)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WAF</strong></td>
+                                <td>Web Application Protection</td>
+                                <td>Blocks malicious requests</td>
+                                <td>Active (web-focused)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Logs: Evidence of Scanning</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">What Gets Logged?</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Firewall Logs:</strong> Dropped packets, connection attempts</li>
+                            <li><strong>IDS/IPS Logs:</strong> Suspicious activities flagged</li>
+                            <li><strong>Server Logs:</strong> Connection attempts, which ports accessed</li>
+                            <li><strong>Authentication Logs:</strong> Failed login attempts</li>
+                            <li><strong>Network Logs:</strong> Source IP, destination IP, port, timestamp</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-example" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Example Log Entry</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 12px; display: block; border-radius: 4px; font-size: 0.85em;">
+2024-04-14 14:32:15 [ALERT] TCP SYN Flood detected from 192.168.1.100<br>
+2024-04-14 14:32:16 [WARNING] Port scan detected from 192.168.1.100 (ports: 21,22,80,443,3306)<br>
+2024-04-14 14:32:17 [ALERT] Connection to port 3306 (MySQL) from 192.168.1.100 BLOCKED<br>
+2024-04-14 14:32:18 [INFO] IP 192.168.1.100 added to block list (600 seconds)
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ethics Scanning Tab -->
+            <div id="ethics-scanning" class="tab-content">
+                <h2>⚖️ Ethical & Legal Scanning Practices</h2>
+                
+                <div class="card fade-in">
+                    <h3>Critical Legal Requirements</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">❌ ILLEGAL Without Authorization</h4>
+                        <p><strong>Violations:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Scanning networks you don't own/manage</li>
+                            <li>Attempting unauthorized access</li>
+                            <li>Capturing traffic without consent</li>
+                            <li>Testing exploits on live systems</li>
+                            <li>Accessing data without permission</li>
+                        </ul>
+                        <p style="margin-top: 12px;"><strong style="color: var(--danger);">Penalties:</strong> Federal charges, imprisonment (up to 10 years), fines (up to $250,000)</p>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">✅ LEGAL With Authorization</h4>
+                        <p><strong>Requirements:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Written Authorization:</strong> Email/contract from target</li>
+                            <li><strong>Defined Scope:</strong> Which systems/networks to test</li>
+                            <li><strong>Clear Timeline:</strong> Start date, end date, testing hours</li>
+                            <li><strong>Authorized Contact:</strong> Who to report findings to</li>
+                            <li><strong>Non-Disclosure:</strong> Keep findings confidential</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Ethical Hacking Standards</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Principle</th>
+                                <th>Description</th>
+                                <th>Implementation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Authorization</strong></td>
+                                <td>Only test authorized targets</td>
+                                <td>Written approval required</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scope Compliance</strong></td>
+                                <td>Stay within defined boundaries</td>
+                                <td>Don't test beyond scope</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Confidentiality</strong></td>
+                                <td>Protect found sensitive data</td>
+                                <td>Use encryption, secure storage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reporting</strong></td>
+                                <td>Communicate findings properly</td>
+                                <td>Professional, timely reports</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Remediation</strong></td>
+                                <td>Help fix vulnerabilities</td>
+                                <td>Work with security team</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Responsibility</strong></td>
+                                <td>Don't cause damage</td>
+                                <td>Avoid destructive actions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Proper Penetration Testing</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Pre-Engagement</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>✓ Get written contract/authorization</li>
+                            <li>✓ Define exact scope (IPs, ports, systems)</li>
+                            <li>✓ Set testing schedule and duration</li>
+                            <li>✓ Establish communication procedures</li>
+                            <li>✓ Clarify rules of engagement</li>
+                            <li>✓ Identify emergency contacts</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">During Testing</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>✓ Scan only authorized targets</li>
+                            <li>✓ Document all findings</li>
+                            <li>✓ Avoid causing disruption</li>
+                            <li>✓ Don't access/modify data unnecessarily</li>
+                            <li>✓ Keep communications secure</li>
+                            <li>✓ Report critical issues immediately</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Post-Testing</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>✓ Provide comprehensive report</li>
+                            <li>✓ Include severity ratings</li>
+                            <li>✓ Suggest remediation steps</li>
+                            <li>✓ Maintain data confidentiality</li>
+                            <li>✓ Offer follow-up assistance</li>
+                            <li>✓ Delete test data/artifacts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary-3ceh" class="tab-content">
+                <h2>📋 3_CEH: Complete Summary & Recap</h2>
+                
+                <div class="card fade-in">
+                    <h3>Journey from Passive to Active</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">1_CEH - Passive Gathering</div>
+                            <p>Public sources: WHOIS, Archive.org, DNS lookups (no targeting system interaction)</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">2_CEH - DNS Reconnaissance</div>
+                            <p>Subdomain discovery, email verification via DNS (still passive but targeted)</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">3_CEH - Active Scanning (NOW)</div>
+                            <p>Direct network interaction: ICMP ping, port scanning, service detection</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">4_CEH+ - Exploitation</div>
+                            <p>Leverage vulnerabilities for deeper access and system compromise</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Key Concepts Learned</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">🔍 Discovery Techniques</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Ping scan (identify live hosts)</li>
+                                <li>Port scanning (find services)</li>
+                                <li>Service fingerprinting (identify versions)</li>
+                                <li>OS detection (determine operating system)</li>
+                                <li>Vulnerability identification</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">🛠️ Tools & Protocols</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>NMAP: network mapping tool</li>
+                                <li>Wireshark: packet capture</li>
+                                <li>ICMP: ping protocol</li>
+                                <li>TCP/UDP: connection types</li>
+                                <li>Port numbers: service mapping</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">🎯 Scan Types</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>SYN scan (stealthy)</li>
+                                <li>TCP Connect (complete)</li>
+                                <li>FIN/NULL/Xmas scans (RFC-based)</li>
+                                <li>UDP scan (connectionless)</li>
+                                <li>Ping scan (host discovery)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">🔒 Defense Aware</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Firewall detection techniques</li>
+                                <li>IDS/IPS bypass methods</li>
+                                <li>Logging and evidence</li>
+                                <li>Detection signatures</li>
+                                <li>Legal boundaries & ethics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NMAP Command Quick Reference</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Goal</th>
+                                <th>Command</th>
+                                <th>Effect</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Find live hosts</td>
+                                <td>nmap -sn 192.168.1.0/24</td>
+                                <td>Ping scan, no port scan</td>
+                            </tr>
+                            <tr>
+                                <td>Basic port scan</td>
+                                <td>nmap 192.168.1.50</td>
+                                <td>TCP connect scan</td>
+                            </tr>
+                            <tr>
+                                <td>Stealthy scan</td>
+                                <td>nmap -sS 192.168.1.50</td>
+                                <td>SYN scan, half-open</td>
+                            </tr>
+                            <tr>
+                                <td>Service detection</td>
+                                <td>nmap -sV 192.168.1.50</td>
+                                <td>Identify versions</td>
+                            </tr>
+                            <tr>
+                                <td>Aggressive scan</td>
+                                <td>nmap -A 192.168.1.50</td>
+                                <td>OS, version, scripts</td>
+                            </tr>
+                            <tr>
+                                <td>Specific ports</td>
+                                <td>nmap -p 80,443,3306 192.168.1.50</td>
+                                <td>Only test these ports</td>
+                            </tr>
+                            <tr>
+                                <td>UDP scan</td>
+                                <td>nmap -sU 192.168.1.50</td>
+                                <td>Scan UDP services</td>
+                            </tr>
+                            <tr>
+                                <td>Output to file</td>
+                                <td>nmap 192.168.1.50 > results.txt</td>
+                                <td>Save results</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Critical Reminders</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">⚖️ Legal Requirements</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Written authorization REQUIRED</li>
+                                <li>Define clear scope</li>
+                                <li>Document everything</li>
+                                <li>Unauthorized scanning is ILLEGAL</li>
+                                <li>Federal penalties apply</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">✅ Ethical Practice</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Only scan authorized targets</li>
+                                <li>Report vulnerabilities responsibly</li>
+                                <li>Maintain confidentiality</li>
+                                <li>Help fix issues found</li>
+                                <li>Professional conduct always</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in" style="margin-top: 20px;">
+                    <h3>What's Next?</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">4_CEH and Beyond</h4>
+                        <p>After mastering active scanning:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Vulnerability assessment (deeper analysis)</li>
+                            <li>Exploitation techniques (leveraging discoveries)</li>
+                            <li>Post-exploitation (maintaining access)</li>
+                            <li>Social engineering (human targeting)</li>
+                            <li>Web application penetration testing</li>
+                            <li>Wireless security testing</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>The CEH path is a progressive journey from information gathering through attack execution!</strong></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+            
+            const breadcrumbMap = {
+                'overview': 'Overview',
+                'active-fp': 'Active Footprinting',
+                'network-scanning': 'Network Scanning',
+                'icmp-protocol': 'ICMP Protocol',
+                'ports-services': 'Ports & Services',
+                'nmap-intro': 'NMAP Introduction',
+                'nmap-commands': 'NMAP Commands',
+                'scanning-types': 'Scanning Types',
+                'tcp-udp': 'TCP vs UDP',
+                'packet-capture': 'Packet Capture',
+                'scan-analysis': 'Scan Analysis',
+                'firewalls': 'Firewall Evasion',
+                'vulnerabilities': 'Vulnerability Discovery',
+                'detection': 'Detection Methods',
+                'ethics-scanning': 'Ethical Scanning',
+                'summary-3ceh': 'Summary & Recap'
+            };
+            
+            document.getElementById('breadcrumb-current').textContent = breadcrumbMap[tabName] || 'Overview';
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrollBtn = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        function toggleRecordDetails(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('show');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach((el, idx) => {
+                el.style.animationDelay = `${idx * 0.05}s`;
+            });
+        });
+    </script>
+</body>
+</html>

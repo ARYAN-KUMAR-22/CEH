@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS & Passive Footprinting - CEH Professional Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a15;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #00ff6b;
+            --accent: #ffb700;
+            --danger: #ff4444;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 255, 107, 0.15) 100%);
+            border-bottom: 2px solid var(--primary);
+            padding: 40px 60px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-right: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+
+        .sidebar-title {
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 255, 107, 0.3);
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 8px 12px;
+            margin: 4px 0;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            padding-left: 16px;
+        }
+
+        .sidebar-link.active {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            margin-left: 0;
+        }
+
+        .breadcrumb {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .breadcrumb span {
+            color: var(--primary);
+            margin: 0 5px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 255, 107, 0.3);
+        }
+
+        h4 {
+            color: var(--accent);
+            font-size: 1.1em;
+            margin: 15px 0 10px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(42, 42, 62, 0.5) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .box {
+            border-left: 4px solid;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .box-theory {
+            border-left-color: var(--secondary);
+            background: rgba(0, 255, 107, 0.05);
+        }
+
+        .box-concept {
+            border-left-color: var(--primary);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .box-example {
+            border-left-color: var(--accent);
+            background: rgba(255, 183, 0, 0.05);
+        }
+
+        .box-warning {
+            border-left-color: var(--danger);
+            background: rgba(255, 68, 68, 0.05);
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #0a0a15;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            color: var(--secondary);
+        }
+
+        .highlight {
+            background: rgba(255, 183, 0, 0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .scroll-top.show {
+            display: flex;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                display: flex;
+                gap: 20px;
+                overflow-x: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            }
+
+            .sidebar-section {
+                margin-bottom: 0;
+                min-width: 200px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        strong {
+            color: var(--primary);
+        }
+
+        em {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        p {
+            margin: 15px 0;
+            line-height: 1.8;
+        }
+
+        .definition {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .simulator {
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .simulator-title {
+            color: var(--secondary);
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dns-flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .dns-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .dns-step.error {
+            border-left-color: var(--danger);
+            background: rgba(255, 68, 68, 0.05);
+        }
+
+        .dns-step.success {
+            border-left-color: var(--secondary);
+            background: rgba(0, 255, 107, 0.05);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            color: var(--text-light);
+            font-size: 0.95em;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 60px;
+            color: var(--secondary);
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .record-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .record-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 107, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .record-card:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 255, 107, 0.2));
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.15);
+        }
+
+        .record-type {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .record-value {
+            color: var(--secondary);
+            font-family: monospace;
+            font-size: 0.9em;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            word-break: break-all;
+        }
+
+        .quiz-container {
+            background: var(--bg-secondary);
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .quiz-question {
+            color: var(--text-light);
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 12px 15px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--secondary);
+        }
+
+        .quiz-option.correct {
+            background: rgba(0, 255, 107, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(255, 68, 68, 0.2);
+            border-color: var(--danger);
+        }
+
+        .animation-demo {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-element {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateZ(0deg); }
+            50% { transform: translateY(-30px) rotateZ(180deg); }
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+
+        .timeline-item {
+            margin-left: 100px;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -68px;
+            top: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-date {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .dns-journey {
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .journey-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: start;
+        }
+
+        .journey-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: #000;
+        }
+
+        .journey-content h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .toggle-btn {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .toggle-content {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .toggle-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+            }
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 107, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            color: var(--accent);
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🌐 DNS & Passive Footprinting</h1>
+        <p>Certified Ethical Hacker - Network Security & Reconnaissance</p>
+        <p class="subtitle">Domain Name System, Information Gathering, and Ethical Reconnaissance Techniques</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">📚 Core Topics</div>
+                <a class="sidebar-link active" onclick="switchTab('overview')">Overview</a>
+                <a class="sidebar-link" onclick="switchTab('dns')">DNS System</a>
+                <a class="sidebar-link" onclick="switchTab('records')">DNS Records</a>
+                <a class="sidebar-link" onclick="switchTab('subdomain')">Subdomain Enumeration</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">🔍 Reconnaissance</div>
+                <a class="sidebar-link" onclick="switchTab('footprinting')">Footprinting Techniques</a>
+                <a class="sidebar-link" onclick="switchTab('email')">Email Footprinting</a>
+                <a class="sidebar-link" onclick="switchTab('tools')">Analysis Tools</a>
+                <a class="sidebar-link" onclick="switchTab('wayback')">Historical Data</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">⚠️ Security</div>
+                <a class="sidebar-link" onclick="switchTab('threats')">Threats & Risks</a>
+                <a class="sidebar-link" onclick="switchTab('protection')">Protection Methods</a>
+                <a class="sidebar-link" onclick="switchTab('ethics')">Ethical Considerations</a>
+                <a class="sidebar-link" onclick="switchTab('summary')">Summary & Tips</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <span>Home</span> / <span id="breadcrumb-current">Overview</span>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>🌐 DNS & Passive Footprinting Overview</h2>
+                <p style="font-size: 1.1em; color: var(--text-muted); margin-bottom: 20px;">
+                    Learn how the Domain Name System works, how to gather information about targets ethically, and essential reconnaissance techniques for security professionals.
+                </p>
+
+                <h3>What You'll Learn</h3>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>DNS Fundamentals</h4>
+                        <ul>
+                            <li>How DNS resolves domain names</li>
+                            <li>DNS server hierarchy</li>
+                            <li>Record types and functions</li>
+                            <li>DNS query process</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Passive Reconnaissance</h4>
+                        <ul>
+                            <li>Information gathering techniques</li>
+                            <li>Footprinting strategies</li>
+                            <li>Email security analysis</li>
+                            <li>Historical website data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Course Topics</h3>
+                <div class="box box-theory">
+                    <strong>✓ DNS System Architecture:</strong> Understanding domain hierarchies, DNS servers, and the resolution process
+                </div>
+                <div class="box box-concept">
+                    <strong>✓ Information Gathering:</strong> Legal reconnaissance techniques using passive methods
+                </div>
+                <div class="box box-example">
+                    <strong>✓ Practical Tools:</strong> Learning industry-standard tools for domain analysis
+                </div>
+                <div class="box box-warning">
+                    <strong>⚠️ Ethical Hacking:</strong> Understanding legal boundaries and responsible disclosure
+                </div>
+
+                <h3>Key Principles</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Description</th>
+                            <th>Importance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DNS Resolution</strong></td>
+                            <td>Converting domain names to IP addresses</td>
+                            <td>Critical for internet functionality</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Passive Footprinting</strong></td>
+                            <td>Gathering info without alerting targets</td>
+                            <td>Safe, ethical reconnaissance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Information Security</strong></td>
+                            <td>Protecting sensitive organizational data</td>
+                            <td>Defense foundation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ethical Responsibility</strong></td>
+                            <td>Operating within legal and moral boundaries</td>
+                            <td>Professional requirement</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- DNS System Tab -->
+            <div id="dns" class="tab-content">
+                <h2>🔧 The Domain Name System (DNS)</h2>
+
+                <h3>What is DNS?</h3>
+                <div class="definition">
+                    <strong>DNS (Domain Name System)</strong> is a critical internet service that translates human-readable domain names (like google.com) into machine-readable IP addresses (like 172.217.2.46). Without DNS, users would need to memorize IP addresses to access websites.
+                </div>
+
+                <h3>Why DNS is Essential</h3>
+                <div class="card">
+                    <p><strong>Without DNS:</strong></p>
+                    <ul>
+                        <li>Users would need to memorize numerical IP addresses</li>
+                        <li>Website access would be confusing and impractical</li>
+                        <li>Internet would be much less user-friendly</li>
+                        <li>Websites would need unique, static IP addresses</li>
+                    </ul>
+                    <p><strong>With DNS:</strong></p>
+                    <ul>
+                        <li>Users access websites by easy-to-remember names</li>
+                        <li>IP addresses can change without affecting users</li>
+                        <li>Multiple servers can share the same domain</li>
+                        <li>Enables flexible server management</li>
+                    </ul>
+                </div>
+
+                <h3>How DNS Works: The Resolution Process</h3>
+                <div class="box box-theory">
+                    <strong>Step-by-Step Process:</strong>
+                    <ol>
+                        <li><strong>User Request:</strong> User types domain (e.g., gu.ac.in) in browser</li>
+                        <li><strong>Client DNS Query:</strong> Client sends request to recursive resolver (usually ISP's DNS)</li>
+                        <li><strong>Root DNS Query:</strong> Resolver queries root nameserver</li>
+                        <li><strong>TLD Query:</strong> Root directs to Top Level Domain (.in, .com) server</li>
+                        <li><strong>Authoritative Query:</strong> TLD directs to authoritative nameserver</li>
+                        <li><strong>IP Resolution:</strong> Authoritative server returns the IP address</li>
+                        <li><strong>Connection Established:</strong> Browser connects to web server using IP</li>
+                        <li><strong>Website Loading:</strong> Server responds and website loads</li>
+                    </ol>
+                </div>
+
+                <h3>DNS Server Roles</h3>
+                <div class="grid-2">
+                    <div class="box box-concept">
+                        <strong>Recursive Resolver</strong><br>
+                        • Usually provided by ISP<br>
+                        • Handles client requests<br>
+                        • Queries other servers<br>
+                        • Caches results for performance
+                    </div>
+                    <div class="box box-concept">
+                        <strong>Root Nameserver</strong><br>
+                        • Points to TLD servers<br>
+                        • Part of DNS hierarchy<br>
+                        • Known to all resolvers<br>
+                        • Distributed globally
+                    </div>
+                    <div class="box box-concept">
+                        <strong>TLD Nameserver</strong><br>
+                        • Manages top-level domains<br>
+                        • Handles .com, .org, .in, etc.<br>
+                        • Directs to authoritative servers<br>
+                        • Maintained by registry operators
+                    </div>
+                    <div class="box box-concept">
+                        <strong>Authoritative Nameserver</strong><br>
+                        • Holds actual DNS records<br>
+                        • Managed by domain owner<br>
+                        • Provides authoritative answers<br>
+                        • Returns IP addresses directly
+                    </div>
+                </div>
+
+                <h3>Critical DNS Dependency</h3>
+                <div class="box box-warning">
+                    <strong>⚠️ DNS Outage Impact:</strong><br>
+                    If DNS servers are down or not responding:<br>
+                    • Users cannot access websites by domain name<br>
+                    • Only way to access is by direct IP address (impractical)<br>
+                    • Email delivery may fail<br>
+                    • Many online services become inaccessible<br>
+                    DNS is a critical single point of failure for the internet
+                </div>
+            </div>
+
+            <!-- DNS Records Tab -->
+            <div id="records" class="tab-content">
+                <h2>📋 DNS Resource Records</h2>
+
+                <p>DNS servers maintain databases called <span class="highlight">Resource Records</span> that contain mappings between domain names and various information.</p>
+
+                <h3>Major DNS Record Types</h3>
+
+                <div class="card">
+                    <h4>A Record (Address Record)</h4>
+                    <div class="box box-concept">
+                        <strong>Purpose:</strong> Maps domain name to IPv4 address<br>
+                        <strong>Example:</strong> gu.ac.in → 10.0.0.1<br>
+                        <strong>Usage:</strong> Primary method for website access<br>
+                        <strong>Created:</strong> Manually by domain administrator
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>AAAA Record</h4>
+                    <div class="box box-concept">
+                        <strong>Purpose:</strong> Maps domain name to IPv6 address<br>
+                        <strong>Example:</strong> gu.ac.in → 2001:db8::1<br>
+                        <strong>Usage:</strong> For IPv6-enabled infrastructure<br>
+                        <strong>Created:</strong> Manually by domain administrator
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>NS Record (Nameserver Record)</h4>
+                    <div class="box box-example">
+                        <strong>Purpose:</strong> Indicates which DNS server is authoritative<br>
+                        <strong>Example:</strong> ns1.godaddy.com is responsible for gu.ac.in<br>
+                        <strong>Usage:</strong> Critical for DNS delegation<br>
+                        <strong>Created:</strong> Automatically provided by registrar
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>MX Record (Mail Exchange Record)</h4>
+                    <div class="box box-example">
+                        <strong>Purpose:</strong> Directs email to correct mail servers<br>
+                        <strong>Example:</strong> Email for user@gu.ac.in → mail.gu.ac.in<br>
+                        <strong>Usage:</strong> Required for email delivery<br>
+                        <strong>Created:</strong> Manually by domain administrator
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>CNAME Record (Canonical Name)</h4>
+                    <div class="box box-theory">
+                        <strong>Purpose:</strong> Creates domain name aliases<br>
+                        <strong>Example:</strong> www.gu.ac.in → gu.ac.in<br>
+                        <strong>Usage:</strong> Allows multiple domain names for same resource<br>
+                        <strong>Created:</strong> Manually by domain administrator
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>TXT Record</h4>
+                    <div class="box box-theory">
+                        <strong>Purpose:</strong> Stores text information<br>
+                        <strong>Usage:</strong> SPF, DKIM, DMARC verification<br>
+                        <strong>Example:</strong> "v=spf1 ip4:192.168.0.1 ~all"<br>
+                        <strong>Created:</strong> Manually by domain administrator
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>SOA Record (Start of Authority)</h4>
+                    <div class="box box-theory">
+                        <strong>Purpose:</strong> Contains DNS zone information<br>
+                        <strong>Contains:</strong> Primary nameserver, admin email, serial number<br>
+                        <strong>Usage:</strong> Zone management and synchronization<br>
+                        <strong>Created:</strong> Automatically by DNS system
+                    </div>
+                </div>
+
+                <h3>Record Management</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Record Type</th>
+                            <th>Purpose</th>
+                            <th>Created By</th>
+                            <th>Critical?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A / AAAA</td>
+                            <td>IP resolution</td>
+                            <td>Manual</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>NS</td>
+                            <td>DNS delegation</td>
+                            <td>Automatic</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>MX</td>
+                            <td>Email routing</td>
+                            <td>Manual</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>CNAME</td>
+                            <td>Aliases</td>
+                            <td>Manual</td>
+                            <td>○ No</td>
+                        </tr>
+                        <tr>
+                            <td>TXT</td>
+                            <td>Security verification</td>
+                            <td>Manual</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>SOA</td>
+                            <td>Zone information</td>
+                            <td>Automatic</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Subdomain Enumeration Tab -->
+            <div id="subdomain" class="tab-content">
+                <h2>🔍 Subdomain Enumeration</h2>
+
+                <p>Subdomains are additional domain names under a main domain. For example, www.google.com, mail.google.com, and calendar.google.com are all subdomains of google.com.</p>
+
+                <h3>What are Subdomains?</h3>
+                <div class="definition">
+                    <strong>Subdomain:</strong> A domain that is part of a larger domain. Format: [subdomain].[domain].[extension]<br>
+                    <strong>Example:</strong> www.gu.ac.in where "www" is the subdomain of "gu.ac.in"
+                </div>
+
+                <h3>Why Subdomains Matter</h3>
+                <div class="card">
+                    <p><strong>From a Security Perspective:</strong></p>
+                    <ul>
+                        <li>Organizations often focus security on main domain only</li>
+                        <li>Subdomains frequently have weaker security</li>
+                        <li>Subdomains often host different services (mail, admin, dev, etc.)</li>
+                        <li>Unsecured subdomains can be backdoors for attackers</li>
+                        <li>Can expose different services and vulnerabilities</li>
+                    </ul>
+                </div>
+
+                <h3>Subdomain Enumeration Process</h3>
+                <div class="box box-example">
+                    <strong>Subdomain Finder Approach:</strong><br>
+                    1. Enter target domain (e.g., gu.ac.in)<br>
+                    2. Tool queries DNS records for subdomains<br>
+                    3. Receives list: admin.gu.ac.in, mail.gu.ac.in, etc.<br>
+                    4. Shows IP addresses for each subdomain<br>
+                    5. Reveals services running on each subdomain
+                </div>
+
+                <h3>Tools for Subdomain Discovery</h3>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>Online Tools</h4>
+                        <ul>
+                            <li><span class="highlight">Subdomain Finder (c99.nl)</span></li>
+                            <li><span class="highlight">DNS.mxtoolbox.com</span></li>
+                            <li><span class="highlight">ViewDNS.net</span></li>
+                            <li><span class="highlight">MXToolbox.com</span></li>
+                            <li><span class="highlight">BuiltWith.com</span></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Command Line Tools</h4>
+                        <ul>
+                            <li><span class="highlight">nslookup</span> - Query DNS records</li>
+                            <li><span class="highlight">dig</span> - DNS lookup utility</li>
+                            <li><span class="highlight">host</span> - DNS lookup command</li>
+                            <li><span class="highlight">whois</span> - Domain information</li>
+                            <li><span class="highlight">dnsrecon</span> - DNS scanning tool</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Information Revealed</h3>
+                <div class="card">
+                    <p>Each discovered subdomain reveals:</p>
+                    <ul>
+                        <li><strong>Domain Name:</strong> The subdomain itself</li>
+                        <li><strong>IP Address:</strong> Server location (often public IPs)</li>
+                        <li><strong>Service Type:</strong> Web server, mail server, admin panel, etc.</li>
+                        <li><strong>Organization Department:</strong> Which team operates it</li>
+                        <li><strong>Geographic Location:</strong> Where server is hosted (if cloud)</li>
+                        <li><strong>Security Status:</strong> Whether it's properly secured</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footprinting Techniques Tab -->
+            <div id="footprinting" class="tab-content">
+                <h2>🔎 Passive Footprinting Techniques</h2>
+
+                <p>Passive footprinting involves gathering information about a target without directly interacting with their systems. This is legal and ethical reconnaissance.</p>
+
+                <h3>What is Passive Footprinting?</h3>
+                <div class="definition">
+                    <strong>Passive Footprinting:</strong> The process of gathering information about a target organization through publicly available sources without direct system interaction. This is non-intrusive and legal.
+                </div>
+
+                <h3>Common Passive Techniques</h3>
+
+                <div class="card">
+                    <h4>1. WHOIS Lookup</h4>
+                    <div class="box box-concept">
+                        <strong>Purpose:</strong> Get domain registration information<br>
+                        <strong>Information Retrieved:</strong><br>
+                        • Domain registrar (GoDaddy, Namecheap, etc.)<br>
+                        • Registration date<br>
+                        • Expiration date<br>
+                        • Registrant information<br>
+                        • Nameservers<br>
+                        • Admin contact
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>2. DNS Record Lookup</h4>
+                    <div class="box box-concept">
+                        <strong>Reveal:</strong><br>
+                        • A records (IP addresses)<br>
+                        • MX records (email servers)<br>
+                        • NS records (nameservers)<br>
+                        • TXT records (email authentication)<br>
+                        • CNAME records (aliases)<br>
+                        • SOA records (zone information)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>3. IP History & Geolocation</h4>
+                    <div class="box box-example">
+                        <strong>Tools:</strong> IP2Location, MaxMind, GeoIP<br>
+                        <strong>Information:</strong><br>
+                        • Previous IP addresses used<br>
+                        • Geographic location of servers<br>
+                        • Cloud provider (AWS, Azure, GCP)<br>
+                        • Data center location<br>
+                        • Hosting provider information
+                    </div>
+                </div>
+
+                <div class="box box-warning">
+                    <strong>⚠️ IMPORTANT LEGAL NOTE:</strong><br>
+                    While passive footprinting is legal, always remember:<br>
+                    • Only perform reconnaissance on authorized targets<br>
+                    • If targeting unfamiliar organizations, you may face legal consequences<br>
+                    • Always have written permission before security testing<br>
+                    • Keep documentation of authorization<br>
+                    • Be prepared to explain why you conducted reconnaissance
+                </div>
+            </div>
+
+            <!-- Email Footprinting Tab -->
+            <div id="email" class="tab-content">
+                <h2>📧 Email Security & Footprinting</h2>
+
+                <h3>Understanding Email Headers</h3>
+                <p>Email headers contain metadata that reveals how the email traveled through the internet and whether it's legitimate.</p>
+
+                <h3>Email Authentication Standards</h3>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>SPF (Sender Policy Framework)</h4>
+                        <p><strong>Purpose:</strong> Prevents email spoofing by specifying authorized sending servers</p>
+                        <p><strong>How It Works:</strong></p>
+                        <ul>
+                            <li>Domain publishes list of authorized mail servers in TXT record</li>
+                            <li>Receiving server checks SPF record</li>
+                            <li>Verifies email came from authorized IP</li>
+                        </ul>
+                        <p><strong>Status:</strong> Pass/Fail</p>
+                    </div>
+                    <div class="card">
+                        <h4>DKIM (DomainKeys Identified Mail)</h4>
+                        <p><strong>Purpose:</strong> Digitally signs emails to prove authenticity</p>
+                        <p><strong>How It Works:</strong></p>
+                        <ul>
+                            <li>Sender encrypts email with private key</li>
+                            <li>Receiver verifies with public key (in TXT record)</li>
+                            <li>Proves email wasn't tampered with</li>
+                        </ul>
+                        <p><strong>Status:</strong> Pass/Fail</p>
+                    </div>
+                    <div class="card">
+                        <h4>DMARC (Domain-based Message Authentication)</h4>
+                        <p><strong>Purpose:</strong> Policy enforcement for SPF/DKIM</p>
+                        <p><strong>How It Works:</strong></p>
+                        <ul>
+                            <li>Domain publishes DMARC policy in TXT record</li>
+                            <li>Specifies what to do if SPF/DKIM fail</li>
+                            <li>Sends failure reports to domain owner</li>
+                        </ul>
+                        <p><strong>Policy:</strong> none, quarantine, reject</p>
+                    </div>
+                </div>
+
+                <h3>Identifying Suspicious Emails</h3>
+                <div class="box box-warning">
+                    <strong>Red Flags for Phishing/Spam:</strong><br>
+                    • SPF: FAIL<br>
+                    • DKIM: FAIL<br>
+                    • DMARC: FAIL<br>
+                    • Domain name slightly different from legitimate<br>
+                    • Sender IP doesn't match domain location<br>
+                    • Generic greeting (Hi user vs Hi John)<br>
+                    • Suspicious links or attachments<br>
+                    • Urgency or threats to click
+                </div>
+
+                <h3>Checking if Your Email was Hacked</h3>
+                <div class="card">
+                    <p><strong>Tools:</strong> Have I Been Pwned (haveibeenpwned.com)</p>
+                    <p><strong>Information Revealed:</strong></p>
+                    <ul>
+                        <li>Whether your email is in known breaches</li>
+                        <li>Which services were compromised</li>
+                        <li>What data was exposed (if available)</li>
+                        <li>When the breach occurred</li>
+                    </ul>
+                    <p><strong>If Compromised:</strong></p>
+                    <ul>
+                        <li>Change password immediately</li>
+                        <li>Enable 2FA/MFA on that account</li>
+                        <li>Change passwords for linked services</li>
+                        <li>Monitor account for suspicious activity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tools Tab -->
+            <div id="tools" class="tab-content">
+                <h2>🛠️ DNS & Analysis Tools</h2>
+
+                <h3>Popular DNS Analysis Websites</h3>
+
+                <div class="card">
+                    <h4>MXToolbox (mxtoolbox.com)</h4>
+                    <div class="box box-theory">
+                        <strong>Features:</strong><br>
+                        • MX Lookup - Find mail servers<br>
+                        • DNS Lookup - Query all record types<br>
+                        • Reverse IP Lookup - Find domains on IP<br>
+                        • Blacklist Check - Check if domain is blacklisted<br>
+                        • IP History - See previous IPs<br>
+                        • ASN Lookup - Autonomous system info
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>WDNS (free-dns.org)</h4>
+                    <div class="box box-concept">
+                        <strong>Features:</strong><br>
+                        • DNS Record Lookup<br>
+                        • Domain Discovery<br>
+                        • Chinese Firewall Test<br>
+                        • Site Report<br>
+                        • IP Geolocation<br>
+                        • Mail Server Testing
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Site Report (netcraft.com)</h4>
+                    <div class="box box-example">
+                        <strong>Features:</strong><br>
+                        • Web server identification<br>
+                        • Technology detection<br>
+                        • SSL/TLS certificate info<br>
+                        • Server history<br>
+                        • Web tracker detection<br>
+                        • CMS identification
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Whois Tools</h4>
+                    <div class="box box-example">
+                        <strong>Information:</strong><br>
+                        • Domain registrar<br>
+                        • Registration date<br>
+                        • Expiration date<br>
+                        • Nameservers<br>
+                        • Registrant contact (if public)<br>
+                        • Domain status
+                    </div>
+                </div>
+
+                <h3>Command Line Tools</h3>
+                <div class="card">
+                    <h4>DNS Worker / nslookup</h4>
+                    <div class="code-block">
+nslookup domain.com<br>
+nslookup -type=MX domain.com<br>
+nslookup -type=NS domain.com
+                    </div>
+                </div>
+
+                <h3>Blacklist Checking</h3>
+                <div class="card">
+                    <p><strong>Why Check Blacklists?</strong></p>
+                    <ul>
+                        <li>Determines if domain/IP is blacklisted</li>
+                        <li>Blacklist = domain can't pass firewalls</li>
+                        <li>Problems: Email rejected, traffic blocked, reputation damaged</li>
+                    </ul>
+                    <p><strong>Organizations maintaining blacklists:</strong> Multiple databases track malicious IPs and domains</p>
+                </div>
+            </div>
+
+            <!-- Wayback Machine Tab -->
+            <div id="wayback" class="tab-content">
+                <h2>📚 Historical Data & Wayback Machine</h2>
+
+                <p>The Wayback Machine (archive.org) stores historical snapshots of websites, allowing you to see how websites have changed over time.</p>
+
+                <h3>What Can the Wayback Machine Show?</h3>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>Historical Website Snapshots</h4>
+                        <ul>
+                            <li>Previous website designs</li>
+                            <li>Changes over years/months</li>
+                            <li>Added/removed content</li>
+                            <li>Security improvements</li>
+                            <li>Service changes</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Activity Timeline</h4>
+                        <ul>
+                            <li>When site was first deployed</li>
+                            <li>Frequency of updates</li>
+                            <li>Development patterns</li>
+                            <li>Periods of inactivity</li>
+                            <li>Recent changes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Using Wayback Machine for Reconnaissance</h3>
+                <div class="box box-theory">
+                    <strong>Process:</strong><br>
+                    1. Visit archive.org<br>
+                    2. Enter target domain<br>
+                    3. See timeline of captures<br>
+                    4. Click specific date to view that snapshot<br>
+                    5. Compare snapshots from different time periods<br>
+                    6. Note security changes, new services, vulnerabilities
+                </div>
+
+                <h3>Value for Penetration Testers</h3>
+                <div class="card">
+                    <p><strong>Information Revealed:</strong></p>
+                    <ul>
+                        <li>Former email addresses (might work for password reset)</li>
+                        <li>Outdated security measures (historical vulnerabilities)</li>
+                        <li>Development servers that were previously exposed</li>
+                        <li>Administrator contact information</li>
+                        <li>API endpoints or documentation</li>
+                        <li>Subdomain history</li>
+                    </ul>
+                </div>
+
+                <h3>Real-world Case Study</h3>
+                <div class="box box-warning">
+                    <strong>Scenario:</strong> Verifying legitimate organizations<br><br>
+                    A friend received a recruitment email from a company offering a high-paying position (1 crore per hour). The email looked professional, but had red flags:<br>
+                    • Domain name was slightly different<br>
+                    • Used WHOIS lookup to check registration date<br>
+                    • Found domain was only registered 2 months prior<br>
+                    • Legitimate company should have much older domain<br>
+                    • Subsequent emails asked for visa processing fees<br>
+                    <strong>Conclusion:</strong> Obvious scam. This reconnaissance was crucial in preventing a fraud.
+                </div>
+            </div>
+
+            <!-- Threats Tab -->
+            <div id="threats" class="tab-content">
+                <h2>⚠️ Threats & Risks in DNS</h2>
+
+                <h3>DNS-Based Attacks</h3>
+
+                <div class="card">
+                    <h4>DNS Spoofing</h4>
+                    <div class="box box-warning">
+                        <strong>How It Works:</strong><br>
+                        • Attacker intercepts DNS queries<br>
+                        • Returns fake IP address<br>
+                        • User redirected to attacker's server<br>
+                        • User thinks they're on legitimate site<br>
+                        <strong>Risk:</strong> Phishing, credential theft, malware distribution
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>DNS Hijacking</h4>
+                    <div class="box box-warning">
+                        <strong>How It Works:</strong><br>
+                        • Attacker gains access to domain registrar<br>
+                        • Changes nameservers<br>
+                        • Points domain to attacker's server<br>
+                        • Users see attacker's fake website<br>
+                        <strong>Risk:</strong> Complete control of domain, email interception
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>DNS Enumeration by Attackers</h4>
+                    <div class="box box-warning">
+                        <strong>Why Attackers Do It:</strong><br>
+                        • Find unsecured subdomains<br>
+                        • Discover backup systems<br>
+                        • Identify test/development servers<br>
+                        • Find mail servers<br>
+                        • Locate admin panels<br>
+                        <strong>Risk:</strong> Backdoor access, sensitive data exposure
+                    </div>
+                </div>
+
+                <h3>Information Leakage Risks</h3>
+                <div class="card">
+                    <p><strong>What Information Can Be Exposed:</strong></p>
+                    <ul>
+                        <li><strong>Email Addresses:</strong> From WHOIS, subdomains, historical data</li>
+                        <li><strong>Employee Data:</strong> Found in old website snapshots, email servers</li>
+                        <li><strong>Infrastructure Details:</strong> Server locations, cloud providers</li>
+                        <li><strong>Security Gaps:</strong> Outdated systems, unpatched vulnerabilities</li>
+                        <li><strong>Business Information:</strong> Structure, departments, projects</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Protection Methods Tab -->
+            <div id="protection" class="tab-content">
+                <h2>🛡️ Protection & Prevention Methods</h2>
+
+                <h3>Securing DNS</h3>
+
+                <div class="card">
+                    <h4>DNSSEC (DNS Security Extensions)</h4>
+                    <div class="box box-theory">
+                        <strong>Purpose:</strong> Cryptographically sign DNS records<br>
+                        <strong>How It Works:</strong><br>
+                        • Signs DNS records with private key<br>
+                        • Receivers verify with public key<br>
+                        • Prevents DNS spoofing<br>
+                        • Ensures data integrity
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Email Security</h4>
+                    <div class="box box-concept">
+                        <strong>Implement SPF, DKIM, DMARC:</strong><br>
+                        • Prevents email spoofing<br>
+                        • Authenticates senders<br>
+                        • Protects reputation<br>
+                        • Reduces phishing success rate
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Subdomain Management</h4>
+                    <div class="box box-concept">
+                        <strong>Best Practices:</strong><br>
+                        • Maintain inventory of all subdomains<br>
+                        • Apply security to all subdomains equally<br>
+                        • Remove unused subdomains<br>
+                        • Monitor for rogue subdomains<br>
+                        • Regular security assessments
+                    </div>
+                </div>
+
+                <h3>Footprinting Defense</h3>
+
+                <div class="card">
+                    <h4>Information Minimization</h4>
+                    <ul>
+                        <li><strong>WHOIS Privacy:</strong> Hide registrant info from public records</li>
+                        <li><strong>Public Records:</strong> Review WHOIS, DNS records for exposure</li>
+                        <li><strong>Website Archive:</strong> Monitor archive.org for old content</li>
+                        <li><strong>Email Protection:</strong> Don't expose employee emails publicly</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Monitoring</h4>
+                    <ul>
+                        <li>Regular DNS audits</li>
+                        <li>Monitor for unauthorized subdomains</li>
+                        <li>Check blacklist status regularly</li>
+                        <li>Email security monitoring</li>
+                        <li>Brand monitoring for domain squatting</li>
+                    </ul>
+                </div>
+
+                <h3>Incident Response</h3>
+                <div class="box box-warning">
+                    <strong>If Compromised:</strong><br>
+                    • Immediately change all DNS credentials<br>
+                    • Verify all DNS records are legitimate<br>
+                    • Check with registrar for unauthorized changes<br>
+                    • Monitor for malicious traffic<br>
+                    • Update nameservers if necessary<br>
+                    • Notify users of incident
+                </div>
+            </div>
+
+            <!-- Ethics Tab -->
+            <div id="ethics" class="tab-content">
+                <h2>⚖️ Ethical Considerations & Legal Boundaries</h2>
+
+                <h3>Legal vs Illegal Reconnaissance</h3>
+
+                <div class="card">
+                    <h4>✓ Legal Passive Footprinting</h4>
+                    <div class="box box-theory">
+                        <ul>
+                            <li>WHOIS lookups on any domain</li>
+                            <li>DNS record queries</li>
+                            <li>Archive.org historical data</li>
+                            <li>Publicly available information</li>
+                            <li>Search engine queries</li>
+                            <li>Published news articles</li>
+                        </ul>
+                        <p><strong>Why Legal:</strong> All information is publicly available and no system access occurs</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>✗ Illegal Activities</h4>
+                    <div class="box box-warning">
+                        <ul>
+                            <li>Reconnaissance without authorization</li>
+                            <li>Port scanning without permission</li>
+                            <li>Vulnerability testing without consent</li>
+                            <li>Accessing non-public data</li>
+                            <li>Network probing</li>
+                            <li>Attempting to exploit systems</li>
+                        </ul>
+                        <p><strong>Consequences:</strong> Federal charges, imprisonment, fines</p>
+                    </div>
+                </div>
+
+                <h3>Ethical Hacker Responsibilities</h3>
+
+                <div class="box box-concept">
+                    <strong>Always Remember:</strong><br>
+                    • Only conduct reconnaissance on YOUR systems or authorized targets<br>
+                    • Get written authorization BEFORE testing<br>
+                    • Use only proven ethical hacking methodologies<br>
+                    • Respect privacy and confidentiality<br>
+                    • Report findings responsibly<br>
+                    • Follow disclosure guidelines<br>
+                    • Maintain professional standards<br>
+                    • Keep good documentation of authorization
+                </div>
+
+                <h3>Authorization Requirements</h3>
+                <div class="card">
+                    <p><strong>Before Any Security Testing:</strong></p>
+                    <ul>
+                        <li>Get written test authorization</li>
+                        <li>Define scope clearly</li>
+                        <li>Establish testing window (dates/times)</li>
+                        <li>Document timeline</li>
+                        <li>Identify authorized tester</li>
+                        <li>Know escalation procedures</li>
+                        <li>Have stakeholder contact information</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary" class="tab-content">
+                <h2>📋 Summary & Key Takeaways</h2>
+
+                <h3>Core Concepts</h3>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>DNS Fundamentals</h4>
+                        <ul>
+                            <li>DNS translates domains to IPs</li>
+                            <li>Critical infrastructure service</li>
+                            <li>Hierarchical resolution process</li>
+                            <li>Multiple resource record types</li>
+                            <li>Managed by authoritative servers</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Passive Footprinting</h4>
+                        <ul>
+                            <li>Legal information gathering</li>
+                            <li>Uses public sources only</li>
+                            <li>No system access required</li>
+                            <li>Foundation of reconnaissance</li>
+                            <li>Essential for security assessments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Critical Tools</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tool/Service</th>
+                            <th>Purpose</th>
+                            <th>Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WHOIS Lookup</td>
+                            <td>Domain registration</td>
+                            <td>Registrar, dates, contacts</td>
+                        </tr>
+                        <tr>
+                            <td>DNS Lookup</td>
+                            <td>Record queries</td>
+                            <td>A, MX, NS, TXT records</td>
+                        </tr>
+                        <tr>
+                            <td>MXToolbox</td>
+                            <td>Email/DNS analysis</td>
+                            <td>Multiple record types</td>
+                        </tr>
+                        <tr>
+                            <td>Wayback Machine</td>
+                            <td>Historical data</td>
+                            <td>Website snapshots over time</td>
+                        </tr>
+                        <tr>
+                            <td>Have I Been Pwned</td>
+                            <td>Breach checking</td>
+                            <td>Email compromise status</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Best Practices</h3>
+                <div class="card">
+                    <p><strong>For Security Professionals:</strong></p>
+                    <ul>
+                        <li>Always get authorization before any testing</li>
+                        <li>Document all reconnaissance activities</li>
+                        <li>Follow responsible disclosure practices</li>
+                        <li>Keep findings confidential</li>
+                        <li>Understand legal boundaries</li>
+                        <li>Use ethical hacking methodologies</li>
+                        <li>Report vulnerabilities responsibly</li>
+                    </ul>
+                </div>
+
+                <h3>Key Differences</h3>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Legitimate Footprinting</th>
+                                <th>Malicious Reconnaissance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Authorized by target</td>
+                                <td>Unauthorized access attempt</td>
+                            </tr>
+                            <tr>
+                                <td>Documented in writing</td>
+                                <td>No authorization</td>
+                            </tr>
+                            <tr>
+                                <td>Specific scope defined</td>
+                                <td>Unlimited/malicious intent</td>
+                            </tr>
+                            <tr>
+                                <td>Findings reported securely</td>
+                                <td>Data exploited for hacking</td>
+                            </tr>
+                            <tr>
+                                <td>Ethical responsibility</td>
+                                <td>Criminal activity</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Next Steps in CEH Training</h3>
+                <div class="box box-example">
+                    <strong>Active Reconnaissance:</strong> Next class will cover active footprinting and network scanning techniques including:<br>
+                    • Port scanning with tools like Nmap<br>
+                    • Service enumeration<br>
+                    • Vulnerability scanning<br>
+                    • Network mapping<br>
+                    • Direct system probing<br>
+                    <strong>Always maintain ethical standards and obtain proper authorization!</strong>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" onclick="scrollToTop()">↑</div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+            
+            // Update breadcrumb
+            const breadcrumbMap = {
+                'overview': 'Overview',
+                'dns': 'DNS System',
+                'records': 'DNS Records',
+                'subdomain': 'Subdomain Enumeration',
+                'footprinting': 'Footprinting Techniques',
+                'email': 'Email Security',
+                'tools': 'Analysis Tools',
+                'wayback': 'Historical Data',
+                'threats': 'Threats & Risks',
+                'protection': 'Protection Methods',
+                'ethics': 'Ethical Considerations',
+                'summary': 'Summary & Tips'
+            };
+            
+            document.getElementById('breadcrumb-current').textContent = breadcrumbMap[tabName] || 'Overview';
+            
+            // Update active sidebar link
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide scroll button
+        window.addEventListener('scroll', () => {
+            const scrollBtn = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        // Add animation delays to cards
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>

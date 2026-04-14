@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEH Fundamentals - Professional Educational Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🎓 CEH Fundamentals</h1>
+        <p>Professional Educational Platform • Certified Ethical Hacking & Information Security</p>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">📚 Core Topics</div>
+                <a class="sidebar-link active" onclick="switchTab('overview')">Overview</a>
+                <a class="sidebar-link" onclick="switchTab('fundamentals')">Cybersecurity 101</a>
+                <a class="sidebar-link" onclick="switchTab('infosec')">Information Security</a>
+                <a class="sidebar-link" onclick="switchTab('threats')">Threats & Attacks</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🔐 Security Topics</div>
+                <a class="sidebar-link" onclick="switchTab('enterprise')">Enterprise Security</a>
+                <a class="sidebar-link" onclick="switchTab('encryption')">Encryption</a>
+                <a class="sidebar-link" onclick="switchTab('defense')">Defensive Security</a>
+                <a class="sidebar-link" onclick="switchTab('offensive')">Offensive Security</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🎯 Career & Practice</div>
+                <a class="sidebar-link" onclick="switchTab('career')">Career Paths</a>
+                <a class="sidebar-link" onclick="switchTab('offensive')">Offensive Security</a>
+                <a class="sidebar-link" onclick="switchTab('defense')">Defensive Security</a>
+                <a class="sidebar-link" onclick="switchTab('interactive')">Interactive Labs</a>
+                <a class="sidebar-link" onclick="switchTab('glossary')">Glossary</a>
+                <a class="sidebar-link" onclick="switchTab('resources')">Resources</a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <span>Home</span>
+                <span>/</span>
+                <span id="breadcrumb-current">Overview</span>
+            </div>
+            
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>📊 CEH Fundamentals Overview</h2>
+                <p style="font-size: 1.1em; color: var(--muted); margin-bottom: 30px;">
+                    Master the foundational concepts of cybersecurity and ethical hacking through this comprehensive professional platform.
+                </p>
+                
+                <div class="grid-2">
+                    <div class="grid-card fade-in">
+                        <h4>🎯 What You'll Learn</h4>
+                        <ul>
+                            <li>Cybersecurity fundamentals</li>
+                            <li>CIA Triad principles</li>
+                            <li>Threat landscape</li>
+                            <li>Defense strategies</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-card fade-in">
+                        <h4>💼 Career Opportunities</h4>
+                        <ul>
+                            <li>Penetration Tester</li>
+                            <li>Security Analyst</li>
+                            <li>Security Architect</li>
+                            <li>Incident Responder</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Quick Statistics</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                            <th>Insight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Average Breach Cost</td>
+                            <td>$4.5M</td>
+                            <td>2023 industry average</td>
+                        </tr>
+                        <tr>
+                            <td>Cyber Jobs Growth</td>
+                            <td>+13% YoY</td>
+                            <td>Fastest growing sector</td>
+                        </tr>
+                        <tr>
+                            <td>Global Threats/Day</td>
+                            <td>333M records</td>
+                            <td>Stolen data incidents</td>
+                        </tr>
+                        <tr>
+                            <td>Phishing Success Rate</td>
+                            <td>8-16%</td>
+                            <td>Average employee click rate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Fundamentals Tab -->
+            <div id="fundamentals" class="tab-content">
+                <h2>🔐 Cybersecurity Fundamentals</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is Cybersecurity?</h3>
+                    <p>Cybersecurity encompasses the practice of protecting computer systems, networks, software, and data from digital attacks. In today's connected world, cybersecurity has become more critical than ever.</p>
+                    <p><strong>Scope includes:</strong></p>
+                    <ul>
+                        <li>Personal computers and laptops</li>
+                        <li>Mobile devices (smartphones and tablets)</li>
+                        <li>Servers and data centers</li>
+                        <li>Cloud infrastructure</li>
+                        <li>IoT (Internet of Things) devices</li>
+                        <li>Network infrastructure</li>
+                        <li>Communication systems</li>
+                    </ul>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>The CIA Triad - Foundation of Security</h3>
+                    <p>The CIA Triad is the foundational principle of cybersecurity consisting of three core pillars:</p>
+                    
+                    <div class="grid-3">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">🔒 Confidentiality</h4>
+                            <p><strong>Definition:</strong> Only authorized individuals can access sensitive data.</p>
+                            <p><strong>Implementation:</strong></p>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Access controls</li>
+                                <li>Authentication</li>
+                                <li>Encryption</li>
+                                <li>Data classification</li>
+                            </ul>
+                        </div>
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">✔️ Integrity</h4>
+                            <p><strong>Definition:</strong> Data must not be modified without authorization.</p>
+                            <p><strong>Implementation:</strong></p>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Checksums</li>
+                                <li>Hashing</li>
+                                <li>Digital signatures</li>
+                                <li>Access controls</li>
+                            </ul>
+                        </div>
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">⚡ Availability</h4>
+                            <p><strong>Definition:</strong> Systems must be accessible when needed.</p>
+                            <p><strong>Implementation:</strong></p>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Redundancy</li>
+                                <li>Backup systems</li>
+                                <li>Disaster recovery</li>
+                                <li>DDoS protection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Evolution of Cyber Threats</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Era</th>
+                                <th>Primary Threats</th>
+                                <th>Attackers</th>
+                                <th>Characteristics</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1990s</strong></td>
+                                <td>Viruses, worms</td>
+                                <td>Hobbyists</td>
+                                <td>Basic, widespread</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2000s</strong></td>
+                                <td>Botnets, SQL injection</td>
+                                <td>Organized crime</td>
+                                <td>Profit-driven</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2010s</strong></td>
+                                <td>Advanced Persistent Threats (APT)</td>
+                                <td>Nation states</td>
+                                <td>Sophisticated, targeted</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2020s</strong></td>
+                                <td>Ransomware, supply chain attacks</td>
+                                <td>Professional groups</td>
+                                <td>Highly damaging, coordinated</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Why Cybersecurity Matters</h3>
+                    <div class="box box-warning">
+                        <strong>💰 Financial Impact:</strong> Average breach costs $4.5 million (2023)<br>
+                        <strong>📊 Reputation Damage:</strong> Loss of customer trust and brand value<br>
+                        <strong>⚖️ Regulatory Fines:</strong> GDPR fines up to 4% of annual revenue<br>
+                        <strong>🔒 Data Theft:</strong> Identity theft and fraud consequences<br>
+                        <strong>⚠️ Operational Disruption:</strong> Business continuity failures<br>
+                        <strong>🌍 National Security:</strong> Critical infrastructure impacts
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Information Security Tab -->
+            <div id="infosec" class="tab-content">
+                <h2>📋 Information Security Fundamentals</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is Information Security?</h3>
+                    <p>Information Security is the protection of information and information systems from unauthorized access, use, disclosure, disruption, modification, or destruction. It's broader than cybersecurity and encompasses both physical and digital protection.</p>
+                    
+                    <p><strong>Types of Information Needing Protection:</strong></p>
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <strong>Personal Information</strong><br>
+                            • Name, email, phone<br>
+                            • Home address<br>
+                            • Social media profiles<br>
+                            • Preferences and behavior
+                        </div>
+                        <div class="box box-theory">
+                            <strong>Financial Data</strong><br>
+                            • Bank accounts<br>
+                            • Credit card numbers<br>
+                            • Social security numbers<br>
+                            • Tax information
+                        </div>
+                        <div class="box box-concept">
+                            <strong>Business Data</strong><br>
+                            • Trade secrets<br>
+                            • Financial records<br>
+                            • Customer lists<br>
+                            • Strategic plans
+                        </div>
+                        <div class="box box-concept">
+                            <strong>Government Data</strong><br>
+                            • Classified documents<br>
+                            • Defense information<br>
+                            • Intelligence data<br>
+                            • Regulations
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Physical vs Digital Security</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Physical Security</th>
+                                <th>Digital Security</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Focus</strong></td>
+                                <td>Protecting physical devices</td>
+                                <td>Protecting data electronically</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Methods</strong></td>
+                                <td>Locked rooms, surveillance, guards</td>
+                                <td>Encryption, firewalls, authentication</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Threats</strong></td>
+                                <td>Theft, damage, unauthorized access</td>
+                                <td>Hacking, malware, data theft</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Examples</strong></td>
+                                <td>Data center security, locked cabinets</td>
+                                <td>VPN, SSL/TLS, access controls</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Information Assets Classification</h3>
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0; color: var(--danger);">🔴 Confidential</h4>
+                            <p>Highest security level. Disclosure would cause severe damage.</p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Trade secrets</li>
+                                <li>Classified data</li>
+                                <li>Financial data</li>
+                            </ul>
+                        </div>
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0; color: var(--accent);">🟠 Internal</h4>
+                            <p>For internal use only. Would cause damage if disclosed.</p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Internal documents</li>
+                                <li>Employee data</li>
+                                <li>Policies</li>
+                            </ul>
+                        </div>
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0; color: var(--secondary);">🟢 Public</h4>
+                            <p>Can be publicly disclosed without harm.</p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Marketing materials</li>
+                                <li>Published papers</li>
+                                <li>Public announcements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Threats Tab -->
+            <div id="threats" class="tab-content">
+                <h2>⚠️ Common Threats & Attack Vectors</h2>
+                
+                <div class="card fade-in">
+                    <h3>🎣 Phishing Attacks</h3>
+                    <div class="box box-warning">
+                        <strong>Definition:</strong> Social engineering attacks where attackers impersonate legitimate entities to steal credentials or sensitive information.
+                    </div>
+                    <p><strong>Attack Vectors:</strong></p>
+                    <ul>
+                        <li><strong>Email Phishing:</strong> Fraudulent emails appearing from trusted sources</li>
+                        <li><strong>SMS Phishing (Smishing):</strong> Malicious links via text messages</li>
+                        <li><strong>Social Media Phishing:</strong> Fake messages on WhatsApp, Facebook, LinkedIn</li>
+                        <li><strong>Spear Phishing:</strong> Targeted attacks to specific individuals</li>
+                    </ul>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, #ff4444, #ff8888);"></div>
+                    </div>
+                    <small>95% Success Rate - Highest impact threat</small>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>🦠 Malware & Viruses</h3>
+                    <div class="box box-example">
+                        <strong>Malware Types:</strong>
+                    </div>
+                    <div class="grid-2">
+                        <div style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong style="color: var(--primary);">Virus</strong><br>
+                            Self-replicating code attached to files. Requires user action to spread.
+                        </div>
+                        <div style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong style="color: var(--primary);">Worm</strong><br>
+                            Self-propagating malware that spreads across networks automatically.
+                        </div>
+                        <div style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong style="color: var(--primary);">Trojan</strong><br>
+                            Disguises itself as legitimate software. Enables unauthorized access.
+                        </div>
+                        <div style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong style="color: var(--primary);">Ransomware</strong><br>
+                            Encrypts files and demands payment for decryption keys.
+                        </div>
+                        <div style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong style="color: var(--primary);">Spyware</strong><br>
+                            Secretly monitors user activity and steals information.
+                        </div>
+                        <div style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong style="color: var(--primary);">Adware</strong><br>
+                            Displays unwanted advertisements and collects user data.
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%; background: linear-gradient(90deg, #ffb700, #ff8800);"></div>
+                    </div>
+                    <small>80% Prevalence - Widespread threat</small>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>💥 Data Breach</h3>
+                    <p><strong>Impact of Data Breaches:</strong></p>
+                    <ul>
+                        <li>Exposure of personal information (names, emails, phone numbers)</li>
+                        <li>Financial data theft leading to fraud</li>
+                        <li>Identity theft consequences</li>
+                        <li>Regulatory fines under GDPR, HIPAA, etc.</li>
+                        <li>Loss of customer trust and reputation damage</li>
+                        <li>Long-term liability and legal expenses</li>
+                    </ul>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, #ff4444, #ff8888);"></div>
+                    </div>
+                    <small>85% Critical Impact - Highest consequences</small>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>🔐 Ransomware Attacks</h3>
+                    <div class="box box-warning">
+                        <strong>⚠️ Attack Lifecycle:</strong><br>
+                        1. Initial compromise (phishing, exploit)<br>
+                        2. Lateral movement within network<br>
+                        3. Encryption of critical data<br>
+                        4. Ransom demand with payment deadline<br>
+                        5. Data deletion if not paid (or data sale)
+                    </div>
+                    <p><strong>2023 Statistics:</strong></p>
+                    <ul>
+                        <li>Average ransom paid: $812,360</li>
+                        <li>Recovery time: 22 days average</li>
+                        <li>Success rate of attacks: 70%</li>
+                        <li>Industries most targeted: Healthcare, Finance, Manufacturing</li>
+                    </ul>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 70%; background: linear-gradient(90deg, #ffb700, #ff8800);"></div>
+                    </div>
+                    <small>70% Growing Threat - Rapidly increasing</small>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>🌐 Threats to Personal Information</h3>
+                    <div class="box box-warning">
+                        <strong>When Your Phone Number is Compromised:</strong><br>
+                        ✗ Attackers can send malicious links via SMS<br>
+                        ✗ Can send phishing links via WhatsApp/Facebook<br>
+                        ✗ Can send phishing emails<br>
+                        ✗ Account password reset attacks<br>
+                        ✗ SIM swapping and account takeover
+                    </div>
+                    
+                    <div class="box box-example">
+                        <strong>Dark Web Information Markets:</strong><br>
+                        Stolen data is often sold on dark web marketplaces for:<br>
+                        • Identity theft and credit fraud<br>
+                        • Account compromise and credential stuffing<br>
+                        • Financial fraud and wire transfer scams<br>
+                        • Extortion and blackmail schemes
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enterprise Security -->
+            <div id="enterprise" class="tab-content">
+                <h2>🏢 Enterprise Security Architecture</h2>
+                
+                <div class="card fade-in">
+                    <h3>Multi-Layer Defense in Depth</h3>
+                    <p>Enterprise security requires protection at multiple levels to prevent complete system compromise:</p>
+                    
+                    <ol style="font-size: 1.05em; line-height: 2.2;">
+                        <li><strong style="color: var(--primary);">Perimeter Security:</strong> Firewalls, IPS/IDS systems at network edge to block threats</li>
+                        <li><strong style="color: var(--primary);">Network Security:</strong> VPN, network segmentation, DMZ protection</li>
+                        <li><strong style="color: var(--primary);">Transport Security:</strong> SSL/TLS encryption for data in transit</li>
+                        <li><strong style="color: var(--primary);">Host Security:</strong> OS hardening, EDR (Endpoint Detection & Response)</li>
+                        <li><strong style="color: var(--primary);">Application Security:</strong> Input validation, WAF (Web Application Firewall)</li>
+                        <li><strong style="color: var(--primary);">Data Security:</strong> Encryption at rest, DLP (Data Loss Prevention)</li>
+                        <li><strong style="color: var(--primary);">People Layer:</strong> Security awareness training, incident response procedures</li>
+                    </ol>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>What Companies Protect</h3>
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <strong style="color: var(--primary);">Financial Data</strong><br>
+                            • Revenue and profit records<br>
+                            • Bank accounts<br>
+                            • Investment information<br>
+                            • Payroll systems
+                        </div>
+                        <div class="box box-concept">
+                            <strong style="color: var(--primary);">Customer Data</strong><br>
+                            • Personal information<br>
+                            • Payment information<br>
+                            • Contact details<br>
+                            • Purchase history
+                        </div>
+                        <div class="box box-concept">
+                            <strong style="color: var(--primary);">Trade Secrets</strong><br>
+                            • Proprietary algorithms<br>
+                            • Manufacturing processes<br>
+                            • Business strategies<br>
+                            • Source code
+                        </div>
+                        <div class="box box-concept">
+                            <strong style="color: var(--primary);">Infrastructure</strong><br>
+                            • Servers and networks<br>
+                            • Cloud systems<br>
+                            • Databases<br>
+                            • Critical systems
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-section">
+                    <h3>Security Assessment Framework Checklist</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div>
+                            <h4 style="color: var(--primary); margin-top: 0;">Technical Controls</h4>
+                            <label><input type="checkbox"> Firewall deployed and configured</label><br>
+                            <label><input type="checkbox"> IDS/IPS active</label><br>
+                            <label><input type="checkbox"> Data encryption enabled (AES-256)</label><br>
+                            <label><input type="checkbox"> MFA/2FA implemented</label><br>
+                            <label><input type="checkbox"> Regular backups scheduled</label><br>
+                            <label><input type="checkbox"> Vulnerability scanning active</label>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary); margin-top: 0;">Administrative Controls</h4>
+                            <label><input type="checkbox"> Incident response plan in place</label><br>
+                            <label><input type="checkbox"> Security policies documented</label><br>
+                            <label><input type="checkbox"> Employee training scheduled</label><br>
+                            <label><input type="checkbox"> Access control policies enforced</label><br>
+                            <label><input type="checkbox"> Audit logs maintained</label><br>
+                            <label><input type="checkbox"> Regular security reviews conducted</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Critical Infrastructure Types</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>System Type</th>
+                                <th>Protection Method</th>
+                                <th>Priority</th>
+                                <th>Impact if Breached</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Database Servers</strong></td>
+                                <td>Encryption, access controls</td>
+                                <td>Critical</td>
+                                <td>Complete data loss</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Web Servers</strong></td>
+                                <td>WAF, SSL/TLS, patching</td>
+                                <td>Critical</td>
+                                <td>Service disruption</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Servers</strong></td>
+                                <td>Encryption, backup</td>
+                                <td>High</td>
+                                <td>Data theft or loss</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email Systems</strong></td>
+                                <td>Spam filter, encryption</td>
+                                <td>High</td>
+                                <td>Phishing/malware delivery</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Identity Systems</strong></td>
+                                <td>MFA, hardening</td>
+                                <td>Critical</td>
+                                <td>Unauthorized access</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Backup Systems</strong></td>
+                                <td>Offline copies, encryption</td>
+                                <td>Critical</td>
+                                <td>Recovery failure</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Encryption Tab -->
+            <div id="encryption" class="tab-content">
+                <h2>🔐 Encryption Technology & Limitations</h2>
+                
+                <div class="box box-warning" style="margin-bottom: 30px;">
+                    <h4 style="margin-top: 0; color: var(--danger);">⚠️ CRITICAL INSIGHT</h4>
+                    <p style="font-size: 1.1em; color: var(--danger);"><strong>Encryption ALONE is NOT enough!</strong></p>
+                    <p>If an attacker gains system access, they can bypass encryption and access plaintext data directly.</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>What is Encryption?</h3>
+                    <div class="box box-theory">
+                        <strong>Definition:</strong> Encryption converts readable data (plaintext) into unreadable data (ciphertext) using mathematical algorithms. Only those with the decryption key can read it.
+                    </div>
+                    
+                    <h4>Encryption Types:</h4>
+                    <div class="grid-3">
+                        <div class="box box-concept">
+                            <strong>Symmetric Encryption</strong><br>
+                            • Same key for encryption & decryption<br>
+                            • Fast and efficient<br>
+                            • Examples: AES, DES<br>
+                            • Challenge: Key distribution
+                        </div>
+                        <div class="box box-concept">
+                            <strong>Asymmetric Encryption</strong><br>
+                            • Public and private key pairs<br>
+                            • Slower but more secure<br>
+                            • Examples: RSA, ECC<br>
+                            • Better for key exchange
+                        </div>
+                        <div class="box box-concept">
+                            <strong>Hashing</strong><br>
+                            • One-way encryption<br>
+                            • Creates unique fingerprint<br>
+                            • Examples: SHA-256, MD5<br>
+                            • Ensures integrity
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Why Encryption Fails - The Real Attack Scenario</h3>
+                    <div style="background: rgba(255, 68, 68, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid var(--danger); margin-bottom: 20px;">
+                        <h4 style="margin-top: 0; color: var(--danger);">Attack Step-by-Step:</h4>
+                        <ol style="line-height: 2.2;">
+                            <li><strong>Phishing Email:</strong> Attacker sends fraudulent email to employee</li>
+                            <li><strong>User Clicks Link:</strong> Employee downloads and opens malicious attachment</li>
+                            <li><strong>System Compromise:</strong> Malware gains foothold on employee's computer</li>
+                            <li><strong>Internal Access:</strong> Attacker uses employee credentials to access internal network</li>
+                            <li><strong>Lateral Movement:</strong> Attacker moves through network to find servers</li>
+                            <li><strong>Privilege Escalation:</strong> Attacker gains administrative access via vulnerability</li>
+                            <li><strong>Server Control:</strong> Attacker now has direct access to the system</li>
+                            <li><strong>Encryption Bypassed:</strong> Attacker accesses decryption keys and reads plaintext data</li>
+                        </ol>
+                    </div>
+                    <div class="box box-warning" style="background: rgba(255, 68, 68, 0.15); border-left: 4px solid var(--danger);">
+                        <strong style="color: var(--danger);">Result:</strong> All data is compromised, regardless of encryption! The attacker now controls the system and has the decryption keys.
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Encryption Vs Defense in Depth</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Encryption Only</th>
+                                <th>Defense in Depth</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Protection Scope</strong></td>
+                                <td>Data at rest & in transit only</td>
+                                <td>Multiple layers across entire infrastructure</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Against Direct Access</strong></td>
+                                <td>Useless if attacker controls system</td>
+                                <td>Multiple barriers prevent initial access</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detection</strong></td>
+                                <td>No attack detection capability</td>
+                                <td>IDS/IPS systems detect breaches</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Response</strong></td>
+                                <td>No response mechanism</td>
+                                <td>Incident response procedures activated</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Effectiveness</strong></td>
+                                <td>20-30% risk reduction</td>
+                                <td>90%+ risk reduction</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Proper Defense Strategy</h3>
+                    <ol style="font-size: 1.05em; line-height: 2;">
+                        <li><strong>Perimeter Security:</strong> Firewalls, IPS/IDS at network edge</li>
+                        <li><strong>Network Segmentation:</strong> Isolate critical systems from workstations</li>
+                        <li><strong>Multi-Factor Authentication:</strong> Prevent unauthorized access to systems</li>
+                        <li><strong>Encryption:</strong> AES for data at rest, TLS for data in transit</li>
+                        <li><strong>Access Control:</strong> Least privilege principle across all systems</li>
+                        <li><strong>Monitoring & Logging:</strong> SIEM systems for real-time threat detection</li>
+                        <li><strong>Intrusion Detection:</strong> EDR/XDR for endpoint threat detection</li>
+                        <li><strong>Employee Training:</strong> Security awareness to prevent social engineering</li>
+                        <li><strong>Regular Patching:</strong> Keep systems updated against known vulnerabilities</li>
+                        <li><strong>Incident Response:</strong> Documented procedures for breach response</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Career Tab -->
+            <div id="career" class="tab-content">
+                <h2>💼 Cybersecurity Career Paths</h2>
+                
+                <div class="grid-3">
+                    <div class="grid-card">
+                        <h4>Penetration Tester</h4>
+                        <p>Tests systems for vulnerabilities through authorized attacks</p>
+                        <p style="color: var(--primary); font-weight: 600;">$110K - $150K/year</p>
+                    </div>
+                    <div class="grid-card">
+                        <h4>Security Analyst</h4>
+                        <p>Monitors networks and responds to security incidents</p>
+                        <p style="color: var(--primary); font-weight: 600;">$85K - $120K/year</p>
+                    </div>
+                    <div class="grid-card">
+                        <h4>Security Architect</h4>
+                        <p>Designs comprehensive security systems and strategies</p>
+                        <p style="color: var(--primary); font-weight: 600;">$140K - $180K/year</p>
+                    </div>
+                    <div class="grid-card">
+                        <h4>Incident Responder</h4>
+                        <p>Responds to and investigates security breaches</p>
+                        <p style="color: var(--primary); font-weight: 600;">$95K - $140K/year</p>
+                    </div>
+                    <div class="grid-card">
+                        <h4>Risk Manager</h4>
+                        <p>Assesses and manages organizational security risks</p>
+                        <p style="color: var(--primary); font-weight: 600;">$100K - $150K/year</p>
+                    </div>
+                    <div class="grid-card">
+                        <h4>Security Consultant</h4>
+                        <p>Advises organizations on security strategy</p>
+                        <p style="color: var(--primary); font-weight: 600;">$120K - $180K/year</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interactive Labs -->
+            <div id="interactive" class="tab-content">
+                <h2>🎮 Interactive Demonstrations</h2>
+                
+                <div class="interactive-section">
+                    <h3>Data Breach Impact Simulator</h3>
+                    <p>Select compromised data to see potential impact:</p>
+                    <div style="margin: 20px 0;">
+                        <label><input type="checkbox"> Email ID</label>
+                        <label style="margin-left: 20px;"><input type="checkbox"> Phone Number</label>
+                        <label style="margin-left: 20px;"><input type="checkbox"> Home Address</label>
+                        <label style="margin-left: 20px;"><input type="checkbox"> Bank Details</label>
+                    </div>
+                    <button class="btn" onclick="calculateRisk()">Calculate Risk Level</button>
+                    <div id="risk-result" style="margin-top: 20px; display: none;"></div>
+                </div>
+            </div>
+            
+            <!-- Resources -->
+            <div id="resources" class="tab-content">
+                <h2>📚 Learning Resources</h2>
+                
+                <div class="card fade-in">
+                    <h3>Official Certifications</h3>
+                    <ul style="font-size: 1.05em; line-height: 1.8;">
+                        <li><strong>CEH (Certified Ethical Hacker)</strong> - EC-Council | Beginner-friendly | Focus: Offensive techniques</li>
+                        <li><strong>OSCP (Offensive Security Certified Professional)</strong> - Offensive Security | Intermediate | Hands-on penetration testing</li>
+                        <li><strong>CISSP (Certified Information Systems Security Professional)</strong> - (ISC)² | Advanced | Overall security management</li>
+                        <li><strong>CompTIA Security+</strong> - CompTIA | Entry-level | Foundational security knowledge</li>
+                        <li><strong>CISM (Certified Information Security Manager)</strong> - ISACA | Advanced | Management focus</li>
+                    </ul>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Recommended Learning Platforms</h3>
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <strong style="color: var(--primary);">Hands-On Labs</strong><br>
+                            • TryHackMe - Interactive CTF challenges<br>
+                            • HackTheBox - Real penetration testing labs<br>
+                            • OWASP WebGoat - Web security training<br>
+                            • Vulnhub - Vulnerable VMs for practice
+                        </div>
+                        <div class="box box-concept">
+                            <strong style="color: var(--primary);">Online Courses</strong><br>
+                            • EC-Council Training<br>
+                            • Coursera Cybersecurity<br>
+                            • Udemy Security Courses<br>
+                            • Pluralsight Security Path
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Essential Documentation</h3>
+                    <ul>
+                        <li><strong>OWASP Top 10:</strong> Most critical web application security risks</li>
+                        <li><strong>NIST Cybersecurity Framework:</strong> Comprehensive security guidelines</li>
+                        <li><strong>CIS Benchmarks:</strong> Security configuration guidelines</li>
+                        <li><strong>MITRE ATT&CK:</strong> Adversary tactics and techniques</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Offensive Security Tab -->
+            <div id="offensive" class="tab-content">
+                <h2>🔴 Offensive Security - Hacking Techniques</h2>
+                
+                <div class="box box-warning" style="margin-bottom: 30px;">
+                    <h4 style="margin-top: 0;">⚠️ Note</h4>
+                    <p>Offensive security techniques should only be performed on systems you own or have explicit authorization to test. Unauthorized access is illegal.</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Offensive Security Lifecycle</h3>
+                    <ol style="font-size: 1.05em; line-height: 2.2;">
+                        <li><strong>Reconnaissance:</strong> Gather information about target (passive)</li>
+                        <li><strong>Scanning & Enumeration:</strong> Identify open ports, services, versions</li>
+                        <li><strong>Vulnerability Assessment:</strong> Find security weaknesses</li>
+                        <li><strong>Exploitation:</strong> Attempt to gain unauthorized access</li>
+                        <li><strong>Post-Exploitation:</strong> Establish persistence, escalate privileges</li>
+                        <li><strong>Maintaining Access:</strong> Create backdoors for future access</li>
+                        <li><strong>Covering Tracks:</strong> Remove evidence of attack</li>
+                    </ol>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Key Attack Techniques</h3>
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <strong style="color: var(--danger);">Network Attacks</strong><br>
+                            • Port scanning (Nmap)<br>
+                            • Man-in-the-Middle (MITM)<br>
+                            • DNS spoofing<br>
+                            • ARP spoofing<br>
+                            • Packet sniffing
+                        </div>
+                        <div class="box box-warning">
+                            <strong style="color: var(--danger);">Web Attacks</strong><br>
+                            • SQL injection<br>
+                            • Cross-Site Scripting (XSS)<br>
+                            • Cross-Site Request Forgery (CSRF)<br>
+                            • Directory traversal<br>
+                            • File upload vulnerabilities
+                        </div>
+                        <div class="box box-warning">
+                            <strong style="color: var(--danger);">System Attacks</strong><br>
+                            • Buffer overflow<br>
+                            • Privilege escalation<br>
+                            • DLL injection<br>
+                            • Backdoor installation<br>
+                            • Rootkit deployment
+                        </div>
+                        <div class="box box-warning">
+                            <strong style="color: var(--danger);">Social Engineering</strong><br>
+                            • Phishing<br>
+                            • Pretexting<br>
+                            • Baiting<br>
+                            • Shoulder surfing<br>
+                            • Physical security bypass
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Why Learn Offensive Techniques?</h3>
+                    <ul style="font-size: 1.05em; line-height: 2;">
+                        <li><strong>Identify Vulnerabilities:</strong> Find weaknesses before real attackers do</li>
+                        <li><strong>Design Better Defenses:</strong> Understand attack methods to defend against them</li>
+                        <li><strong>Penetration Testing:</strong> Licensed professionals use these techniques for security assessments</li>
+                        <li><strong>Incident Response:</strong> Understanding attacks helps forensics and recovery</li>
+                        <li><strong>Risk Assessment:</strong> Evaluate organizational security posture</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Defensive Security Tab -->
+            <div id="defense" class="tab-content">
+                <h2>🟢 Defensive Security - Protection Strategies</h2>
+                
+                <div class="card fade-in">
+                    <h3>Defensive Security Lifecycle</h3>
+                    <ol style="font-size: 1.05em; line-height: 2.2;">
+                        <li><strong>Prevention:</strong> Implement controls to prevent attacks (firewalls, authentication)</li>
+                        <li><strong>Detection:</strong> Monitor systems for suspicious activity (IDS, SIEM)</li>
+                        <li><strong>Analysis:</strong> Investigate detected threats</li>
+                        <li><strong>Containment:</strong> Isolate affected systems to prevent spread</li>
+                        <li><strong>Remediation:</strong> Remove the threat and patches vulnerabilities</li>
+                        <li><strong>Recovery:</strong> Restore systems to normal operation</li>
+                        <li><strong>Lessons Learned:</strong> Update defenses based on incident</li>
+                    </ol>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Key Defense Technologies</h3>
+                    <div class="grid-3">
+                        <div class="box box-theory">
+                            <strong style="color: var(--secondary);">Perimeter Defense</strong><br>
+                            • Firewalls<br>
+                            • WAF<br>
+                            • DDoS Protection<br>
+                            • Proxy Servers
+                        </div>
+                        <div class="box box-theory">
+                            <strong style="color: var(--secondary);">Detection Systems</strong><br>
+                            • IDS (Intrusion Detection)<br>
+                            • IPS (Prevention)<br>
+                            • SIEM (Security Info)<br>
+                            • EDR (Endpoint Detection)
+                        </div>
+                        <div class="box box-theory">
+                            <strong style="color: var(--secondary);">Data Protection</strong><br>
+                            • Encryption<br>
+                            • DLP systems<br>
+                            • Backup systems<br>
+                            • Access controls
+                        </div>
+                        <div class="box box-theory">
+                            <strong style="color: var(--secondary);">Authentication</strong><br>
+                            • MFA/2FA<br>
+                            • SSO<br>
+                            • Biometrics<br>
+                            • Hardware tokens
+                        </div>
+                        <div class="box box-theory">
+                            <strong style="color: var(--secondary);">Patch Management</strong><br>
+                            • Vulnerability scanning<br>
+                            • Automated patching<br>
+                            • Update management<br>
+                            • Asset tracking
+                        </div>
+                        <div class="box box-theory">
+                            <strong style="color: var(--secondary);">Incident Response</strong><br>
+                            • Response plans<br>
+                            • Playbooks<br>
+                            • Forensics tools<br>
+                            • Communication
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <h3>Best Practices & Policies</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Best Practices</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Access Control</strong></td>
+                                <td>Least privilege, role-based access, regular audits</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Password Policy</strong></td>
+                                <td>Minimum 14 characters, complexity, MFA required</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User Training</strong></td>
+                                <td>Quarterly security awareness, phishing simulations</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Change Management</strong></td>
+                                <td>Documented changes, testing, approval workflows</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Logging & Monitoring</strong></td>
+                                <td>Centralized logging, alerts, retention policies</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Backup & Recovery</strong></td>
+                                <td>3-2-1 rule, regular testing, offline copies</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Glossary Tab -->
+            <div id="glossary" class="tab-content">
+                <h2>📖 Cybersecurity Glossary</h2>
+                
+                <div class="interactive-section">
+                    <h3>Essential Terms & Definitions</h3>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="card fade-in">
+                        <h4>🔐 Encryption Terms</h4>
+                        <dl style="font-size: 0.95em; line-height: 1.9;">
+                            <dt><strong>Ciphertext</strong></dt>
+                            <dd>Encrypted data that appears random and unreadable</dd>
+                            
+                            <dt><strong>Plaintext</strong></dt>
+                            <dd>Original readable data before encryption</dd>
+                            
+                            <dt><strong>Key</strong></dt>
+                            <dd>Secret information used to encrypt/decrypt data</dd>
+                            
+                            <dt><strong>Hash</strong></dt>
+                            <dd>One-way function that creates unique fingerprint of data</dd>
+                            
+                            <dt><strong>SSL/TLS</strong></dt>
+                            <dd>Protocols for secure data transmission over internet</dd>
+                            
+                            <dt><strong>PKI</strong></dt>
+                            <dd>Public Key Infrastructure for encryption and digital signatures</dd>
+                        </dl>
+                    </div>
+                    
+                    <div class="card fade-in">
+                        <h4>🎯 Attack Terms</h4>
+                        <dl style="font-size: 0.95em; line-height: 1.9;">
+                            <dt><strong>Malware</strong></dt>
+                            <dd>Malicious software designed to damage or gain unauthorized access</dd>
+                            
+                            <dt><strong>Phishing</strong></dt>
+                            <dd>Social engineering attack to steal credentials via email</dd>
+                            
+                            <dt><strong>Zero-day</strong></dt>
+                            <dd>Vulnerability unknown to software vendor or defenders</dd>
+                            
+                            <dt><strong>APT</strong></dt>
+                            <dd>Advanced Persistent Threat - sophisticated targeted attack</dd>
+                            
+                            <dt><strong>Exploit</strong></dt>
+                            <dd>Code/technique that takes advantage of vulnerability</dd>
+                            
+                            <dt><strong>Payload</strong></dt>
+                            <dd>Malicious code delivered after successful exploitation</dd>
+                        </dl>
+                    </div>
+                    
+                    <div class="card fade-in">
+                        <h4>🛡️ Defense Terms</h4>
+                        <dl style="font-size: 0.95em; line-height: 1.9;">
+                            <dt><strong>Firewall</strong></dt>
+                            <dd>Network device that filters traffic based on security rules</dd>
+                            
+                            <dt><strong>IDS/IPS</strong></dt>
+                            <dd>Systems that detect and prevent intrusion attempts</dd>
+                            
+                            <dt><strong>SIEM</strong></dt>
+                            <dd>Collects and analyzes security logs for threat detection</dd>
+                            
+                            <dt><strong>EDR</strong></dt>
+                            <dd>Endpoint Detection & Response - monitors endpoint threats</dd>
+                            
+                            <dt><strong>MFA</strong></dt>
+                            <dd>Multi-Factor Authentication - requires multiple verification methods</dd>
+                            
+                            <dt><strong>DLP</strong></dt>
+                            <dd>Data Loss Prevention - prevents unauthorized data disclosure</dd>
+                        </dl>
+                    </div>
+                    
+                    <div class="card fade-in">
+                        <h4>📊 Analysis Terms</h4>
+                        <dl style="font-size: 0.95em; line-height: 1.9;">
+                            <dt><strong>Risk Assessment</strong></dt>
+                            <dd>Process of identifying and evaluating security risks</dd>
+                            
+                            <dt><strong>Vulnerability</strong></dt>
+                            <dd>Weakness that can be exploited by attackers</dd>
+                            
+                            <dt><strong>Threat</strong></dt>
+                            <dd>Potential attack that could exploit a vulnerability</dd>
+                            
+                            <dt><strong>Penetration Testing</strong></dt>
+                            <dd>Authorized attempt to find and exploit vulnerabilities</dd>
+                            
+                            <dt><strong>Forensics</strong></dt>
+                            <dd>Investigation and analysis of security incidents</dd>
+                            
+                            <dt><strong>Compliance</strong></dt>
+                            <dd>Adherence to security regulations and standards</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" onclick="scrollToTop()">↑</div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

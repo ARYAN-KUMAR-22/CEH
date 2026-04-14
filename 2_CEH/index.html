@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS & Passive Footprinting - CEH Professional Course</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🌐 DNS & Passive Footprinting</h1>
+        <p>Professional Educational Platform • Domain Name System & Information Gathering</p>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">📚 DNS Fundamentals</div>
+                <a class="sidebar-link active" onclick="switchTab('overview')">Overview</a>
+                <a class="sidebar-link" onclick="switchTab('dns-system')">DNS System</a>
+                <a class="sidebar-link" onclick="switchTab('dns-resolution')">DNS Resolution</a>
+                <a class="sidebar-link" onclick="switchTab('dns-records')">DNS Records</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🔍 Reconnaissance</div>
+                <a class="sidebar-link" onclick="switchTab('footprinting')">Footprinting</a>
+                <a class="sidebar-link" onclick="switchTab('subdomain')">Subdomain Enum</a>
+                <a class="sidebar-link" onclick="switchTab('email-foot')">Email Footprinting</a>
+                <a class="sidebar-link" onclick="switchTab('tools')">Analysis Tools</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">⚠️ Security & Ethics</div>
+                <a class="sidebar-link" onclick="switchTab('threats')">Threats & Risks</a>
+                <a class="sidebar-link" onclick="switchTab('protection')">Protection Methods</a>
+                <a class="sidebar-link" onclick="switchTab('wayback')">Historical Data</a>
+                <a class="sidebar-link" onclick="switchTab('ethics')">Ethical Considerations</a>
+                <a class="sidebar-link" onclick="switchTab('summary')">Summary & Tips</a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <span>Home</span>
+                <span>/</span>
+                <span id="breadcrumb-current">Overview</span>
+            </div>
+            
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>🌐 DNS & Passive Footprinting Overview</h2>
+                <p style="font-size: 1.1em; color: var(--muted); margin-bottom: 30px;">
+                    Master domain name systems, network reconnaissance, and ethical information gathering techniques. Learn how DNS works and how attackers exploit it.
+                </p>
+                
+                <div class="grid-2">
+                    <div class="grid-card fade-in">
+                        <h4>🎯 DNS Fundamentals</h4>
+                        <ul>
+                            <li>How DNS resolves domains</li>
+                            <li>DNS server hierarchy</li>
+                            <li>Resource record types</li>
+                            <li>Resolution process steps</li>
+                            <li>DNS query types</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-card fade-in">
+                        <h4>🔎 Passive Reconnaissance</h4>
+                        <ul>
+                            <li>Information gathering</li>
+                            <li>Footprinting strategies</li>
+                            <li>Subdomain enumeration</li>
+                            <li>Email security analysis</li>
+                            <li>Threat intelligence</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Key Statistics</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Importance</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DNS Dependency</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>Critical infrastructure for internet</td>
+                        </tr>
+                        <tr>
+                            <td>DNS Attacks</td>
+                            <td>⭐⭐⭐⭐</td>
+                            <td>High impact on availability</td>
+                        </tr>
+                        <tr>
+                            <td>Passive Footprinting</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>Foundation of reconnaissance</td>
+                        </tr>
+                        <tr>
+                            <td>Information Leakage</td>
+                            <td>⭐⭐⭐⭐</td>
+                            <td>Major security risk</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Course Learning Path</h3>
+                <div class="timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Part 1: DNS Basics</div>
+                        <p>Understand how DNS works, the resolution process, and server hierarchy</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Part 2: DNS Records</div>
+                        <p>Learn all DNS record types (A, MX, NS, CNAME, TXT, SOA) and their purposes</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Part 3: Reconnaissance</div>
+                        <p>Master passive footprinting techniques and information gathering tools</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Part 4: Security</div>
+                        <p>Understand threats, protection methods, and ethical considerations</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DNS System Tab -->
+            <div id="dns-system" class="tab-content">
+                <h2>🔧 The Domain Name System (DNS)</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is DNS?</h3>
+                    <p>The Domain Name System (DNS) is a critical internet service that translates human-readable domain names into machine-readable IP addresses. Without DNS, the internet would be unusable for average users.</p>
+                    
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <strong>Without DNS:</strong><br>
+                            ✗ Users memorize IP addresses<br>
+                            ✗ Website access confusing<br>
+                            ✗ Static IPs required<br>
+                            ✗ Very user-unfriendly
+                        </div>
+                        <div class="box box-theory">
+                            <strong>With DNS:</strong><br>
+                            ✓ Easy-to-remember names<br>
+                            ✓ Dynamic IP addresses<br>
+                            ✓ Load balancing support<br>
+                            ✓ User-friendly internet
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>DNS Server Hierarchy</h3>
+                    <p>DNS uses a hierarchical structure to distribute the load of name resolution:</p>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0; color: var(--secondary);">Root Nameservers</h4>
+                            • 13 root servers worldwide<br>
+                            • Direct to TLD servers<br>
+                            • Known to all recursive resolvers<br>
+                            • Published globally<br>
+                            • Never directly queried by users
+                        </div>
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0; color: var(--primary);">TLD Nameservers</h4>
+                            • Manage .com, .org, .in, etc.<br>
+                            • Contain NS records<br>
+                            • Direct to authoritative servers<br>
+                            • Maintained by registry operators<br>
+                            • Handle millions of domains
+                        </div>
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0; color: var(--primary);">Authoritative Nameservers</h4>
+                            • Hold actual DNS records<br>
+                            • Managed by domain owners<br>
+                            • Provide authoritative answers<br>
+                            • Return IP addresses directly<br>
+                            • Can be multiple servers
+                        </div>
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0; color: var(--accent);">Recursive Resolvers</h4>
+                            • Provided by ISPs<br>
+                            • Handle client requests<br>
+                            • Query other servers<br>
+                            • Cache results<br>
+                            • Improve performance
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Why DNS is Critical</h3>
+                    <div class="box box-warning">
+                        <strong>🚨 Single Point of Failure:</strong><br>
+                        If DNS servers go down:<br>
+                        • Users cannot access websites by domain<br>
+                        • Only direct IP access possible (impractical)<br>
+                        • Email delivery fails<br>
+                        • Most online services become inaccessible<br>
+                        • Internet becomes effectively non-functional
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, #ff4444, #ff8888);"></div>
+                    </div>
+                    <small>95% Internet Dependency - Most critical service</small>
+                </div>
+            </div>
+
+            <!-- DNS Resolution Tab -->
+            <div id="dns-resolution" class="tab-content">
+                <h2>⚙️ DNS Resolution Process</h2>
+                
+                <div class="card fade-in">
+                    <h3>How DNS Resolution Works</h3>
+                    <p>When you type a domain into your browser, multiple DNS queries occur in a specific sequence:</p>
+                    
+                    <div class="dns-journey">
+                        <div class="journey-step">
+                            <div class="journey-icon">1️⃣</div>
+                            <div class="journey-content">
+                                <h4>User Request</h4>
+                                <p>User types domain name (e.g., <span class="highlight">gu.ac.in</span>) into browser</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">2️⃣</div>
+                            <div class="journey-content">
+                                <h4>Recursive Resolver Query</h4>
+                                <p>Browser sends request to recursive resolver (usually ISP's DNS like 8.8.8.8)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">3️⃣</div>
+                            <div class="journey-content">
+                                <h4>Root Nameserver Query</h4>
+                                <p>Resolver queries root nameserver asking: "Where is .in?"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">4️⃣</div>
+                            <div class="journey-content">
+                                <h4>TLD Server Query</h4>
+                                <p>Root responds with TLD server. Resolver queries: "Where is gu.ac.in?"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">5️⃣</div>
+                            <div class="journey-content">
+                                <h4>Authoritative Server Query</h4>
+                                <p>TLD responds with authoritative server. Resolver queries the actual IP</p>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step">
+                            <div class="journey-icon">✓</div>
+                            <div class="journey-content">
+                                <h4>Response & Resolution</h4>
+                                <p>Authoritative server returns IP address to resolver, then to browser</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>DNS Resolution Simulator</h3>
+                    <div class="interactive-section">
+                        <p><strong>Enter a domain to see live DNS resolution process:</strong></p>
+                        <div class="input-group">
+                            <input type="text" id="domainInput" class="input-field" placeholder="e.g., gu.ac.in" value="google.com">
+                            <button class="btn" onclick="simulateDNSResolution()">Resolve Domain</button>
+                        </div>
+                        <div id="dnsSimulation" class="dns-flow-diagram"></div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>DNS Query Types</h3>
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Recursive Query</h4>
+                            <p><strong>What:</strong> Resolver must provide complete answer</p>
+                            <p><strong>Used by:</strong> Client to resolver</p>
+                            <p><strong>Response:</strong> IP address or error</p>
+                        </div>
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Iterative Query</h4>
+                            <p><strong>What:</strong> Server provides best answer it has</p>
+                            <p><strong>Used by:</strong> Resolver to root/TLD/auth servers</p>
+                            <p><strong>Response:</strong> Answer or referral to next server</p>
+                        </div>
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Non-Recursive Query</h4>
+                            <p><strong>What:</strong> Query to cached DNS result</p>
+                            <p><strong>Used by:</strong> Accessing cached data</p>
+                            <p><strong>Response:</strong> Cached answer without lookup</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DNS Records Tab -->
+            <div id="dns-records" class="tab-content">
+                <h2>📋 DNS Resource Records</h2>
+                
+                <div class="card fade-in">
+                    <h3>Understanding DNS Records</h3>
+                    <p>DNS records are essentially database entries that map domain names to various information. Let's explore the main types:</p>
+                </div>
+
+                <div class="card fade-in">
+                    <h3 style="margin-top: 0;">Record Types & Functions</h3>
+                    
+                    <div class="record-demo">
+                        <div class="record-card" onclick="toggleRecordDetails('a-record')">
+                            <div class="record-type">🔴 A Record</div>
+                            <div class="record-value">Maps domain → IPv4</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                        
+                        <div class="record-card" onclick="toggleRecordDetails('aaaa-record')">
+                            <div class="record-type">🔵 AAAA Record</div>
+                            <div class="record-value">Maps domain → IPv6</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                        
+                        <div class="record-card" onclick="toggleRecordDetails('mx-record')">
+                            <div class="record-type">📧 MX Record</div>
+                            <div class="record-value">Mail server routing</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                        
+                        <div class="record-card" onclick="toggleRecordDetails('ns-record')">
+                            <div class="record-type">🗂️ NS Record</div>
+                            <div class="record-value">Nameserver delegation</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                        
+                        <div class="record-card" onclick="toggleRecordDetails('cname-record')">
+                            <div class="record-type">🔗 CNAME Record</div>
+                            <div class="record-value">Domain alias</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                        
+                        <div class="record-card" onclick="toggleRecordDetails('txt-record')">
+                            <div class="record-type">📝 TXT Record</div>
+                            <div class="record-value">Text information</div>
+                            <small style="color: var(--text-muted);">Click for details</small>
+                        </div>
+                    </div>
+
+                    <div id="a-record" class="toggle-content">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">A Record (Address Record)</h4>
+                            <p><strong>Purpose:</strong> Maps domain name to IPv4 address</p>
+                            <p><strong>Example:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;">gu.ac.in → 10.0.0.1</code></p>
+                            <p><strong>Usage:</strong> Primary method for website access - most critical record</p>
+                            <p><strong>Created:</strong> Manually by domain administrator</p>
+                            <p><strong>TTL:</strong> Usually 3600 seconds (1 hour)</p>
+                        </div>
+                    </div>
+
+                    <div id="aaaa-record" class="toggle-content">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">AAAA Record (IPv6 Address)</h4>
+                            <p><strong>Purpose:</strong> Maps domain name to IPv6 address (128-bit)</p>
+                            <p><strong>Example:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;">gu.ac.in → 2001:db8::1</code></p>
+                            <p><strong>Usage:</strong> For IPv6-enabled infrastructure (future internet)</p>
+                            <p><strong>Created:</strong> Manually by domain administrator</p>
+                            <p><strong>Trend:</strong> Becoming increasingly important as IPv4 depletes</p>
+                        </div>
+                    </div>
+
+                    <div id="mx-record" class="toggle-content">
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">MX Record (Mail Exchange)</h4>
+                            <p><strong>Purpose:</strong> Directs email to correct mail servers</p>
+                            <p><strong>Example:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;">user@gu.ac.in → mail.gu.ac.in (priority 10)</code></p>
+                            <p><strong>Usage:</strong> Critical for email delivery - must exist for email to work</p>
+                            <p><strong>Priority:</strong> Multiple MX records supported with priority levels</p>
+                            <p><strong>Created:</strong> Manually by domain administrator</p>
+                        </div>
+                    </div>
+
+                    <div id="ns-record" class="toggle-content">
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">NS Record (Nameserver)</h4>
+                            <p><strong>Purpose:</strong> Indicates which DNS server is authoritative for domain</p>
+                            <p><strong>Example:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;">ns1.godaddy.com, ns2.godaddy.com</code></p>
+                            <p><strong>Usage:</strong> Critical for DNS delegation to multiple servers</p>
+                            <p><strong>Created:</strong> Automatically provided by registrar</p>
+                            <p><strong>Modification:</strong> Requires careful coordination with registrar</p>
+                        </div>
+                    </div>
+
+                    <div id="cname-record" class="toggle-content">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">CNAME Record (Canonical Name)</h4>
+                            <p><strong>Purpose:</strong> Creates domain name aliases - one domain points to another</p>
+                            <p><strong>Example:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;">www.gu.ac.in → gu.ac.in</code></p>
+                            <p><strong>Usage:</strong> Allows multiple domain names for same resource</p>
+                            <p><strong>Created:</strong> Manually by domain administrator</p>
+                            <p><strong>Limitation:</strong> Cannot have CNAME at zone apex (@)</p>
+                        </div>
+                    </div>
+
+                    <div id="txt-record" class="toggle-content">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">TXT Record (Text Record)</h4>
+                            <p><strong>Purpose:</strong> Stores arbitrary text information for verification and security</p>
+                            <p><strong>Common Uses:</strong></p>
+                            <ul style="margin: 5px 0 0 20px;">
+                                <li><strong>SPF:</strong> Specifies authorized mail servers</li>
+                                <li><strong>DKIM:</strong> Email authentication key</li>
+                                <li><strong>DMARC:</strong> Email policy enforcement</li>
+                                <li><strong>Domain Verification:</strong> Google, Microsoft, other services</li>
+                            </ul>
+                            <p><strong>Created:</strong> Manually by domain administrator</p>
+                            <p><strong>Visibility:</strong> Publicly visible - use for public verification only</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>DNS Record Lookup Simulator</h3>
+                    <div class="interactive-section">
+                        <p><strong>Simulate DNS lookups for different record types:</strong></p>
+                        <div class="input-group">
+                            <input type="text" id="lookupDomain" class="input-field" placeholder="Enter domain" value="google.com">
+                            <select id="recordType" style="flex: 0 0 150px;">
+                                <option>A Record</option>
+                                <option>AAAA Record</option>
+                                <option>MX Record</option>
+                                <option>NS Record</option>
+                                <option>TXT Record</option>
+                                <option>CNAME Record</option>
+                            </select>
+                            <button class="btn" onclick="simulateDNSLookup()">Lookup</button>
+                        </div>
+                        <div id="lookupResult" class="result-box" style="display:none; margin-top: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footprinting Tab -->
+            <div id="footprinting" class="tab-content">
+                <h2>🔎 Passive Footprinting Techniques</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is Passive Footprinting?</h3>
+                    <div class="definition">
+                        <strong>Passive Footprinting:</strong> Gathering information about a target through publicly available sources WITHOUT direct system interaction. This is legal, ethical reconnaissance.
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Footprinting Techniques</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">WHOIS Lookup</h4>
+                            <p><strong>Information Retrieved:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Domain registrar (GoDaddy, Namecheap)</li>
+                                <li>Registration date</li>
+                                <li>Expiration date</li>
+                                <li>Registrant info (if public)</li>
+                                <li>Nameservers</li>
+                                <li>Admin contact</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">DNS Enumeration</h4>
+                            <p><strong>Reveal:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>A records (IP addresses)</li>
+                                <li>MX records (email servers)</li>
+                                <li>NS records (nameservers)</li>
+                                <li>TXT records (email auth)</li>
+                                <li>CNAME records (aliases)</li>
+                                <li>SOA records (zone info)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">IP History</h4>
+                            <p><strong>Tools:</strong> IP2Location, MaxMind</p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Previous IPs used</li>
+                                <li>Geographic location</li>
+                                <li>Cloud provider (AWS, Azure)</li>
+                                <li>Data center location</li>
+                                <li>Hosting provider</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Email Footprinting</h4>
+                            <p><strong>Information Gathered:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Employee email addresses</li>
+                                <li>Company domain patterns</li>
+                                <li>Email server location</li>
+                                <li>Email security measures</li>
+                                <li>SMTP configuration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Legal & Ethical Considerations</h3>
+                    <div class="box box-warning">
+                        <strong>⚠️ CRITICAL LEGAL NOTE:</strong><br>
+                        While passive footprinting uses ONLY public information, remember:<br>
+                        • Always get written authorization before testing<br>
+                        • Don't assume public = permission to test<br>
+                        • Document all authorization carefully<br>
+                        • Be prepared to explain your actions<br>
+                        • Follow responsible disclosure practices
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subdomain Enumeration Tab -->
+            <div id="subdomain" class="tab-content">
+                <h2>🔍 Subdomain Enumeration</h2>
+                
+                <div class="card fade-in">
+                    <h3>Understanding Subdomains</h3>
+                    <p>Subdomains are additional domain names under a main domain. Organizations often create subdomains for different services, departments, or purposes.</p>
+                    
+                    <div class="definition">
+                        <strong>Examples:</strong>
+                        <code style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 3px; display: block; margin-top: 8px;">
+                            www.google.com, mail.google.com, calendar.google.com, drive.google.com
+                        </code>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Why Subdomains Matter to Security</h3>
+                    
+                    <ul style="font-size: 1.05em; line-height: 2;">
+                        <li><strong>Focus Gaps:</strong> Organizations often focus security on main domain only</li>
+                        <li><strong>Weaker Security:</strong> Subdomains frequently have lower security standards</li>
+                        <li><strong>Service Diversity:</strong> Host different services (mail, admin, dev, staging, API)</li>
+                        <li><strong>Backdoors:</strong> Unsecured subdomains can become entryways for attackers</li>
+                        <li><strong>Vulnerability Variance:</strong> Different services expose different vulnerabilities</li>
+                    </ul>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Subdomain Finder Simulator</h3>
+                    <div class="interactive-section">
+                        <p><strong>Simulate finding subdomains for a domain:</strong></p>
+                        <div class="input-group">
+                            <input type="text" id="subdomainSource" class="input-field" placeholder="Enter domain" value="example.com">
+                            <button class="btn" onclick="simulateSubdomainFinder()">Find Subdomains</button>
+                        </div>
+                        <div id="subdomainResults" style="margin-top: 15px;"></div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Subdomain Discovery Tools</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Online Tools</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li><strong>Subdomain Finder</strong> (c99.nl)</li>
+                                <li><strong>MXToolbox</strong> (mxtoolbox.com)</li>
+                                <li><strong>ViewDNS</strong> (viewdns.net)</li>
+                                <li><strong>DNSChecker</strong> (dnschecker.org)</li>
+                                <li><strong>BuiltWith</strong> (builtwith.com)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Command Line Tools</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li><strong>nslookup</strong> - DNS query tool</li>
+                                <li><strong>dig</strong> - DNS lookup utility</li>
+                                <li><strong>host</strong> - DNS lookup command</li>
+                                <li><strong>dnsrecon</strong> - DNS scanning</li>
+                                <li><strong>masscan</strong> - Port scanning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Footprinting Tab -->
+            <div id="email-foot" class="tab-content">
+                <h2>📧 Email Security & Footprinting</h2>
+                
+                <div class="card fade-in">
+                    <h3>Email Authentication Standards</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">SPF (Sender Policy Framework)</h4>
+                            <p><strong>Purpose:</strong> Prevents email spoofing</p>
+                            <p><strong>How:</strong> Domain publishes authorized sending servers in TXT record</p>
+                            <p><strong>Result:</strong> Receiving server verifies email came from authorized IP</p>
+                            <p><strong>Status Check:</strong> Pass/Fail</p>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">DKIM (DomainKeys Identified Mail)</h4>
+                            <p><strong>Purpose:</strong> Digitally signs emails</p>
+                            <p><strong>How:</strong> Sender encrypts with private key, receiver verifies with public key</p>
+                            <p><strong>Result:</strong> Proves email authenticity and prevents tampering</p>
+                            <p><strong>Status Check:</strong> Pass/Fail</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">DMARC (Domain-based Message Authentication)</h4>
+                            <p><strong>Purpose:</strong> Policy enforcement for SPF/DKIM</p>
+                            <p><strong>How:</strong> Domain publishes DMARC policy in TXT record</p>
+                            <p><strong>Policy Options:</strong> none, quarantine, reject</p>
+                            <p><strong>Result:</strong> Sends failure reports to domain owner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Email Authentication Checker</h3>
+                    <div class="interactive-section">
+                        <p><strong>Check email authentication status for a domain:</strong></p>
+                        <div class="input-group">
+                            <input type="text" id="emailCheckDomain" class="input-field" placeholder="Enter domain" value="gmail.com">
+                            <button class="btn" onclick="checkEmailAuth()">Check Email Auth</button>
+                        </div>
+                        <div id="emailAuthResult" style="margin-top: 15px;"></div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Identifying Suspicious Emails</h3>
+                    
+                    <div class="box box-warning">
+                        <strong>🚨 Red Flags for Phishing/Spam:</strong>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>SPF: <span style="color: var(--danger);">FAIL</span></li>
+                            <li>DKIM: <span style="color: var(--danger);">FAIL</span></li>
+                            <li>DMARC: <span style="color: var(--danger);">FAIL</span></li>
+                            <li>Domain name slightly different from legitimate</li>
+                            <li>Sender IP doesn't match domain location</li>
+                            <li>Generic greeting (Hi user vs Hi John)</li>
+                            <li>Suspicious links or attachments</li>
+                            <li>Urgency or threats to click</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Checking Email Breach Status</h3>
+                    <div class="interactive-section">
+                        <p><strong>Check if your email was in known data breaches:</strong></p>
+                        <div class="input-group">
+                            <input type="email" id="breachCheckEmail" class="input-field" placeholder="Enter your email">
+                            <button class="btn" onclick="checkEmailBreach()">Check Breach Status</button>
+                        </div>
+                        <div id="breachCheckResult" style="margin-top: 15px;"></div>
+                    </div>
+                    
+                    <p style="margin-top: 20px; color: var(--muted); font-size: 0.9em;">
+                        <strong>Note:</strong> Use haveibeenpwned.com for real breach checking. This is a demo simulation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tools Tab -->
+            <div id="tools" class="tab-content">
+                <h2>🛠️ DNS & Analysis Tools</h2>
+                
+                <div class="card fade-in">
+                    <h3>Popular Online DNS Tools</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">MXToolbox (mxtoolbox.com)</h4>
+                            <p><strong>Features:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>MX Lookup</li>
+                                <li>DNS Lookup</li>
+                                <li>Reverse IP Lookup</li>
+                                <li>Blacklist Check</li>
+                                <li>IP History</li>
+                                <li>ASN Lookup</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">ViewDNS (viewdns.net)</h4>
+                            <p><strong>Features:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>DNS Record Lookup</li>
+                                <li>Reverse IP Lookup</li>
+                                <li>IP History</li>
+                                <li>Whois Lookup</li>
+                                <li>Reverse NS Lookup</li>
+                                <li>Domain Graph</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">NetCraft Site Report</h4>
+                            <p><strong>Features:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Web server identification</li>
+                                <li>Technology detection</li>
+                                <li>SSL certificate info</li>
+                                <li>Server history</li>
+                                <li>CMS identification</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Whois Tools</h4>
+                            <p><strong>Information:</strong></p>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Domain registrar</li>
+                                <li>Registration date</li>
+                                <li>Expiration date</li>
+                                <li>Nameservers</li>
+                                <li>Registrant contact</li>
+                                <li>Domain status</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>WHOIS Lookup Simulator</h3>
+                    <div class="interactive-section">
+                        <p><strong>Simulate WHOIS lookup for domain registration info:</strong></p>
+                        <div class="input-group">
+                            <input type="text" id="whoisDomain" class="input-field" placeholder="Enter domain" value="google.com">
+                            <button class="btn" onclick="simulateWhois()">Lookup WHOIS</button>
+                        </div>
+                        <div id="whoisResult" style="margin-top: 15px;"></div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Blacklist Checking</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">What is Email/IP Blacklisting?</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Blacklist:</strong> Database of malicious IPs and domains</li>
+                            <li><strong>Consequence:</strong> Domain can't pass firewalls</li>
+                            <li><strong>Problems:</strong> Email rejected, traffic blocked, reputation damaged</li>
+                            <li><strong>Maintained by:</strong> Multiple security organizations</li>
+                            <li><strong>Removal:</strong> Requires cleanup and verification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wayback Machine Tab -->
+            <div id="wayback" class="tab-content">
+                <h2>📚 Historical Data & Wayback Machine</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is the Wayback Machine?</h3>
+                    <p>The Wayback Machine (archive.org) stores historical snapshots of websites, allowing you to see how websites have evolved over time.</p>
+                    
+                    <div class="definition">
+                        <strong>Website Archive:</strong> 25+ years of web history stored and publicly accessible. You can view any website from any year.
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Value for Security Professionals</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Historical Website Snapshots</h4>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Previous website designs</li>
+                                <li>Changes over years/months</li>
+                                <li>Added/removed content</li>
+                                <li>Security improvements</li>
+                                <li>Exposed administrator panels</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Information Revealed</h4>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Former email addresses</li>
+                                <li>Outdated security measures</li>
+                                <li>Development servers</li>
+                                <li>Admin contact info</li>
+                                <li>API documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Wayback Machine Simulator</h3>
+                    <div class="interactive-section">
+                        <p><strong>Simulate browsing Wayback Machine history:</strong></p>
+                        <div class="input-group">
+                            <input type="text" id="waybackDomain" class="input-field" placeholder="Enter domain" value="example.com">
+                            <button class="btn" onclick="simulateWayback()">Browse History</button>
+                        </div>
+                        <div id="waybackResult" style="margin-top: 15px;"></div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Real-World Case Study</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0; color: var(--danger);">Recruitment Scam Prevention</h4>
+                        <p><strong>Scenario:</strong> A friend received a recruitment email offering 1 crore per hour (impossibly high)</p>
+                        
+                        <p><strong>Red Flags Found:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Domain name slightly different from legitimate company</li>
+                            <li>WHOIS lookup showed domain registered only 2 months prior</li>
+                            <li>Legitimate company should have domain 5+ years old</li>
+                            <li>Follow-up emails asked for visa processing fees</li>
+                        </ul>
+                        
+                        <p><strong>Conclusion:</strong> Obvious scam. Passive footprinting prevented fraud!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Threats Tab -->
+            <div id="threats" class="tab-content">
+                <h2>⚠️ DNS-Based Threats & Risks</h2>
+                
+                <div class="card fade-in">
+                    <h3>Common DNS Attacks</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">DNS Spoofing</h4>
+                            <p><strong>Attack:</strong> Attacker intercepts DNS queries and returns fake IP</p>
+                            <p><strong>Result:</strong> User redirected to attacker's server</p>
+                            <p><strong>Appearance:</strong> User thinks they're on legitimate website</p>
+                            <p><strong>Risk:</strong> Phishing, credential theft, malware</p>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">DNS Hijacking</h4>
+                            <p><strong>Attack:</strong> Gain access to domain registrar</p>
+                            <p><strong>Action:</strong> Change nameservers to attacker's servers</p>
+                            <p><strong>Result:</strong> Complete control of domain</p>
+                            <p><strong>Risk:</strong> Email interception, website defacement</p>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">DNS Enumeration by Attackers</h4>
+                            <p><strong>Goal:</strong> Find unsecured subdomains and services</p>
+                            <p><strong>Discover:</strong> Backup systems, test servers, admin panels</p>
+                            <p><strong>Identify:</strong> Mail servers, development infrastructure</p>
+                            <p><strong>Risk:</strong> Backdoor access, sensitive data exposure</p>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">DNS Amplification DDoS</h4>
+                            <p><strong>Attack:</strong> Use DNS servers to amplify DDoS traffic</p>
+                            <p><strong>Method:</strong> Send small request, receive large response</p>
+                            <p><strong>Result:</strong> Overwhelming bandwidth consumption</p>
+                            <p><strong>Risk:</strong> Service unavailability</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Information Leakage Risks</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">What Can Be Exposed</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Email Addresses:</strong> From WHOIS, subdomains, historical data</li>
+                            <li><strong>Employee Data:</strong> Found in old website snapshots, email servers</li>
+                            <li><strong>Infrastructure Details:</strong> Server locations, cloud providers, ISPs</li>
+                            <li><strong>Security Gaps:</strong> Outdated systems, unpatched vulnerabilities</li>
+                            <li><strong>Business Information:</strong> Structure, departments, projects, partnerships</li>
+                            <li><strong>Sensitive URLs:</strong> Admin panels, API endpoints, development sites</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, #ffb700, #ff8800);"></div>
+                </div>
+                <small>75% Risk Level - Significant organizational impact</small>
+            </div>
+
+            <!-- Protection Tab -->
+            <div id="protection" class="tab-content">
+                <h2>🛡️ Protection & Prevention Methods</h2>
+                
+                <div class="card fade-in">
+                    <h3>Securing DNS Infrastructure</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">DNSSEC (DNS Security Extensions)</h4>
+                            <p><strong>Purpose:</strong> Cryptographically sign DNS records</p>
+                            <p><strong>How:</strong> Exchange signed records using public key cryptography</p>
+                            <p><strong>Protection:</strong> Prevents DNS spoofing and cache poisoning</p>
+                            <p><strong>Benefit:</strong> Ensures data integrity and authenticity</p>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">DNS over HTTPS (DoH)</h4>
+                            <p><strong>Purpose:</strong> Encrypt DNS queries in transit</p>
+                            <p><strong>How:</strong> DNS requests sent over HTTPS instead of plain DNS</p>
+                            <p><strong>Protection:</strong> Privacy from ISPs and network observers</p>
+                            <p><strong>Benefit:</strong> Prevents DNS manipulation on networks</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Protecting Against Footprinting</h3>
+                    
+                    <ul style="font-size: 1.05em; line-height: 2;">
+                        <li><strong>WHOIS Privacy:</strong> Hide registrant information from public records</li>
+                        <li><strong>Regular Audits:</strong> Review WHOIS, DNS records for exposure</li>
+                        <li><strong>Monitor Archive.org:</strong> Check for sensitive data in old snapshots</li>
+                        <li><strong>Email Protection:</strong> Don't expose employee emails to public</li>
+                        <li><strong>Subdomain Inventory:</strong> Maintain complete list of all subdomains</li>
+                        <li><strong>Security Assessment:</strong> Apply equal security to all subdomains</li>
+                        <li><strong>Remove Unused:</strong> Delete subdomains no longer needed</li>
+                        <li><strong>Monitor Rogue:</strong> Detect unauthorized subdomain creation</li>
+                    </ul>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Incident Response</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">If DNS is Compromised:</h4>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li>Immediately change all DNS credentials</li>
+                            <li>Verify all DNS records are legitimate</li>
+                            <li>Check with registrar for unauthorized changes</li>
+                            <li>Monitor for malicious traffic patterns</li>
+                            <li>Update nameservers if necessary</li>
+                            <li>Notify users of security incident</li>
+                            <li>File incident report with registrar</li>
+                            <li>Implement additional monitoring</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ethics Tab -->
+            <div id="ethics" class="tab-content">
+                <h2>⚖️ Ethical Considerations & Legal Boundaries</h2>
+                
+                <div class="card fade-in">
+                    <h3>Legal vs Illegal Reconnaissance</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;" style="color: var(--secondary);">✓ Legal Passive Techniques</h4>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>WHOIS lookups on any domain</li>
+                                <li>DNS record queries</li>
+                                <li>Archive.org historical data</li>
+                                <li>Publicly available information</li>
+                                <li>Search engine queries</li>
+                                <li>Published news articles</li>
+                            </ul>
+                            <p style="margin-top: 10px; font-size: 0.9em; color: var(--secondary);"><strong>Why Legal:</strong> All public info, no system access</p>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;" style="color: var(--danger);">✗ Illegal Activities</h4>
+                            <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                <li>Unauthorized reconnaissance</li>
+                                <li>Port scanning without permission</li>
+                                <li>Vulnerability testing without consent</li>
+                                <li>Accessing non-public data</li>
+                                <li>Network probing</li>
+                                <li>Exploitation attempts</li>
+                            </ul>
+                            <p style="margin-top: 10px; font-size: 0.9em; color: var(--danger);"><strong>Consequences:</strong> Federal charges, imprisonment, fines</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Ethical Hacker Responsibilities</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Always Remember</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Only conduct reconnaissance on authorized targets</li>
+                            <li>Get written authorization BEFORE testing</li>
+                            <li>Use proven ethical hacking methodologies</li>
+                            <li>Respect privacy and confidentiality</li>
+                            <li>Report findings responsibly</li>
+                            <li>Follow responsible disclosure guidelines</li>
+                            <li>Maintain professional standards</li>
+                            <li>Document all authorization carefully</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Authorization Requirements</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Requirement</th>
+                                <th>Details</th>
+                                <th>Importance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Written Authorization</td>
+                                <td>Must be in writing (email acceptable)</td>
+                                <td>Critical</td>
+                            </tr>
+                            <tr>
+                                <td>Defined Scope</td>
+                                <td>Clear target systems and methods</td>
+                                <td>Critical</td>
+                            </tr>
+                            <tr>
+                                <td>Testing Window</td>
+                                <td>Specific dates and times allowed</td>
+                                <td>Important</td>
+                            </tr>
+                            <tr>
+                                <td>Contact Info</td>
+                                <td>Escalation path and stakeholder contact</td>
+                                <td>Important</td>
+                            </tr>
+                            <tr>
+                                <td>Documentation</td>
+                                <td>Keep copies of all authorization</td>
+                                <td>Critical</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary" class="tab-content">
+                <h2>📋 Summary & Key Takeaways</h2>
+                
+                <div class="card fade-in">
+                    <h3>Core Concepts</h3>
+                    
+                    <div class="grid-2">
+                        <div class="grid-card">
+                            <h4>DNS Fundamentals</h4>
+                            <ul style="font-size: 0.95em;">
+                                <li>DNS translates domains to IPs</li>
+                                <li>Critical infrastructure service</li>
+                                <li>Hierarchical resolution</li>
+                                <li>Multiple record types</li>
+                                <li>Global distribution</li>
+                            </ul>
+                        </div>
+
+                        <div class="grid-card">
+                            <h4>Passive Footprinting</h4>
+                            <ul style="font-size: 0.95em;">
+                                <li>Legal information gathering</li>
+                                <li>Public sources only</li>
+                                <li>No system access</li>
+                                <li>Foundation of reconnaissance</li>
+                                <li>Essential for assessments</li>
+                            </ul>
+                        </div>
+
+                        <div class="grid-card">
+                            <h4>Security Threats</h4>
+                            <ul style="font-size: 0.95em;">
+                                <li>DNS spoofing attacks</li>
+                                <li>Information leakage</li>
+                                <li>Subdomain exploitation</li>
+                                <li>DDoS amplification</li>
+                                <li>Service disruption</li>
+                            </ul>
+                        </div>
+
+                        <div class="grid-card">
+                            <h4>Ethics & Law</h4>
+                            <ul style="font-size: 0.95em;">
+                                <li>Get written auth first</li>
+                                <li>Stay within scope</li>
+                                <li>Maintain confidentiality</li>
+                                <li>Legal responsibility</li>
+                                <li>Professional standards</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Critical Tools Reference</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tool/Service</th>
+                                <th>Primary Purpose</th>
+                                <th>Key Information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>WHOIS</strong></td>
+                                <td>Domain registration</td>
+                                <td>Registrar, dates, contacts, ns</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DNS Lookup</strong></td>
+                                <td>Record queries</td>
+                                <td>A, MX, NS, TXT, CNAME</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MXToolbox</strong></td>
+                                <td>Email/DNS analysis</td>
+                                <td>Multiple record types</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wayback Machine</strong></td>
+                                <td>Historical data</td>
+                                <td>Website snapshots</td>
+                            </tr>
+                            <tr>
+                                <td><strong>nslookup/dig</strong></td>
+                                <td>DNS command line</td>
+                                <td>Detailed DNS info</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HIBP</strong></td>
+                                <td>Breach checking</td>
+                                <td>Email compromise status</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Best Practices Checklist</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">For Security Professionals</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>☑ Always get written authorization first</li>
+                            <li>☑ Document all reconnaissance activities</li>
+                            <li>☑ Follow responsible disclosure practices</li>
+                            <li>☑ Keep findings confidential and secure</li>
+                            <li>☑ Understand legal boundaries thoroughly</li>
+                            <li>☑ Use ethical hacking methodologies</li>
+                            <li>☑ Report vulnerabilities responsibly</li>
+                            <li>☑ Maintain professional standards always</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Next Steps</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">CEH Course Progression</h4>
+                        <p><strong>← Previous (1_CEH):</strong> CEH Fundamentals & Cybersecurity Basics</p>
+                        <p><strong>Current (2_CEH):</strong> DNS Systems & Passive Footprinting ✓</p>
+                        <p><strong>Next (3_CEH):</strong> Active Reconnaissance & Network Scanning</p>
+                        
+                        <p style="margin-top: 15px; color: var(--accent);"><strong>Coming Soon:</strong> Active footprinting including port scanning, service enumeration, vulnerability scanning, network mapping, and direct system probing.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+            
+            // Update breadcrumb
+            const breadcrumbMap = {
+                'overview': 'Overview',
+                'dns-system': 'DNS System',
+                'dns-resolution': 'DNS Resolution',
+                'dns-records': 'DNS Records',
+                'footprinting': 'Footprinting',
+                'subdomain': 'Subdomain Enumeration',
+                'email-foot': 'Email Footprinting',
+                'tools': 'Analysis Tools',
+                'threats': 'Threats & Risks',
+                'protection': 'Protection Methods',
+                'wayback': 'Historical Data',
+                'ethics': 'Ethical Considerations',
+                'summary': 'Summary & Tips'
+            };
+            
+            document.getElementById('breadcrumb-current').textContent = breadcrumbMap[tabName] || 'Overview';
+            
+            // Update active sidebar link
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrollBtn = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        // DNS Resolution Simulator
+        function simulateDNSResolution() {
+            const domain = document.getElementById('domainInput').value || 'google.com';
+            const container = document.getElementById('dnsSimulation');
+            
+            const steps = [
+                { step: 1, actor: '🖥️ Your Computer', action: `Queries: "Where is ${domain}?"`, time: '0ms', type: 'neutral' },
+                { step: 2, actor: '🔍 Recursive Resolver', action: 'Queries Root Nameserver', time: '15ms', type: 'neutral' },
+                { step: 3, actor: '🌍 Root Nameserver', action: `Responds: "Ask TLD server for .${domain.split('.').pop()}"`, time: '30ms', type: 'success' },
+                { step: 4, actor: '🔍 Recursive Resolver', action: `Queries TLD Nameserver for ${domain}`, time: '45ms', type: 'neutral' },
+                { step: 5, actor: '📋 TLD Nameserver', action: 'Responds with Authoritative Nameserver address', time: '60ms', type: 'success' },
+                { step: 6, actor: '🔍 Recursive Resolver', action: 'Queries Authoritative Nameserver', time: '75ms', type: 'neutral' },
+                { step: 7, actor: '✓ Authoritative NS', action: `Returns IP: 142.250.185.46`, time: '90ms', type: 'success' },
+                { step: 8, actor: '🖥️ Your Computer', action: `✓ Resolved! Now connecting to 142.250.185.46`, time: '100ms', type: 'success' }
+            ];
+            
+            let html = '';
+            steps.forEach((s, idx) => {
+                const className = `dns-step ${s.type === 'success' ? 'success' : s.type === 'error' ? 'error' : ''}`;
+                setTimeout(() => {
+                    html += `<div class="${className}" style="animation-delay: ${idx * 0.1}s;">
+                        <div class="step-number">${s.step}</div>
+                        <div class="step-content">
+                            <strong>${s.actor}</strong><br>
+                            ${s.action}<br>
+                            <small style="color: var(--muted);">+${s.time}</small>
+                        </div>
+                    </div>`;
+                    container.innerHTML = html;
+                }, idx * 100);
+            });
+        }
+
+        // DNS Record Lookup Simulator
+        function simulateDNSLookup() {
+            const domain = document.getElementById('lookupDomain').value || 'google.com';
+            const recordType = document.getElementById('recordType').value;
+            const resultBox = document.getElementById('lookupResult');
+            
+            const dummyResults = {
+                'A Record': `A       142.250.185.46  (IPv4 Address)`,
+                'AAAA Record': `AAAA    2607:f8b0:4004:80a::200e  (IPv6 Address)`,
+                'MX Record': `MX  10  aspmx.l.google.com
+MX  20  alt1.aspmx.l.google.com
+MX  30  alt2.aspmx.l.google.com`,
+                'NS Record': `NS  ns1.google.com
+NS  ns2.google.com
+NS  ns3.google.com
+NS  ns4.google.com`,
+                'TXT Record': `TXT "v=spf1 include:_spf.google.com ~all"
+TXT "google-site-verification=xxx"`,
+                'CNAME Record': `CNAME   www.google.com → google.com`
+            };
+            
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<strong>Looking up ${recordType} for ${domain}...</strong><br><br>` + 
+                                  dummyResults[recordType].replace(/\n/g, '<br>');
+        }
+
+        // Subdomain Finder Simulator
+        function simulateSubdomainFinder() {
+            const domain = document.getElementById('subdomainSource').value || 'example.com';
+            const container = document.getElementById('subdomainResults');
+            
+            const subdomains = [
+                { name: `www.${domain}`, ip: '93.184.216.34', service: 'Web Server' },
+                { name: `mail.${domain}`, ip: '93.184.216.35', service: 'Mail Server' },
+                { name: `ftp.${domain}`, ip: '93.184.216.36', service: 'FTP Server' },
+                { name: `admin.${domain}`, ip: '93.184.216.37', service: 'Admin Panel' },
+                { name: `api.${domain}`, ip: '93.184.216.38', service: 'API Server' },
+                { name: `dev.${domain}`, ip: '93.184.216.39', service: 'Development' }
+            ];
+            
+            let html = '<div class="box box-theory"><h4>Found Subdomains:</h4>';
+            subdomains.forEach((sub, idx) => {
+                setTimeout(() => {
+                    html += `<div style="padding: 8px; margin: 8px 0; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                        <strong>${sub.name}</strong> → ${sub.ip} (${sub.service})
+                    </div>`;
+                    container.innerHTML = html + '</div>';
+                }, idx * 150);
+            });
+        }
+
+        // Email Authentication Checker
+        function checkEmailAuth() {
+            const domain = document.getElementById('emailCheckDomain').value || 'gmail.com';
+            const resultBox = document.getElementById('emailAuthResult');
+            
+            const authStatus = {
+                'gmail.com': { spf: 'PASS', dkim: 'PASS', dmarc: 'PASS' },
+                'yahoo.com': { spf: 'PASS', dkim: 'PASS', dmarc: 'PASS' },
+                'outlook.com': { spf: 'PASS', dkim: 'PASS', dmarc: 'PASS' },
+                'unknown.com': { spf: 'FAIL', dkim: 'FAIL', dmarc: 'FAIL' }
+            };
+            
+            const status = authStatus[domain] || { spf: 'UNKNOWN', dkim: 'UNKNOWN', dmarc: 'UNKNOWN' };
+            
+            resultBox.innerHTML = `
+                <div class="box box-concept">
+                    <h4>Email Authentication Status for ${domain}</h4>
+                    <table style="margin-top: 15px;">
+                        <tr>
+                            <td><strong>SPF Record:</strong></td>
+                            <td style="color: ${status.spf === 'PASS' ? 'var(--secondary)' : 'var(--danger)'}; font-weight: bold;">${status.spf}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DKIM Record:</strong></td>
+                            <td style="color: ${status.dkim === 'PASS' ? 'var(--secondary)' : 'var(--danger)'}; font-weight: bold;">${status.dkim}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DMARC Policy:</strong></td>
+                            <td style="color: ${status.dmarc === 'PASS' ? 'var(--secondary)' : 'var(--danger)'}; font-weight: bold;">${status.dmarc}</td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Email Breach Checker
+        function checkEmailBreach() {
+            const email = document.getElementById('breachCheckEmail').value;
+            const resultBox = document.getElementById('breachCheckResult');
+            
+            if (!email) {
+                resultBox.innerHTML = '<div class="box box-warning">Please enter an email address</div>';
+                return;
+            }
+            
+            const random = Math.random();
+            const isBreached = random > 0.5;
+            
+            resultBox.innerHTML = isBreached ?
+                `<div class="box box-warning">
+                    <h4 style="margin-top: 0; color: var(--danger);">⚠️ Email Found in Breaches</h4>
+                    <p>Your email appears in 3 known data breaches:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>LinkedIn Breach (2021) - 500M records</li>
+                        <li>Facebook Breach (2019) - 267M records</li>
+                        <li>Adobe Breach (2013) - 150M records</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Action Required:</strong> Change password immediately!</p>
+                </div>` :
+                `<div class="box box-theory">
+                    <h4 style="margin-top: 0; color: var(--secondary);">✓ Email Not Found</h4>
+                    <p>Good news! Your email was not found in any known breaches.</p>
+                    <p>However, continue to maintain strong passwords and monitor accounts.</p>
+                </div>`;
+        }
+
+        // WHOIS Simulator
+        function simulateWhois() {
+            const domain = document.getElementById('whoisDomain').value || 'google.com';
+            const resultBox = document.getElementById('whoisResult');
+            
+            const whoisData = {
+                'google.com': {
+                    registrar: 'MarkMonitor Inc.',
+                    registrationDate: '1997-09-15',
+                    expirationDate: '2028-09-14',
+                    nameservers: 'ns1.google.com, ns2.google.com, ns3.google.com, ns4.google.com',
+                    status: 'clientDeleteProhibited, clientTransferProhibited'
+                },
+                'example.com': {
+                    registrar: 'VeriSign Global Registry Services',
+                    registrationDate: '1995-08-01',
+                    expirationDate: '2025-08-30',
+                    nameservers: 'a.iana-servers.net, b.iana-servers.net',
+                    status: 'clientTransferProhibited'
+                }
+            };
+            
+            const data = whoisData[domain] || {
+                registrar: 'Unknown Registrar',
+                registrationDate: '2020-01-01',
+                expirationDate: '2026-01-01',
+                nameservers: 'ns1.unknown.com, ns2.unknown.com',
+                status: 'Active'
+            };
+            
+            resultBox.innerHTML = `
+                <div class="box box-example">
+                    <h4>WHOIS Information for ${domain}</h4>
+                    <table style="margin-top: 15px; font-size: 0.95em;">
+                        <tr><td><strong>Registrar:</strong></td><td>${data.registrar}</td></tr>
+                        <tr><td><strong>Registration Date:</strong></td><td>${data.registrationDate}</td></tr>
+                        <tr><td><strong>Expiration Date:</strong></td><td>${data.expirationDate}</td></tr>
+                        <tr><td><strong>Nameservers:</strong></td><td>${data.nameservers}</td></tr>
+                        <tr><td><strong>Status:</strong></td><td>${data.status}</td></tr>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Wayback Machine Simulator
+        function simulateWayback() {
+            const domain = document.getElementById('waybackDomain').value || 'example.com';
+            const resultBox = document.getElementById('waybackResult');
+            
+            const years = ['2010', '2013', '2015', '2018', '2020', '2023'];
+            let html = '<div class="box box-theory"><h4>Wayback Machine Archives:</h4>';
+            
+            years.forEach((year, idx) => {
+                setTimeout(() => {
+                    html += `<div style="padding: 12px; margin: 8px 0; background: rgba(0,0,0,0.2); border-radius: 4px; cursor: pointer;">
+                        ${year}: <strong>${10 + idx * Math.floor(Math.random() * 50)} snapshots</strong> 
+                        <br><small style="color: var(--muted);">Latest: ${year}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}</small>
+                    </div>`;
+                    resultBox.innerHTML = html + '</div>';
+                }, idx * 150);
+            });
+        }
+
+        // Toggle Record Details
+        function toggleRecordDetails(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('show');
+        }
+
+        // Initialize with fade-in animations
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach((el, idx) => {
+                el.style.animationDelay = `${idx * 0.05}s`;
+            });
+        });
+    </script>
+</body>
+</html>

