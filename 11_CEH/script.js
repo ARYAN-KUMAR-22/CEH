@@ -18,8 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 
 function initTabs() {
-    const defaultTab = 'intro';
-    showTab(defaultTab);
+    const defaultId = 'intro';
+    showTab(defaultId);
+    
+    // Highlight initial sidebar link
+    const initialLink = document.querySelector(`.sidebar-links a[data-tab="${defaultId}"]`);
+    if (initialLink) {
+        initialLink.classList.add('active');
+    }
 }
 
 function showTab(tabId) {
@@ -123,12 +129,10 @@ function initSidebar() {
         // Switch to tab
         showTab(tabId);
         
-        // Highlight the active link
+        // Highlight active link via CSS class
         const allLinks = sidebar.querySelectorAll('.sidebar-links a');
-        allLinks.forEach(a => {
-            a.style.borderBottom = 'none';
-        });
-        link.style.borderBottom = '2px solid #00d4ff';
+        allLinks.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
         
     }, false);
     
