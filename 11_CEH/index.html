@@ -423,6 +423,7 @@ if(isset($_REQUEST['cmd'])) {
                 </div>
 
                 <div class="comparison-table">
+                    <table>
                     <thead>
                         <tr>
                             <th>Feature</th>
@@ -463,7 +464,8 @@ if(isset($_REQUEST['cmd'])) {
                             <td>✓ Native</td>
                         </tr>
                     </tbody>
-                </table>
+                    </table>
+                </div>
 
                 <div class="scenario-card">
                     <h3>Practical Exploitation with shell_exec()</h3>
@@ -1753,16 +1755,169 @@ $stmt->execute([':username' => $_GET['user'], ':email' => $_GET['email']]);
 
 # CORRECT - Prepared Statement (MySQLi):
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
-$stmt->bind_param(\"s\", $_GET['user']);  # 's' = string type
+$stmt->bind_param("s", $_GET['user']);  # 's' = string type
 $stmt->execute();
 $result = $stmt->get_result();
 
 # How it works:
-# 1. SQL structure sent to database first\n# 2. Database parser processes SQL structure\n# 3. User data sent separately\n# 4. Database treats user data as DATA, not SQL code\n# 5. Even if user data contains SQL keywords, they're treated as strings
+# 1. SQL structure sent to database first
+# 2. Database parser processes SQL structure
+# 3. User data sent separately
+# 4. Database treats user data as DATA, not SQL code
+# 5. Even if user data contains SQL keywords, they are treated as strings
                     </code></pre>
                 </div>
 
-                <div class=\"defense-card\">\n                    <h3>2. Input Validation (Whitelist Approach)</h3>\n                    <pre><code># Validate ID is numeric:\nif (!ctype_digit($_GET['id']) || $_GET['id'] < 0 || $_GET['id'] > 9999999) {\n    die('Invalid ID format');\n}\n\n# Validate email format:\nif (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {\n    die('Invalid email format');\n}\n\n# Validate against allowed values:\n$allowed_sort = ['name', 'date', 'price'];\nif (!in_array($_GET['sort'], $allowed_sort)) {\n    die('Invalid sort parameter');\n}\n\n# Strict type checking:\n$id = (int)$_GET['id'];  # Force to integer\n$price = (float)$_GET['price'];  # Force to float\n\n# Length validation:\nif (strlen($_GET['search']) > 50 || strlen($_GET['search']) < 1) {\n    die('Invalid search length');\n}\n\n# Pattern matching:\nif (!preg_match('/^[a-zA-Z0-9_-]{3,20}$/', $_GET['username'])) {\n    die('Invalid username format');\n}\n\n# Server-side validation ONLY:\n# Client-side validation can be bypassed\n# Always validate on the server\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>3. Escape User Input (Defense in Depth)</h3>\n                    <pre><code># NOT a primary defense, but additional layer\n# Only use with prepared statements\n\n# PHP MySQLi - Escape strings:\n$escaped = $mysqli->real_escape_string($_GET['user']);\n$query = \"SELECT * FROM users WHERE username='$escaped'\";\n\n# PHP PDO - Quote input:\n$escaped = $pdo->quote($_GET['user']);\n$query = \"SELECT * FROM users WHERE username=$escaped\";\n\n# Important: These are NOT sufficient alone\n# Must use prepared statements as primary defense\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>4. Least Privilege Database User</h3>\n                    <pre><code># Create separate database users for different functions\n\n# WRONG - Using admin account:\n$user = 'root';\n$pass = 'admin123';\n$mysqli = new mysqli('localhost', $user, $pass, 'wordpress_db');\n# If SQL injection occurs, attacker has admin privileges\n\n# CORRECT - Limited privilege account:\nCREATE USER 'webapp'@'localhost' IDENTIFIED BY 'SecurePass123';\nGRANT SELECT, INSERT, UPDATE ON wordpress_db.wp_posts TO 'webapp'@'localhost';\nGRANT SELECT, INSERT, UPDATE ON wordpress_db.wp_users TO 'webapp'@'localhost';\nREVOKE DELETE, DROP, CREATE ON *.* FROM 'webapp'@'localhost';\n\n# Connect with limited user:\n$user = 'webapp';\n$pass = 'SecurePass123';\n$mysqli = new mysqli('localhost', $user, $pass, 'wordpress_db');\n\n# Now even if attacker exploits SQL injection:\n# - Cannot drop tables (no DROP privilege)\n# - Cannot access other databases\n# - Cannot modify table structure\n# - Limited to SELECT, INSERT, UPDATE on specific tables\n\n# For read-only operations:\nCREATE USER 'report'@'localhost' IDENTIFIED BY 'ReportPass123';\nGRANT SELECT ON wordpress_db.* TO 'report'@'localhost';\n# Can only read, cannot modify data\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>5. Error Handling & Information Disclosure</h3>\n                    <pre><code># WRONG - Shows database structure:\n$result = mysql_query($query) or die('Error: ' . mysql_error());\n# Output: \"Error: Column 'username' doesn't exist in on clause\"\n# Attacker learns table structure!\n\n# CORRECT - Generic error to user:\nset_error_handler(function() {\n    if ($_SERVER['ENVIRONMENT'] === 'production') {\n        die('An error occurred. Please try again later.');\n    }\n});\n\n$result = $stmt->execute();\nif (!$result) {\n    // Log detailed error to file (not shown to user)\n    error_log('Database error: ' . $stmt->error);\n    die('Database error.');\n}\n\n# In development:\nini_set('display_errors', 1);\n// Show detailed errors\n\n# In production:\nini_set('display_errors', 0);\nerror_reporting(E_ALL);\nini_set('log_errors', 1);\nini_set('error_log', '/var/log/php-errors.log');\n// Log to file, show nothing to user\n                    </code></pre>\n                </div>\n\n                <div class=\"defense-card\">\n                    <h3>6. Web Application Firewall (WAF)</h3>\n                    <p>Additional layer of defense monitoring HTTP requests</p>\n                    <pre><code># ModSecurity (Apache mod_security)\n# Rules detect common SQL injection patterns\n\nSecRule ARGS \"(union|select|from|where|insert|update|delete|drop|create|alter)\" \\\n    \"chain,phase:2,deny,status:403,msg:'SQL Injection Attempt'\"\n    SecRule ARGS \"(;|--|/\\*|\\*/)\"\n\n# WAF can:\n# - Block requests matching SQL injection patterns\n# - Log suspicious activity\n# - Alert security team\n# - Rate limit suspicious IPs\n\n# Examples blocked:\n# /page.php?id=1 UNION SELECT 1,2,3  <- BlockedAT\n# /login.php?user=admin' OR '1'='1    <- Blocked\n# /search.php?q=test'; DROP TABLE--   <- Blocked\n\n# Note: WAF is not primary defense\n# Still need proper input validation and prepared statements\n                    </code></pre>\n                </div>\n            </div>
+                <div class="defense-card">
+                    <h3>2. Input Validation (Whitelist Approach)</h3>
+                    <pre><code># Validate ID is numeric:
+if (!ctype_digit($_GET['id']) || $_GET['id'] < 0 || $_GET['id'] > 9999999) {
+    die('Invalid ID format');
+}
+
+# Validate email format:
+if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
+    die('Invalid email format');
+}
+
+# Validate against allowed values:
+$allowed_sort = ['name', 'date', 'price'];
+if (!in_array($_GET['sort'], $allowed_sort)) {
+    die('Invalid sort parameter');
+}
+
+# Strict type checking:
+$id = (int)$_GET['id'];    # Force to integer
+$price = (float)$_GET['price'];  # Force to float
+
+# Length validation:
+if (strlen($_GET['search']) > 50 || strlen($_GET['search']) < 1) {
+    die('Invalid search length');
+}
+
+# Pattern matching:
+if (!preg_match('/^[a-zA-Z0-9_-]{3,20}$/', $_GET['username'])) {
+    die('Invalid username format');
+}
+
+# Server-side validation ONLY:
+# Client-side validation can be bypassed
+# Always validate on the server
+                    </code></pre>
+                </div>
+
+                <div class="defense-card">
+                    <h3>3. Escape User Input (Defense in Depth)</h3>
+                    <pre><code># NOT a primary defense, but additional layer
+# Only use with prepared statements
+
+# PHP MySQLi - Escape strings:
+$escaped = $mysqli->real_escape_string($_GET['user']);
+$query = "SELECT * FROM users WHERE username='$escaped'";
+
+# PHP PDO - Quote input:
+$escaped = $pdo->quote($_GET['user']);
+$query = "SELECT * FROM users WHERE username=$escaped";
+
+# Important: These are NOT sufficient alone
+# Must use prepared statements as primary defense
+                    </code></pre>
+                </div>
+
+                <div class="defense-card">
+                    <h3>4. Least Privilege Database User</h3>
+                    <pre><code># Create separate database users for different functions
+
+# WRONG - Using admin account:
+$user = 'root';
+$pass = 'admin123';
+$mysqli = new mysqli('localhost', $user, $pass, 'wordpress_db');
+# If SQL injection occurs, attacker has admin privileges
+
+# CORRECT - Limited privilege account:
+CREATE USER 'webapp'@'localhost' IDENTIFIED BY 'SecurePass123';
+GRANT SELECT, INSERT, UPDATE ON wordpress_db.wp_posts TO 'webapp'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON wordpress_db.wp_users TO 'webapp'@'localhost';
+REVOKE DELETE, DROP, CREATE ON *.* FROM 'webapp'@'localhost';
+
+# Connect with limited user:
+$user = 'webapp';
+$pass = 'SecurePass123';
+$mysqli = new mysqli('localhost', $user, $pass, 'wordpress_db');
+
+# Now even if attacker exploits SQL injection:
+# - Cannot drop tables (no DROP privilege)
+# - Cannot access other databases
+# - Cannot modify table structure
+# - Limited to SELECT, INSERT, UPDATE on specific tables
+
+# For read-only operations:
+CREATE USER 'report'@'localhost' IDENTIFIED BY 'ReportPass123';
+GRANT SELECT ON wordpress_db.* TO 'report'@'localhost';
+# Can only read, cannot modify data
+                    </code></pre>
+                </div>
+
+                <div class="defense-card">
+                    <h3>5. Error Handling & Information Disclosure</h3>
+                    <pre><code># WRONG - Shows database structure:
+$result = mysql_query($query) or die('Error: ' . mysql_error());
+# Output: Error: Column 'username' doesn't exist
+# Attacker learns table structure!
+
+# CORRECT - Generic error to user:
+set_error_handler(function() {
+    if ($_SERVER['ENVIRONMENT'] === 'production') {
+        die('An error occurred. Please try again later.');
+    }
+});
+
+$result = $stmt->execute();
+if (!$result) {
+    // Log detailed error to file (not shown to user)
+    error_log('Database error: ' . $stmt->error);
+    die('Database error.');
+}
+
+# In development:
+ini_set('display_errors', 1);
+// Show detailed errors
+
+# In production:
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', '/var/log/php-errors.log');
+// Log to file, show nothing to user
+                    </code></pre>
+                </div>
+
+                <div class="defense-card">
+                    <h3>6. Web Application Firewall (WAF)</h3>
+                    <p>Additional layer of defense monitoring HTTP requests</p>
+                    <pre><code># ModSecurity (Apache mod_security)
+# Rules detect common SQL injection patterns
+
+SecRule ARGS "(union|select|from|where|insert|update|delete|drop|create|alter)" \
+    "chain,phase:2,deny,status:403,msg:'SQL Injection Attempt'"
+    SecRule ARGS "(;|--|/\*|\*/)"
+
+# WAF can:
+# - Block requests matching SQL injection patterns
+# - Log suspicious activity
+# - Alert security team
+# - Rate limit suspicious IPs
+
+# Examples blocked:
+# /page.php?id=1 UNION SELECT 1,2,3       <- Blocked
+# /login.php?user=admin' OR '1'='1        <- Blocked
+# /search.php?q=test'; DROP TABLE--       <- Blocked
+
+# Note: WAF is not primary defense
+# Still need proper input validation and prepared statements
+                    </code></pre>
+                </div>
+            </div>
 
             <!-- Tab 15: Defense Strategies Overview -->
             <div class="tab-content" id="defense">

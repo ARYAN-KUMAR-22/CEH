@@ -93,7 +93,7 @@ body {
     border-bottom: 1px solid var(--border-color);
     padding: 12px 40px;
     position: sticky;
-    top: 154px; /* Offset by header height */
+    top: 115px;
     z-index: 999;
     backdrop-filter: blur(15px);
     font-size: 0.9rem;
@@ -133,10 +133,10 @@ body {
 .sidebar {
     width: 280px;
     position: sticky;
-    top: 220px; /* Offset by header + breadcrumb */
+    top: 170px;
     height: fit-content;
     overflow-y: auto;
-    max-height: calc(100vh - 240px);
+    max-height: calc(100vh - 190px);
     background: rgba(26, 42, 74, 0.3);
     border: 1px solid var(--border-color);
     border-radius: 12px;
