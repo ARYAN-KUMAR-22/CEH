@@ -13,16 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Initialization complete');
 });
 
-// Fallback initialization if DOMContentLoaded doesn't fire
-window.addEventListener('load', () => {
-    console.log('Window load event - checking if initialized...');
-    const activeTab = document.querySelector('.tab-content.active');
-    if (!activeTab) {
-        console.log('No active tab found, initializing...');
-        initTabs();
-    }
-});
-
 // ============================================
 // TAB NAVIGATION SYSTEM
 // ============================================
@@ -103,27 +93,53 @@ function scrollToTop() {
 // ============================================
 
 function initSidebar() {
-    // Add click handlers to all section links
-    const sidebarLinks = document.querySelectorAll('.sidebar-links a');
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const tabId = link.getAttribute('data-tab');
-            if (tabId) {
-                showTab(tabId);
-                // Highlight active link
-                sidebarLinks.forEach(l => l.style.borderBottom = 'none');
-                link.style.borderBottom = '2px solid #00d4ff';
-            }
+    // Use event delegation on sidebar container instead of individual links
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (!sidebar) {
+        console.warn('Sidebar element not found');
+        return;
+    }
+    
+    // Single event listener on sidebar (event delegation)
+    sidebar.addEventListener('click', function(e) {
+        // Check if clicked element is a link with data-tab
+        let link = e.target;
+        if (link.tagName !== 'A') {
+            link = link.closest('a');
+        }
+        
+        if (!link || !link.hasAttribute('data-tab')) {
+            return;
+        }
+        
+        // Prevent default link behavior
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const tabId = link.getAttribute('data-tab');
+        console.log('Navigation clicked:', tabId);
+        
+        // Switch to tab
+        showTab(tabId);
+        
+        // Highlight the active link
+        const allLinks = sidebar.querySelectorAll('.sidebar-links a');
+        allLinks.forEach(a => {
+            a.style.borderBottom = 'none';
         });
-    });
-
-    // Add scroll to top button
+        link.style.borderBottom = '2px solid #00d4ff';
+        
+    }, false);
+    
+    // Handle scroll to top button separately
     const scrollBtn = document.querySelector('.scroll-to-top');
     if (scrollBtn) {
-        scrollBtn.addEventListener('click', () => {
+        scrollBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        }, false);
     }
 }
 
